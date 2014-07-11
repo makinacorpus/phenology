@@ -17,13 +17,42 @@ angular.module('synchronize', ['ngStorageTraverser'])
             data: {
                 observations: [],
                 current_observations: [],
+                species: [
+                    {
+                        title: "Flower A",
+                        id: 'spec1',
+                        stages: [
+                            {
+                                id: 'stage1',
+                                title: "Blooming"
+                            },
+                            {
+                                id: 'stage2',
+                                title: "Fall"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Flower B",
+                        id: 'spec2',
+                        stages: [
+                            {
+                                id: 'stage1',
+                                title: "Blooming"
+                            },
+                            {
+                                id: 'stage2',
+                                title: "Fall"
+                            }
+                        ]
+                    }
+                ],
                 areas: [
                     {
                         title: "Deep forest",
                         id: 'area1',
                         species: [
                             {
-                                title: "Flower A",
                                 id: 'spec1',
                                 individuals: [
                                     {
@@ -37,7 +66,6 @@ angular.module('synchronize', ['ngStorageTraverser'])
                                 ]
                             },
                             {
-                                title: "Flower B",
                                 id: 'spec2',
                                 individuals: [
                                     {
@@ -57,7 +85,6 @@ angular.module('synchronize', ['ngStorageTraverser'])
                         id: 'area2',
                         species: [
                             {
-                                title: "Tree A",
                                 id: 'spec1',
                                 individuals: [
                                     {
@@ -71,7 +98,6 @@ angular.module('synchronize', ['ngStorageTraverser'])
                                 ]
                             },
                             {
-                                title: "Tree B",
                                 id: 'spec2',
                                 individuals: [
                                     {

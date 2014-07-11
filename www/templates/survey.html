@@ -3,37 +3,37 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>{{question}}</h1>
+    <h1>{{survey.stage.title}}</h1>
     <h2>{{individual.title}}</h2>
     <div class="list">
 
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" ng-model="survey.when" name="when" value="today">
         <div class="item-content">
           Observed today
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" ng-model="survey.when" name="when" value="before">
         <div class="item-content">
-          Observed another day {{observationDate}}
+          Observed another day {{survey.beforeDate}}
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
       <label class="item item-input">
         <span class="input-label">Date</span>
-        <input type="date">
+        <input type="date" ng-model="survey.beforeDate" name="beforeDate">
       </label>
       <label class="item item-radio">
-        <input type="radio" name="group">
+        <input type="radio" ng-model="survey.when" name="when" value="tooLate">
         <div class="item-content">
           Not observed
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
       <button class="button button-block button-positive">
-        Validate
+        Validate {{survey.when}}
       </button>
     </div>
   </ion-content>

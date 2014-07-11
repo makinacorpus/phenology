@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('home.controllers', ['synchronize'])
 
 .controller('HomeCtrl', function($scope, synchronizeService) {
