@@ -3,6 +3,38 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>{{title}}</h1>
+    <h1>{{question}}</h1>
+    <h2>{{individual.title}}</h2>
+    <div class="list">
+
+      <label class="item item-radio">
+        <input type="radio" name="group">
+        <div class="item-content">
+          Observed today
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+      <label class="item item-radio">
+        <input type="radio" name="group">
+        <div class="item-content">
+          Observed another day {{observationDate}}
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Date</span>
+        <input type="date">
+      </label>
+      <label class="item item-radio">
+        <input type="radio" name="group">
+        <div class="item-content">
+          Not observed
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+      <button class="button button-block button-positive">
+        Validate
+      </button>
+    </div>
   </ion-content>
 </ion-view>

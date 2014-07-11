@@ -3,6 +3,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
+    <button ng-click="load()" class="button button-positive">Load</button>
     <h1>Upcomming tasks</h1>
     <ion-list>
       <ion-item ng-repeat="task in upcomming_tasks">

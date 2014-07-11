@@ -1,7 +1,7 @@
-angular.module('survey.controllers', [])
+angular.module('survey.controllers', ['ngStorageTraverser'])
 
-.controller('AreasCtrl', function($scope, areaService) {
-    $scope.areas = areaService.getAreas("user1");
+.controller('AreasCtrl', function($scope, storageTraverser) {
+    $scope.areas = storageTraverser.traverse("/users/user1/areas");
 })
 
 .controller('SpeciesCtrl', function($scope, $stateParams, speciesService) {
@@ -10,50 +10,19 @@ angular.module('survey.controllers', [])
     $scope.species = speciesService.getSpecies("user1", area);
 })
 
-.controller('SurveyCtrl', function($scope, $stateParams) {
-    $scope.title = $stateParams.indId;
+.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser) {
+    $scope.individual = storageTraverser.traverse(
+        '/users/user1/areas/[id="'+$stateParams.areaId+'"]/species/[id="'+$stateParams.specId+'"]/individuals/[id="'+$stateParams.indId+'"]'
+    );
+    $scope.question = "Flowers are blooming";
+    $scope.notObservable = null;
+    $scope.observed = null;
+    $scope.observationToday = null;
+    $scope.observationDate = null;
 })
 
-.service('areaService', function(){
-    this.getAreas = function(user) {
-        return [
-            {title: "Area 1", id: 'area1'},
-            {title: "Area 2", id: 'area2'},
-            {title: "Area 3", id: 'area3'}
-        ];
-    }
-})
-
-.service('speciesService', function(){
+.service('speciesService', function(storageTraverser){
     this.getSpecies = function(user, area) {
-        return [
-            {
-                title: "Flower A",
-                id: 's1',
-                individuals: [
-                    {title: "Flower A 1", id: 'a1'},
-                    {title: "Flower A 2", id: 'a2'},
-                    {title: "Flower A 3", id: 'a3'}
-                ]
-            },
-            {
-                title: "Tree B",
-                id: 's2',
-                individuals: [
-                    {title: "Tree B 1", id: 'b1'},
-                    {title: "Tree B 2", id: 'b2'},
-                    {title: "Tree B 3", id: 'b3'}
-                ]
-            },
-            {
-                title: "Tree C",
-                id: 's3',
-                individuals: [
-                    {title: "Tree C 1", id: 't1'},
-                    {title: "Tree C 2", id: 't2'},
-                    {title: "Tree C 3", id: 't3'}
-                ]
-            }
-        ];
+        return storageTraverser.traverse("/users/"+user+"/areas/[id='"+area+"']/species");
     };
 });
