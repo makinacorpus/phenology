@@ -12,22 +12,27 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
     $scope.species = speciesService.getSpecies('user1', area);
 })
 
-.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser) {
+.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService) {
+    var user = "user1";
+    var stageId = "stage1";
     $scope.individual = storageTraverser.traverse(
-        String.format('/users/user1/areas/[id="{0}"]/species/[id="{1}"]/individuals/[id="{2}"]', $stateParams.areaId, $stateParams.specId, $stateParams.indId)
+        String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]', user, $stateParams.areaId, $stateParams.specId, $stateParams.indId)
     );
     var stage = storageTraverser.traverse(
-        String.format('/users/user1/species/[id="{0}"]/stages/[id="stage1"]', $stateParams.specId)
+        String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]', user, $stateParams.specId, stageId)
     );
     $scope.survey = {
+        areaId: $stateParams.areaId,
+        specId: $stateParams.specId,
+        indId: $stateParams.indId,
+        stageId: stageId,
         stage: stage,
         when: null,
         beforeDate: null
     };
-    // TODO: watch and persist survey
-    $scope.$watch('survey.when', function() {
-        console.log($scope.survey);
-    });
+    $scope.$watch('survey', function() {
+        surveyService.storeSurvey(user, $scope.survey);
+    }, true);
 })
 
 .service('speciesService', function(storageTraverser){
@@ -41,5 +46,22 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
             species[i].title = speciesInfo.title;
         }
         return species;
+    };
+})
+
+.service('surveyService', function(storageTraverser){
+    this.storeSurvey = function(user, data) {
+        if(data.when == 'before') {
+            data.surveyDate = data.beforeDate;
+        } else {
+            var today = new Date();
+            data.surveyDate = today.toISOString().slice(0, 10);
+        }
+        delete data.beforeDate;
+        var surveyId = String.format('{0}-{1}-{2}',
+            data.areaId,
+            data.specId,
+            data.indId)
+        storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
     };
 });

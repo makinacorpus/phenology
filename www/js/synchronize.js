@@ -16,7 +16,7 @@ angular.module('synchronize', ['ngStorageTraverser'])
             create: true,
             data: {
                 observations: [],
-                current_observations: [],
+                current_observations: {},
                 species: [
                     {
                         title: "Flower A",
