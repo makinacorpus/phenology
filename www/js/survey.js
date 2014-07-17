@@ -25,11 +25,21 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
         areaId: $stateParams.areaId,
         specId: $stateParams.specId,
         indId: $stateParams.indId,
-        stageId: stageId,
-        stage: stage,
-        when: null,
-        beforeDate: null
+        stageId: stageId
     };
+    // inject existing data if any (and change today to before if no sync since last day)
+    var surveyId = surveyService.getSurveyId($scope.survey);
+    var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId)) || {};
+    var when = data.when;
+    var beforeDate = data.beforeDate;
+    if(when=='today' && data.surveyDate != surveyService.today()) {
+        when = 'before';
+        beforeDate = data.surveyDate;
+    }
+    $scope.survey.when = when;
+    $scope.survey.beforeDate = beforeDate;
+
+    // watch changes and store
     $scope.$watch('survey', function() {
         surveyService.storeSurvey(user, $scope.survey);
     }, true);
@@ -50,18 +60,25 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
 })
 
 .service('surveyService', function(storageTraverser){
+    var self = this;
+    this.getSurveyId = function(data) {
+        return String.format('{0}-{1}-{2}',
+            data.areaId,
+            data.specId,
+            data.indId
+        )
+    };
+    this.today = function() {
+        var today = new Date();
+        return today.toISOString().slice(0, 10);
+    };
     this.storeSurvey = function(user, data) {
         if(data.when == 'before') {
             data.surveyDate = data.beforeDate;
         } else {
-            var today = new Date();
-            data.surveyDate = today.toISOString().slice(0, 10);
+            data.surveyDate = self.today();
         }
-        delete data.beforeDate;
-        var surveyId = String.format('{0}-{1}-{2}',
-            data.areaId,
-            data.specId,
-            data.indId)
+        var surveyId = self.getSurveyId(data);
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
     };
 });
