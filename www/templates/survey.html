@@ -32,8 +32,11 @@
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
-      <button class="button button-block button-positive">
-        Validate {{survey.when}}
+      <button class="button button-block button-positive" ng-click="validate()" ng-hide="validated">
+        Validate
+      </button>
+      <button class="button button-block" ng-hide="!validated">
+        Validated
       </button>
     </div>
   </ion-content>

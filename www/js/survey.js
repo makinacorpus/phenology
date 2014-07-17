@@ -38,11 +38,19 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
     }
     $scope.survey.when = when;
     $scope.survey.beforeDate = beforeDate;
+    $scope.validated = data.validated || false;
 
     // watch changes and store
     $scope.$watch('survey', function() {
         surveyService.storeSurvey(user, $scope.survey);
+        $scope.validated = false;
     }, true);
+
+    // validate button
+    $scope.validate = function() {
+        $scope.validated = true;
+        surveyService.validateSurvey(user, $scope.survey);
+    }
 })
 
 .service('speciesService', function(storageTraverser){
@@ -80,5 +88,9 @@ angular.module('survey.controllers', ['ngStorageTraverser'])
         }
         var surveyId = self.getSurveyId(data);
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
+    };
+    this.validateSurvey = function(user, data) {
+        var surveyId = self.getSurveyId(data);
+        storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId]['validated'] = true;
     };
 });
