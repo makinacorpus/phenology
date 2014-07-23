@@ -3,41 +3,74 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>{{survey.stage.title}}</h1>
-    <h2>{{individual.title}}</h2>
+    <h1>{{survey.stage.name}}</h1>
+    <h2>{{individual.name}}</h2>
     <div class="list">
-
-      <label class="item item-radio">
-        <input type="radio" ng-model="survey.when" name="when" value="today">
-        <div class="item-content">
-          Observed today
-        </div>
-        <i class="radio-icon ion-checkmark"></i>
+      <label class="item">
+        <ul rn-carousel rn-carousel-control rn-carousel-index=1 class="image" style="text-align: center;">
+          <li>
+            <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_before}}" alt="before"></img>
+          </li>
+          <li>
+             <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_current}}" alt="current"></img>
+          </li>
+          <li>
+             <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_after}}" alt="after"></img>
+          </li>
+        </ul>
       </label>
-      <label class="item item-radio">
-        <input type="radio" ng-model="survey.when" name="when" value="before">
-        <div class="item-content">
-          Observed another day {{survey.beforeDate}}
-        </div>
-        <i class="radio-icon ion-checkmark"></i>
-      </label>
-      <label class="item item-input">
+        <label class="item item-radio">
+          <input type="radio" ng-model="survey.when" name="when" value="today">
+          <div class="item-content">
+            Observed today
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio" ng-model="survey.when" name="when" value="before">
+          <div class="item-content" >
+            Observed another day {{survey.beforeDate}}
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+      <label class="item item-input" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
         <input type="date" ng-model="survey.beforeDate" name="beforeDate">
       </label>
       <label class="item item-radio">
-        <input type="radio" ng-model="survey.when" name="when" value="tooLate">
+        <input type="radio" ng-model="survey.when" name="when" value="notObserved">
         <div class="item-content">
           Not observed
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
-      <button class="button button-block button-positive" ng-click="validate()" ng-hide="validated">
+      <label class="item item-radio">
+        <input type="radio" ng-model="survey.when" name="when" value="lost">
+        <div class="item-content">
+          Individual lost
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+      <label class="item item-radio">
+        <input type="radio" ng-model="survey.when" name="when" value="tooLate">
+        <div class="item-content">
+          Already passed
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+      </label>
+      <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
         Validate
       </button>
-      <button class="button button-block" ng-hide="!validated">
+      <button class="button button-block" ng-hide="!survey.validated">
         Validated
       </button>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Change Stage
+        </div>
+        <select ng-options="sta.name for sta in survey.stages" ng-model="survey.stage" ng-change="switchStage(survey.stage)"></select>
+      </label>
     </div>
+
   </ion-content>
 </ion-view>

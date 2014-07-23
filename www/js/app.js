@@ -122,7 +122,18 @@ angular.module('phenology', [
           controller: 'SurveyCtrl'
         }
       }
+    })
+
+    .state('app.stages', {
+      url: "/survey/:areaId/:specId/:indId/:stageId",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/survey.html",
+          controller: 'SurveyCtrl'
+        }
+      }
     });
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
 });
