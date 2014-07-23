@@ -16,10 +16,12 @@ angular.module('phenology', [
   'ngAuthApiClient'
   ])
 
-.controller('MainCtrl', function($scope, $ionicModal, $timeout) {
+.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q) {
   // Form data for the login modal
+  //console.log(configuration);
+  var deferred = $q.defer()
   $scope.loginData = {};
-
+  
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -32,20 +34,29 @@ angular.module('phenology', [
     $scope.modal.hide();
   },
 
-  // Open the login modal
+  // Open the login moif (!storageTraverser.traverse('/sessions/current'))dal
   $scope.login = function() {
     $scope.modal.show();
+    return deferred.promise;
   };
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
+    //console.log('Doing login', $scope.loginData);
+    authApiClient.setCredentials($scope.loginData.username, $scope.loginData.password);
+    authApiClient.login().then(function(){;
+      $scope.closeLogin();
+      delete $scope.loginData.error;
+      deferred.resolve();
+    },
+    function(data){
+      $scope.loginData.error = true;
+    });
+    /**
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
+    **/
   };
 })
 
