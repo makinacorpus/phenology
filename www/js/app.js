@@ -8,8 +8,12 @@
 // 'phenology.controllers' is found in controllers.js
 angular.module('phenology', [
   'ionic',
+  'base64',
   'home.controllers',
-  'survey.controllers'
+  'survey.controllers',
+  'ngResource',
+  'ngApiClient',
+  'ngAuthApiClient'
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $timeout) {
