@@ -6,10 +6,10 @@
     <h1>Species</h1>
     <div class="list" ng-repeat="spec in species">
       <div class="item item-divider">
-        {{spec.title}}
+        {{spec.name}}
       </div>
       <a class="item" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area}}/{{spec.id}}/{{ind.id}}">
-        {{ind.title}}
+        {{ind.name}}
       </a>
     </div>
   </ion-content>
