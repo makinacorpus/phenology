@@ -6,10 +6,21 @@ angular.module('survey.controllers', ['ngStorageTraverser', 'ngAuthApiClient', '
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas');
 })
 
-.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient) {
-    var area = $stateParams.areaId
-    $scope.area = area;
-    $scope.species = speciesService.getSpecies(authApiClient.getUsername(), area);
+.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location) {
+    var user = authApiClient.getUsername();
+    var areaId = $stateParams.areaId;
+    $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
+    $scope.area = storageTraverser.traverse(        
+        String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
+    );
+    //console.log($scope.area);
+    $scope.species = speciesService.getSpecies(authApiClient.getUsername(), areaId);
+
+    $scope.switchArea = function(area){
+        $location.path(
+            String.format('/app/species/{0}', area.id)
+        );
+    }
 })
 
 .controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $log, $location) {
