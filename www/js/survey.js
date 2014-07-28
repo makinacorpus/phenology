@@ -209,9 +209,11 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     this.getSurveyLocalInfo = function(user, surveyId){
         // inject existing data if any (and change today to before if no sync since last day)
         var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId)) || {};
-        
+        if (data === {}){
+            data = torageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId))
+        }
         var when = data.when;
-        var beforeDate = data.beforeDate;
+        data.beforeDate = data.surveyDate;
         
         if(when=='today' && data.surveyDate != self.today()) {
             data.when = 'before';
@@ -219,5 +221,19 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
         return data;
     };
+    this.getAreaName=function(user, areaId){
+        return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/name', user, areaId));
+    }
+    this.getSpeciesName=function(user, speciesId){
+        return storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/name', user, speciesId));
+    }
+    this.getStageName=function(user, speciesId, stageId){
+        return storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]/name', user, speciesId, stageId));
+    }
+    this.getIndivualName=function(user, areaId, speciesId, indId){
+        return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]/name', 
+                                                        user, areaId, speciesId, indId));
+    }
 });
 
+X
