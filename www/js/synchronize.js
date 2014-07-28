@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiClient'])
+angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiClient', 'home.controllers'])
 
-.service('synchronizeService', function(storageTraverser, apiClient, authApiClient){
+.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q){
     var self = this;
 
     this.loadUserSettings = function(userid) {
@@ -159,14 +159,48 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                     }
                 ]
         }
-        apiClient.get_user_settings().$promise.then(function(data){
+
+        return apiClient.get_user_settings().$promise.then(function(data){
+            var userid = authApiClient.getUsername();
+
+            if(storageTraverser.traverse('/users/'+userid)){
+                var current_observations = storageTraverser.traverse('/users/'+userid+'/current_observations')||{}
+            }
+            else{
+                var current_observations = {};
+            }
+            
+            data.current_observations = current_observations;
+
             storageTraverser.traverse('/users/'+userid, {
                             create: true,
                             data: data
-                        });
-         if (!storageTraverser.traverse('/users/'+userid+'/"current_observations')){
-            storageTraverser.traverse('/users/'+userid)['current_observations'] = {}
-         }
+            });
+
+            return apiClient.get_user_surveys().$promise.then(function(surveys_data){
+                var surveys = [];
+                angular.forEach(surveys_data, function(survey){
+                    var survey_tmp = {
+                        id: survey.id,
+                        stageId: survey.stage,
+                        specId: survey.species,
+                        indId: survey.individual,
+                        areaId: survey.area,
+                        surveyDate: survey.date,
+                    }
+                    // get identifier
+                    survey_tmp['identifier'] = surveyService.getSurveyId(survey_tmp);
+                    // remove local observations in order to don't create conflict
+                    if (storageTraverser.traverse('/users/' + userid + '/current_observations/' + survey_tmp['identifier'])){
+                        storageTraverser.traverse('/users/' + userid + '/current_observations/' + survey_tmp['identifier'], { delete: true });
+                    }
+                    this.push(survey_tmp);
+                }, surveys);
+                storageTraverser.traverse('/users/'+userid+'/observations', {
+                                create: true,
+                                data: surveys
+                });
+            });
        });
 
     };
@@ -174,29 +208,33 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
     this.uploadLocalSurveys = function(){
         var userid = authApiClient.getUsername();
         var current_observations = storageTraverser.traverse('/users/'+userid+'/current_observations');
+        return self.uploadSurveys(current_observations);
+    };
+
+    this.uploadSurveys =function(surveys){
+        var userid = authApiClient.getUsername();
         var validated_observations = [];
-        angular.forEach(current_observations, function(value, key){
+        var deferred = $q.defer();
+        angular.forEach(surveys, function(value, key){
             if(value.validated === true){
-                console.log(value);
                 this.push({
                     'key': key,
                     'date': value.surveyDate,
                     'stage': value.stageId,
-                    'individual': value.indId
+                    'individual': value.indId,
+                    'area': value.areaId,
+                    'species': value.specId
                 });    
             }
         },validated_observations);
-
         for (var i = 0; i < validated_observations.length; i++) {
-            apiClient.create_survey(validated_observations[i]);
+            var obs = validated_observations[i];
+            console.log(obs);
+            var id = surveyService.getSurveyId(obs);
+            apiClient.create_survey(obs).$promise.then(function(data){
+                storageTraverser.traverse('/users/' + userid + '/current_observations/' + id, { delete: true });
+            })
         };
-        console.log(validated_observations);
-        //console.log(current_observatioss);
-        //var validated_observations = current_observations.filter(function(item){return item.validated === true});
-        //var validated_submit_surveys = validated_observations.map(function(item){
-         //   var tmp = {}
-         //   console.log(item);
-        //})
-    };
+    }
 
 });
