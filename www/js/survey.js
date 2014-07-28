@@ -173,18 +173,18 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     }
 })
 
-.service('individualService', function(storageTraverser){
-    var self = this;
-})
-
 .service('surveyService', function(storageTraverser, $log){
     var self = this;
     this.getSurveyId = function(data) {
+        var areaId = data.areaId || data.area;
+        var specId = data.specId || data.species;
+        var indId = data.indId || data.individual;
+        var stageId = data.stageId || data.stage;
         return String.format('{0}-{1}-{2}-{3}',
-            data.areaId,
-            data.specId,
-            data.indId,
-            data.stageId
+            areaId,
+            specId,
+            indId,
+            stageId
         )
     };
     this.today = function() {
