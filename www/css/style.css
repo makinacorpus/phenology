@@ -1,1 +1,17 @@
 /* Empty. Add your own CSS if you like */
+.menu-left, .menu-left header,.menu-left .item, .menu-left .item-content{
+	background-color:#22568f !important;
+	color:white !important;
+}
+
+.bar.bar-stable .title{
+	color: #4874a4 !important;
+}
+
+.picture{
+  text-align:center;
+  max-height:180px;
+  z-index:1;
+  position:absolute;
+  top:10px;
+}

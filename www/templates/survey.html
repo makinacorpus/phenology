@@ -3,20 +3,34 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>{{survey.stage.name}}</h1>
-    <h2>{{individual.name}}</h2>
+    <div style="text-align:center;">
+      <h2>{{survey.stage.name}}</h2>
+      <h3>{{individual.name}}</h3>
+    </div>
     <div class="list">
-      <label class="item">
-        <ul rn-carousel rn-carousel-control rn-carousel-index=1 class="image" style="text-align: center;">
-          <li>
-            <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_before}}" alt="before"></img>
-          </li>
-          <li>
-             <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_current}}" alt="current"></img>
-          </li>
-          <li>
-             <img height="200" ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_after}}" alt="after"></img>
-          </li>
+
+      <label class="item" style="position:relative;height:210px;">
+             <span class="picture" style="width:30%;z-index:1;left:0%;top:10px;">
+                <span fullscreen="fs1" ng-click="fs1=true;" >
+                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs1=false;" ng-show="fs1">close</button>
+                  <img style="max-height:80%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_before}}"  alt="before"></img>
+                  <p>BEFORE</p>
+                </span>
+             </span>
+             <span class="picture" style="width:50%;z-index:2;left:25%;top:20px">
+                <span fullscreen="fs2" ng-click="fs2=true;" style="background:none;">
+                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs2=false;" ng-show="fs2">close</button>
+                  <img style="max-height:90%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_current}}"  alt="before"></img>
+                  <p style="padding-bottom:20px;">CURRENT</p>
+                </span>
+             </span>
+             <span class="picture" style="width:30%;left:70%;top:10px">
+                <span fullscreen="fs3" ng-click="fs3=true;" >
+                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs3=false;" ng-show="fs3">close</button>
+                  <img style="max-height:80%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_after}}"  alt="before"></img>
+                  <p>AFTER</p>
+                </span>
+             </span>
         </ul>
       </label>
         <label class="item item-radio">
