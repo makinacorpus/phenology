@@ -1,14 +1,18 @@
-<ion-view title="Survey">
+<ion-view title="{{area.name}} : Species">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>Species</h1>
-    <div class="list" ng-repeat="spec in species">
-      <div class="item item-divider">
+    </br>
+    <span>Species</span>
+    <span></span>
+    <!--<h2>{{area.name}} Species</h2>-->
+    <div class="list" ng-init="toggleInd=false;" ng-repeat="spec in species">
+      <div class="item item-divider" ng-click="toggleInd=!toggleInd">
         {{spec.name}}
       </div>
-      <a class="item" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area}}/{{spec.id}}/{{ind.id}}">
+
+      <a class="item" ng-show="toggleInd" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area.id}}/{{spec.id}}/{{ind.id}}">
         {{ind.name}}
       </a>
     </div>
