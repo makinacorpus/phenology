@@ -226,7 +226,7 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                     'area': value.areaId,
                     'species': value.specId,
                     'id': value.id // undefined if creation
-                });    
+                };    
 
                 // update or create depending to id
                 promise = (angular.isDefined(obs.id)) ? apiClient.save_survey(obs).$promise : apiClient.create_survey(obs).$promise;
