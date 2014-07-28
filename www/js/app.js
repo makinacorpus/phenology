@@ -93,7 +93,24 @@ angular.module('phenology', [
         }
       }
     })
-
+    .state('app.last_surveys', {
+      url: "/last_surveys",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/last_surveys.html",
+          controller: "LastSurveyCtrl"
+        }
+      }
+    })
+    .state('app.upload', {
+      url: "/upload",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/upload.html",
+          controller: "UploadCtrl"
+        }
+      }
+    })
     .state('app.areas', {
       url: "/areas",
       views: {
