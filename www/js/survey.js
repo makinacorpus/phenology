@@ -96,6 +96,8 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     var data = surveyService.getSurveyLocalInfo(user, surveyId);
 
     angular.extend($scope.survey, {
+        beforeDate: data.beforeDate,
+        surveyDate: data.surveyDate,
         when: data.when,
         status: data.status || [],
         stage: stage,
@@ -122,18 +124,53 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     }
 })
 
-.service('speciesService', function(storageTraverser){
+.service('speciesService', function(storageTraverser, surveyService){
+    var self = this;
     this.getSpecies = function(user, area) {
         var areaSpecies = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species', user, area));
         var species = [];
         for(var i=0; i<areaSpecies.length; i++) {
-            species[i] = areaSpecies[i];
+            species[i] = angular.copy(areaSpecies[i]);
             var speciesInfo = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]', user, species[i].id));
             species[i].stages = speciesInfo.stages.slice();
             species[i].name = speciesInfo.name;
+            species[i].individuals = self.getIndivuals(user, area, species[i].id)
         }
         return species;
-    };
+    }
+    this.getIndivuals = function(user, area, species){
+        var storedInds = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals', user, area, species));
+        var individuals = [];
+        angular.forEach(storedInds, function(item, key){
+            
+            var ind_tmp = angular.copy(item);
+            var stages = ind_tmp.stages;
+            var surveys = []
+
+            angular.forEach(stages, function(stage, key2){
+                var stored_observation = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}-{2}-{3}-{4}"]', user, area, species, ind_tmp.id, stage.id))
+                var local_observation = storageTraverser.traverse(String.format('/users/{0}/observations/{1}-{2}-{3}-{4}', user, area, species, ind_tmp.id, stage.id))
+                var observation = angular.copy(stored_observation);
+                var stageInfo = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]', user, species, stage.id));
+                observation.name = stageInfo.name;
+                this.push(observation)
+            },surveys);            
+            ind_tmp.surveys = surveys;
+
+            this.push(ind_tmp);
+        }, individuals);
+        return individuals;
+    }
+    this.getAreaSpecies = function(user){
+        var areasLocal = storageTraverser.traverse(String.format('/users/{0}/areas', user))
+        var areas = [];
+        angular.forEach(areasLocal, function(area){
+            var tmp = area;
+            tmp.species = self.getSpecies(user, area.id);
+            this.push(tmp);
+        }, areas)
+        return areas;
+    }
 })
 
 .service('individualService', function(storageTraverser){
