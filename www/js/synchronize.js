@@ -187,6 +187,7 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                         indId: survey.individual,
                         areaId: survey.area,
                         surveyDate: survey.date,
+                        validated: true,
                     }
                     // get identifier
                     survey_tmp['identifier'] = surveyService.getSurveyId(survey_tmp);
@@ -223,15 +224,21 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                     'stage': value.stageId,
                     'individual': value.indId,
                     'area': value.areaId,
-                    'species': value.specId
+                    'species': value.specId,
+                    'id': value.id
                 });    
             }
         },validated_observations);
         for (var i = 0; i < validated_observations.length; i++) {
             var obs = validated_observations[i];
-            console.log(obs);
             var id = surveyService.getSurveyId(obs);
-            apiClient.create_survey(obs).$promise.then(function(data){
+            if ( angular.isDefined(obs.id) ) {
+                var promise = apiClient.save_survey(obs).$promise;
+            }
+            else{
+                var promise =  apiClient.create_survey(obs).$promise;
+            }
+            promise.then(function(data){
                 storageTraverser.traverse('/users/' + userid + '/current_observations/' + id, { delete: true });
             })
         };
