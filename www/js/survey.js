@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('survey.controllers', ['ngStorageTraverser', 'ngAuthApiClient', 'angular-carousel'])
+angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'angular-carousel'])
 
 .controller('AreasCtrl', function($scope, storageTraverser, authApiClient) {
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas');
@@ -21,6 +21,38 @@ angular.module('survey.controllers', ['ngStorageTraverser', 'ngAuthApiClient', '
             String.format('/app/species/{0}', area.id)
         );
     }
+})
+
+.controller('LastSurveyCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location) {
+    var user = authApiClient.getUsername();
+    var areaId = $stateParams.areaId;
+    var observations = storageTraverser.traverse("/users/" + user + "/observations");
+    $scope.areas = speciesService.getAreaSpecies(user);
+})
+
+.controller('UploadCtrl', function($scope, authApiClient, storageTraverser, surveyService, synchronizeService) {
+    var user = authApiClient.getUsername();
+    var stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations");
+    $scope.observations  = angular.copy(stored_observations);
+    angular.forEach($scope.observations, function(obs){
+         if(obs.validated === true){
+             obs.area_name = surveyService.getAreaName(user, obs.areaId)
+             obs.species_name = surveyService.getSpeciesName(user, obs.specId);
+             obs.stage_name = surveyService.getStageName(user, obs.specId, obs.stageId);
+             obs.individual_name = surveyService.getIndivualName(user, obs.areaId, obs.specId, obs.indId);
+             this.push(obs);
+        }
+    },$scope.observations);
+    $scope.test = { obs_checked: []};
+    $scope.uploadSurveys = function(){
+        var surveys = $scope.observations.filter(function(item){
+            return item.checked === true;
+        });
+        synchronizeService.uploadSurveys(surveys);
+
+        
+    }
+    //$scope.areas = speciesService.getAreaSpecies(user);
 })
 
 .controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $log, $location) {
@@ -50,7 +82,8 @@ angular.module('survey.controllers', ['ngStorageTraverser', 'ngAuthApiClient', '
         stage = species.stages.filter(function(item){return item.id==stageId;})[0];
     }
 
-    $scope.validated=false;
+    $scope.status = { validated : false };
+    
     $scope.survey = {
         areaId: $stateParams.areaId,
         specId: $stateParams.specId,

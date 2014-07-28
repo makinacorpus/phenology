@@ -1,0 +1,46 @@
+<ion-view title="Last surveys">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <!--<h2>{{area.name}} Species</h2>-->
+    <div class="list" ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
+
+      <div class="item item-divider" ng-click="showArea=!showArea">
+        {{area.name}}
+      </div>
+ 	  <div ng-if="showArea===true">
+      	<label class="item item-input item-select">
+	        <div class="input-label">
+	          Species
+	        </div>
+			<select ng-options="sp.id as sp.name for sp in area.species" ng-model="sp_tmp"></select>
+      	</label>
+      	<label class="item" ng-repeat="areaSpecies in area.species" ng-if="sp_tmp == areaSpecies.id">
+			<div ng-repeat="indiv in areaSpecies.individuals" ng-if="indiv.surveys">
+				{{indiv.name}}
+				<div ng-repeat="survey in indiv.surveys">
+					{{survey.surveyDate}}
+					{{survey.name}}
+				</div>
+			</div>
+		</label>
+	  </div>
+  	 </div>
+  </ion-content>
+</ion-view>
+
+
+<!--
+<div ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
+	<h1 ng-click="showArea=!showArea">{{area.name}}</h1>
+	<div ng-if="showArea===true">
+		<select ng-options="sp.id as sp.name for sp in area.species" ng-model="sp_tmp"></select>
+		<div ng-repeat="areaSpecies in area.species" ng-if="sp_tmp == areaSpecies.id">
+			<div ng-repeat="indiv in areaSpecies.individuals">
+				{{indiv.name}}
+			</div>
+		</div>
+	</div>
+</div>
+-->
