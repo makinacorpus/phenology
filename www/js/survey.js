@@ -3,7 +3,7 @@
 angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'angular-carousel'])
 
 .controller('AreasCtrl', function($scope, storageTraverser, authApiClient) {
-    $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas');
+    $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
 })
 
 .controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location) {
