@@ -17,6 +17,7 @@ angular.module('ngStorageTraverser', ['ngStorage'])
         var pos = path.lastIndexOf('/');
         var parent = self.traverse(pos == 0 ? "/" : path.substring(0, pos));
         if(!parent) {
+            return undefined
             throw path.substring(0, pos) + " does not exist";
         }
 
