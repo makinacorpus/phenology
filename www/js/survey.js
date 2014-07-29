@@ -13,8 +13,29 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.area = storageTraverser.traverse(        
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
-    //console.log($scope.area);
-    $scope.species = speciesService.getSpecies(authApiClient.getUsername(), areaId);
+
+    var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+    var filtered = [];
+
+    angular.forEach(all_species, function(item, id){
+        all_species[id].toggle = false;
+        if(angular.isDefined(item.tasks) && item.tasks.length > 0) {
+            this.push(angular.copy(item));
+        }
+    }, filtered);
+
+    if(filtered.length === 1){
+        filtered[0].toggle = true;
+    }
+
+
+    $scope.filter = { showOnlyNeeded : "false" };
+
+    $scope.species = all_species;
+    // watch changes and store
+    $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
+        $scope.species = (newvalue === "false") ? all_species : filtered;
+    }, true);
 
     $scope.switchArea = function(area){
         $location.path(

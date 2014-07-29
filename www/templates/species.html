@@ -4,16 +4,33 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     </br>
-    <span>Species</span>
     <span></span>
-    <!--<h2>{{area.name}} Species</h2>-->
-    <div class="list" ng-init="toggleInd=false;" ng-repeat="spec in species">
-      <div class="item item-divider" ng-click="toggleInd=!toggleInd">
-        {{spec.name}}
+    <span></span>
+    <ul class="list">
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="radio" ng-model="filter.showOnlyNeeded" value="false">
+         </label>
+         See all my individuals
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="radio" ng-model="filter.showOnlyNeeded" value="true">
+         </label>
+         See all individuals to observe
+      </li>
+    </div>
+    <div class="list" ng-repeat="spec in species">
+      <div class="item item-thumbnail-left item-divider item-icon-right" style="max-height:80px;" ng-init="many=(species.length>1)" ng-click="spec.toggle=!spec.toggle;">
+        <img height="60" ng-src="{{spec.thumbnail}}">
+        <span style="display:block;padding:20px;font-size:1.2em;">{{spec.name}}<span>
+        <i class="icon ion-arrow-down-b" ng-if="spec.toggle==false && many"></i>
+        <i class="icon ion-arrow-up-b" ng-if="spec.toggle==true && many"></i>
       </div>
-
-      <a class="item" ng-show="toggleInd" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area.id}}/{{spec.id}}/{{ind.id}}">
-        {{ind.name}}
+      <a class="item  item-icon-right" ng-show="spec.toggle==true || !many" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area.id}}/{{spec.id}}/{{ind.id}}">
+        <span>{{ind.name}}</span> 
+        <span style="padding-left:20px;"><i class="ion-android-checkmark" style="color:green;font-size:1.2em;" ng-repeat="survey in ind.surveys" ng-if="survey.validated && !(survey.identifier)"></i></span>
+        <i class="icon ion-ios7-arrow-right"></i>
       </a>
     </div>
       <label class="item item-input item-select">
