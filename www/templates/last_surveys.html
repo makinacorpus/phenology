@@ -22,6 +22,8 @@
 				<div ng-repeat="survey in indiv.surveys">
 					{{survey.surveyDate}}
 					{{survey.name}}
+					<span ng-if="survey.identifier">in server</span>
+					<span ng-if="!survey.identifier">in local</span>
 				</div>
 			</div>
 		</label>
