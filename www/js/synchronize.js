@@ -239,8 +239,8 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
             angular.forEach(datas, function(data){
                 var surveyId = surveyService.getSurveyId(data);
                 storageTraverser.traverse('/users/' + userid + '/current_observations/' + surveyId, { delete: true });
-                self.loadUserSettings(userid);
             });
+            return self.loadUserSettings(userid);
         });
     }
 });

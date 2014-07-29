@@ -5,7 +5,7 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
 .controller('HomeCtrl', function($scope, synchronizeService, authApiClient, HomeService) {
     $scope.user = {};
     var username = authApiClient.getUsername()
-    $scope.user.upcomming_tasks = HomeService.getTasks(username);
+    $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
     /**
     [
         { title: 'Watch bud stage next month'},
@@ -20,7 +20,7 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
     	}
     	else{
     		synchronizeService.loadUserSettings(username).then(function(event){
-                $scope.user.upcomming_tasks = HomeService.getTasks(username);
+                $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
             });
     	}
     };
@@ -32,7 +32,11 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
             })
         }
         else{
-             synchronizeService.uploadLocalSurveys();
+             synchronizeService.uploadLocalSurveys().then(function(event){
+                $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
+            },function(event){
+                console.log(event);
+            });
         }
     };
 })
@@ -40,7 +44,7 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
     
     var self = this;
 
-    this.getTasks = function(username){
+    this.getTasks = function(username, withIndividuals){
         if(username){
             var ind = 1;
             //console.log(storageTraverser.traverse(String.format('/users/{0}/observations/[indId="{1}"]', username, ind)));
@@ -51,7 +55,9 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
             var today = new Date("2014-02-20");
 
             angular.forEach(species, function(item, id){
-                var individuals = self.getSpeciesIndividuals(username, item.id);
+                if(withIndividuals)
+                    var individuals = self.getSpeciesIndividuals(username, item.id);
+                
                 angular.forEach(item.stages, function(item2, id2){
                     var date_start = new Date(item2.date_start);
                     var date_end = new Date(item2.date_end);
@@ -59,16 +65,18 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
                         var task = item2;
                         task.species_name = item.name;
                         task.species_id = item.id;
-                        task.individuals = [];
-                        angular.forEach(individuals,function(ind){
-                            var local = ind.stages.filter(function(a){
-                                return a.id === task.id
-                            });
-                            if (local.length === 0){
-                                ind.stageId = item2.id;
-                                this.push(ind);
-                            }
-                        },task.individuals);
+                        if(withIndividuals) {
+                            task.individuals = [];
+                            angular.forEach(individuals,function(ind){
+                                var local = ind.stages.filter(function(a){
+                                    return a.id === task.id
+                                });
+                                if (local.length === 0){
+                                    ind.stageId = item2.id;
+                                    this.push(ind);
+                                }
+                            },task.individuals);
+                        }
                         this.push(task);
                     }
                 }, tasks);
