@@ -91,58 +91,46 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.individual = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]', user, $stateParams.areaId, $stateParams.specId, $stateParams.indId)
     );
-    
-    // get stage
-    var stageId = $stateParams.stageId;
-    if(!angular.isDefined(stageId)){
-        stage = species.stages[0];
-        var stage_tmp = species.stages.filter(function(item){return item.id==stageId;})[0];
-        stageId = stage.id;
-    }
-    else{
-        stage = species.stages.filter(function(item){return item.id==stageId;})[0];
-    }
 
-    $scope.status = { validated : false };
-    
-    $scope.survey = {
-        areaId: $stateParams.areaId,
-        specId: $stateParams.specId,
-        indId: $stateParams.indId,
-        stageId: stageId
+    var stage = surveyService.getStage($stateParams.stageId, species);
+    var stageId = stage.id;
+
+    var params = {
+            areaId: $stateParams.areaId,
+            specId: $stateParams.specId,
+            indId: $stateParams.indId,
+            stageId: stageId
     };
 
-    var surveyId = surveyService.getSurveyId($scope.survey);
-
-    var data = surveyService.getSurveyLocalInfo(user, surveyId);
-
-    angular.extend($scope.survey, {
-        beforeDate: data.beforeDate,
-        surveyDate: data.surveyDate,
-        when: data.when,
-        status: data.status || [],
-        stage: stage,
-        validated: data.validated || false,
-    })
-    console.log(stage);
+    $scope.survey = surveyService.getSurvey(user, params);
     $scope.survey.stage = stage;
+
+    $scope.status = { validated : false };
+
+    $scope.current_stage = $scope.survey.stage;
+
     // watch changes and store
-    $scope.$watch('survey', function() {
-        surveyService.storeSurvey(user, $scope.survey);
-        $scope.validated = $scope.survey.validated;
+    $scope.$watch('survey', function(tmp1, tmp2) {
+        if (tmp1 !== tmp2){
+            if (!(tmp1.validated === true && tmp2.validated === false)){
+                $scope.survey.validated = false;
+            }
+            surveyService.storeSurvey(user, $scope.survey);
+        }
     }, true);
 
+    // switch stage
     $scope.switchStage = function(stage){
         $location.path(
             String.format('/app/survey/{0}/{1}/{2}/{3}',$scope.survey.areaId, $scope.survey.specId, $scope.survey.indId, stage.id)
         );
-    }
+    };
 
     // validate button
     $scope.validate = function() {
-        $scope.validated = true;
+        $scope.survey.validated = true;
         surveyService.validateSurvey(user, $scope.survey);
-    }
+    };
 })
 
 .service('speciesService', function(storageTraverser, surveyService){
@@ -213,11 +201,9 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         return today.toISOString().slice(0, 10);
     };
     this.storeSurvey = function(user, data) {
-        if(data.when == 'before') {
-            data.surveyDate = data.beforeDate;
-        } else {
-            data.surveyDate = self.today();
-        }
+        var data = angular.copy(data);
+        data.surveyDate = (data.when == 'before') ? data.beforeDate : self.today();
+        delete data["stage"]
         var surveyId = self.getSurveyId(data);
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
         $log.debug("updated")
@@ -229,19 +215,50 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     };
     this.getSurveyLocalInfo = function(user, surveyId){
         // inject existing data if any (and change today to before if no sync since last day)
-        var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId)) || {};
-        if (data === {}){
-            data = torageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId))
+        var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId));
+        if (angular.isUndefined(data)) {
+            data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId)) || {}
         }
-        var when = data.when;
+        data.when = "today";
         data.beforeDate = data.surveyDate;
-        
-        if(when=='today' && data.surveyDate != self.today()) {
+
+        if(data.when=='today' && data.surveyDate != self.today()) {
             data.when = 'before';
-            data.beforeDate = data.surveyDate;
         }
         return data;
     };
+    this.getSurvey = function(user, params){
+        var survey = params;
+
+        var surveyId = self.getSurveyId(survey);
+
+        var data = self.getSurveyLocalInfo(user, surveyId);
+
+        angular.extend(survey, {
+            beforeDate: data.beforeDate,
+            surveyDate: data.surveyDate,
+            isPassed: data.isPassed,
+            isLost: data.isLost, 
+            when: data.when,
+            status: data.status || [],
+            id: data.id,
+            validated: data.validated || false,
+        })
+        console.log(survey);
+        return survey;
+    };
+    this.getStage = function(stageId, species){
+        // get stage
+        var stage = undefined;
+        if(!angular.isDefined(stageId)){
+            stage = species.stages[0];
+            var stage_tmp = species.stages.filter(function(item){return item.id==stageId;})[0];
+        }
+        else{
+            stage = species.stages.filter(function(item){return item.id==stageId;})[0];
+        }
+        return stage;
+    }
     this.getAreaName=function(user, areaId){
         return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/name', user, areaId));
     }
@@ -256,5 +273,3 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                                                         user, areaId, speciesId, indId));
     }
 });
-
-X
