@@ -5,18 +5,20 @@ angular.module('ngAuthApiClient', ['ngResource', 'base64', 'ngStorageTraverser']
         var self = this;
 
         // TODO : create a confValues
-        var backend_url = "http://127.0.0.1:8000"
+        self.backend_url = "http://127.0.0.1:8000"
         var username = ""
         var password = ""
 
         // TODO : PUT/POST
 
-        var resource =  $resource(backend_url + '/api/ ');
+        var resource =  $resource(self.backend_url + '/api/ ');
         
         if(!storageTraverser.traverse('/sessions')){
             storageTraverser.traverse('/')['sessions'] = {};
         }
-
+        if(!storageTraverser.traverse('/users')){
+            storageTraverser.traverse('/')['users'] = {};
+        }
         this.login = function(){
             return resource.get().$promise.then(function(data){
                 storageTraverser.traverse('/sessions/current',{
