@@ -53,9 +53,10 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
 
 .controller('UploadCtrl', function($scope, authApiClient, storageTraverser, surveyService, synchronizeService) {
     var user = authApiClient.getUsername();
-    var stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations");
-    $scope.observations  = angular.copy(stored_observations);
-    angular.forEach($scope.observations, function(obs){
+    var stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations") || {};
+    var observations = angular.copy(stored_observations);
+    $scope.observations  = [];
+    angular.forEach(observations, function(obs){
          if(obs.validated === true){
              obs.area_name = surveyService.getAreaName(user, obs.areaId)
              obs.species_name = surveyService.getSpeciesName(user, obs.specId);
@@ -63,7 +64,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
              obs.individual_name = surveyService.getIndivualName(user, obs.areaId, obs.specId, obs.indId);
              this.push(obs);
         }
-    },$scope.observations);
+    }, $scope.observations);
     $scope.test = { obs_checked: []};
     $scope.uploadSurveys = function(){
         var surveys = $scope.observations.filter(function(item){
@@ -71,7 +72,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         });
         synchronizeService.uploadSurveys(surveys);
 
-        
     }
     //$scope.areas = speciesService.getAreaSpecies(user);
 })
