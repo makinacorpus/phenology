@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'angular-carousel'])
+angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'FBAngular'])
 
 .controller('AreasCtrl', function($scope, storageTraverser, authApiClient) {
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};

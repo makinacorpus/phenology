@@ -8,7 +8,6 @@
     "ngstorage": "~0.3.0",
     "angular-base64": "~2.0.2",
     "angular-resource": "~1.2.20",
-    "angular-carousel": "~0.2.3",
     "angular-fullscreen": "*"
   }
 }
