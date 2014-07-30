@@ -10,6 +10,7 @@ angular.module('phenology', [
   'ionic',
   'base64',
   'home.controllers',
+  'snowing.controllers',
   'survey.controllers',
   'ngResource',
   'ngApiClient',
@@ -111,6 +112,15 @@ angular.module('phenology', [
         }
       }
     })
+    .state('app.snowing', {
+      url: "/snowing",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/snowing.html",
+          controller: "SnowingCtrl"
+          }
+        }
+    })
     .state('app.areas', {
       url: "/areas",
       views: {
@@ -120,7 +130,6 @@ angular.module('phenology', [
         }
       }
     })
-
     .state('app.species', {
       url: "/species/:areaId",
       views: {
@@ -130,7 +139,6 @@ angular.module('phenology', [
         }
       }
     })
-
     .state('app.survey', {
       url: "/survey/:areaId/:specId/:indId",
       views: {
@@ -140,7 +148,6 @@ angular.module('phenology', [
         }
       }
     })
-
     .state('app.stages', {
       url: "/survey/:areaId/:specId/:indId/:stageId",
       views: {
@@ -166,4 +173,28 @@ if (!String.format) {
       ;
     });
   };
+}
+
+if (!Date.prototype.format) {
+//author: meizz
+  Date.prototype.format = function(format) 
+  {
+      var o = {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+      }
+
+      if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+        (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+      for(var k in o)if(new RegExp("("+ k +")").test(format))
+        format = format.replace(RegExp.$1,
+          RegExp.$1.length==1 ? o[k] :
+            ("00"+ o[k]).substr((""+ o[k]).length));
+      return format;
+  }
 }

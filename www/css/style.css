@@ -15,3 +15,38 @@
   position:absolute;
   top:10px;
 }
+
+.isInFullScreen{
+	width:100%;
+	height:100%;
+}
+
+/* small validation effect */
+input.ng-invalid{
+	border:1px solid red!important;
+}
+input.ng-valid.ng-dirty{
+	border:1px solid green!important;
+}
+
+/* snowing part */
+.snowing_validate{
+	margin:auto;
+}
+.snowing_additional, .snowing_input>input{
+	text-align: center;
+}
+.snowing_label{
+	padding-left:20px;
+	padding-right:10px;
+	font-weight: bold;
+	font-size:1.1em;
+}
+.snowing .snowing_item{
+	padding-bottom:20px;
+}
+.snowing_title{
+	padding:40px;
+	padding-bottom:20px;
+	text-align: center;
+}
