@@ -2,7 +2,7 @@
 
 angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiClient', 'home.controllers'])
 
-.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q){
+.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q, $log){
     var self = this;
 
     this.loadUserSettings = function(userid) {
@@ -163,10 +163,13 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
         return apiClient.get_user_settings().$promise.then(function(data){
             var userid = authApiClient.getUsername();
             var current_observations = {};
+            var snowcovers = [];
             if(storageTraverser.traverse('/users/'+userid))
                 current_observations = storageTraverser.traverse('/users/'+userid+'/current_observations')||{}
+                snowcovers = storageTraverser.traverse('/users/'+userid+'/snowcovers')||[]
 
             data.current_observations = current_observations;
+            data.snowcovers = snowcovers;
 
             storageTraverser.traverse('/users/'+userid, {
                             create: true,
@@ -204,6 +207,16 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
 
     };
 
+    this.synchronize = function(){
+        var userid = authApiClient.getUsername();
+        var promises = [];
+        promises.push(self.uploadLocalSurveys());
+        promises.push(self.uploadLocalSnowings());
+        return $q.all(promises).then(function(){
+            return self.loadUserSettings(userid);
+        });
+    };
+
     this.uploadLocalSurveys = function(){
         var userid = authApiClient.getUsername();
         var current_observations = storageTraverser.traverse('/users/'+userid+'/current_observations');
@@ -226,7 +239,7 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                     'area': value.areaId,
                     'species': value.specId,
                     'id': value.id // undefined if creation
-                };    
+                };
 
                 // update or create depending to id
                 promise = (angular.isDefined(obs.id)) ? apiClient.save_survey(obs).$promise : apiClient.create_survey(obs).$promise;
@@ -240,7 +253,30 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                 var surveyId = surveyService.getSurveyId(data);
                 storageTraverser.traverse('/users/' + userid + '/current_observations/' + surveyId, { delete: true });
             });
-            return self.loadUserSettings(userid);
         });
     }
+
+    this.uploadLocalSnowings = function(){
+        var userid = authApiClient.getUsername();
+        var snowings = storageTraverser.traverse('/users/'+userid+'/snowcovers')||[];
+        var promises = [];
+        var promise;
+
+        angular.forEach(snowings, function(value, key){
+                var date = new Date(value.date);
+                var snow = {
+                    'date': date.format("yyyy-MM-dd h:mm:ss"),
+                    'area': value.areaId + "",
+                    'height': parseFloat(value.height),
+                };
+                // update or create depending to id
+                promise = apiClient.create_snowcover(snow);
+                promises.push(promise);
+        });
+
+        return $q.all(promises).then(function(){
+            var snowcovers = storageTraverser.traverse('/users/' + userid + '/snowcovers')
+            snowcovers = [];
+        });
+    };
 });

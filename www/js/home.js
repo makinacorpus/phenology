@@ -11,28 +11,15 @@ angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.con
         { title: 'Watch bud stage next month'},
         { title: 'Watch tree growth before summertime'}
     ];**/
-    $scope.load = function() {
-    	username = authApiClient.getUsername();
-    	if (username == ""){
-    		$scope.login().then(function(){
-    			 $scope.load();
-    		})
-    	}
-    	else{
-    		synchronizeService.loadUserSettings(username).then(function(event){
-                $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
-            });
-    	}
-    };
-    $scope.upload = function(){
+    $scope.synchronize = function(){
         var username = authApiClient.getUsername();
         if (username == ""){
             $scope.login().then(function(){
-                 $scope.load();
+                 $scope.synchronize();
             })
         }
         else{
-             synchronizeService.uploadLocalSurveys().then(function(event){
+             synchronizeService.synchronize().then(function(event){
                 $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
             },function(event){
                 console.log(event);
