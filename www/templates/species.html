@@ -21,9 +21,9 @@
       </li>
     </div>
     <div class="list" ng-repeat="spec in species">
-      <div class="item item-thumbnail-left item-divider item-icon-right" style="max-height:80px;" ng-init="many=(species.length>1)" ng-click="spec.toggle=!spec.toggle;">
-        <img height="60" ng-src="{{spec.thumbnail}}">
-        <span style="display:block;padding:20px;font-size:1.2em;">{{spec.name}}<span>
+      <div class="item item-thumbnail-left item-divider item-icon-right" style="max-height:100px;" ng-init="many=(species.length>1)" ng-click="spec.toggle=!spec.toggle;">
+        <img height="80" ng-src="{{spec.picture}}">
+        <span style="display:block;padding:30px;font-size:1.2em;">{{spec.name}}<span>
         <i class="icon ion-arrow-down-b" ng-if="spec.toggle==false && many"></i>
         <i class="icon ion-arrow-up-b" ng-if="spec.toggle==true && many"></i>
       </div>

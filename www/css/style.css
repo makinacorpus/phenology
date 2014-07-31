@@ -50,3 +50,52 @@ input.ng-valid.ng-dirty{
 	padding-bottom:20px;
 	text-align: center;
 }
+
+/** fullscreen **/
+#fs_container img {
+  display: inline-block;
+  vertical-align: middle;
+  max-height: 100%;
+  max-width: 100%;
+}
+#fs_container .trick {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+/** pictures **/
+.pictures{
+	max-height:220px;
+	margin:auto;
+	max-width:500px;
+}
+.picture_left{
+	text-align:left;
+	padding-left:0;
+	padding-right:0;
+}
+.pictures .picture_front{
+	z-index:10;
+	margin-left:-10%;
+	text-align:center;
+	padding-left:0;
+	padding-top:5%;
+	padding-right:0;
+}
+.pictures .picture_front img{
+	max-height:75%;
+	width:100%;
+}
+.picture_right{
+	z-index:1;
+	text-align:right;
+	padding-left:0;
+	margin-left:-9%;
+	padding-right:0;
+}
+
+.pictures img{
+	max-height:60%;
+	width:100%;
+}
