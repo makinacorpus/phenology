@@ -1,9 +1,11 @@
-<ion-view title="Survey">
+<ion-view title="Areas">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <h1>Choose an area</h1>
+    <div style="text-align:center;padding:5px;">
+      <h2>Choose an area</h2>
+    </div>
     <ion-list>
       <ion-item ng-repeat="area in areas" href="#/app/species/{{area.id}}">
         {{area.name}}

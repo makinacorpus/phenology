@@ -1,14 +1,24 @@
 <ion-side-menus>
 
   <ion-pane ion-side-menu-content>
+
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
     </ion-nav-bar>
-    <ion-nav-view name="mainContent" animation="slide-left-right"></ion-nav-view>
+
+    <ion-header-bar class="bar-subheader bar bar-positive mybar" style="padding:0;height:auto;" ng-if="$state.includes('app.species') || $state.includes('app.map')">
+        <div class="button-bar">
+            <a class="button" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">List</a>
+            <a class="button" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">Map</a>
+        </div>
+    </ion-header-bar>
+
+    <ion-nav-view name="mainContent" class="test" animation="slide-left-right"></ion-nav-view>
+
   </ion-pane>
 
   <ion-side-menu side="left">
-    <header class="bar bar-header bar-stable">
+    <header class="bar bar-dark bar-header bar-stable">
       <h1 class="title">Menu</h1>
     </header>
     <ion-content class="has-header" has-bouncing="false">

@@ -2,10 +2,7 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-  <ion-content class="has-header">
-    </br>
-    <span></span>
-    <span></span>
+  <ion-content class="has-subheader">
     <ul class="list">
       <li class="item item-checkbox">
          <label class="checkbox">
@@ -20,7 +17,7 @@
          See all individuals to observe
       </li>
     </div>
-    <div class="list" ng-repeat="spec in species">
+    <div class="list" style="margin-bottom: 10px;" ng-repeat="spec in species">
       <div class="item item-thumbnail-left item-divider item-icon-right" style="max-height:100px;" ng-init="many=(species.length>1)" ng-click="spec.toggle=!spec.toggle;">
         <img height="80" ng-src="{{spec.picture}}">
         <span style="display:block;padding:30px;font-size:1.2em;">{{spec.name}}<span>

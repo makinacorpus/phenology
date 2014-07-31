@@ -17,8 +17,10 @@ angular.module('phenology', [
   'ngAuthApiClient'
   ])
 
-.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q) {
+.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q, $state) {
   // Form data for the login modal
+  $scope.$state = $state;
+  //console.log($state);
   //console.log(configuration);
   var deferred = $q.defer()
   $scope.loginData = {};
@@ -136,6 +138,15 @@ angular.module('phenology', [
         'mainContent' :{
           templateUrl: "templates/species.html",
           controller: 'SpeciesCtrl'
+        }
+      }
+    })
+    .state('app.map', {
+      url: "/map/:areaId",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/map.html",
+          controller: 'MapCtrl'
         }
       }
     })

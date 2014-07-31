@@ -2,7 +2,7 @@
 
 angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'FBAngular'])
 
-.controller('AreasCtrl', function($scope, storageTraverser, authApiClient) {
+.controller('AreasCtrl', function($scope, storageTraverser, authApiClient, $state) {
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
 })
 
@@ -10,6 +10,12 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
+
+    if(!(angular.isDefined(areaId) && areaId !== "")){
+        areaId = $scope.areas[0].id;
+        $stateParams.areaId = areaId;
+    }
+
     $scope.area = storageTraverser.traverse(        
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
@@ -146,6 +152,9 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             $scope.$apply();
         }
     })
+})
+.controller('MapCtrl', function($scope){
+    $scope.toto = "sfsdf";
 })
 
 .service('speciesService', function(storageTraverser, surveyService, toolService){
