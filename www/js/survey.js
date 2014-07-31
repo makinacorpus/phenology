@@ -76,7 +76,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     //$scope.areas = speciesService.getAreaSpecies(user);
 })
 
-.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $log, $location) {
+.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $log, $location, toolService, Fullscreen) {
     var stage, stageId;
     var user = authApiClient.getUsername();
     
@@ -105,15 +105,17 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.survey = surveyService.getSurvey(user, params);
     $scope.survey.stage = stage;
 
-    $scope.status = { validated : false };
+    $scope.status = {};
 
     $scope.current_stage = $scope.survey.stage;
+    $scope.current_picture = $scope.current_picture;
 
     // watch changes and store
-    $scope.$watch('survey', function(tmp1, tmp2) {
-        if (tmp1 !== tmp2){
-            if (!(tmp1.validated === true && tmp2.validated === false)){
-                $scope.survey.validated = false;
+    $scope.$watch('survey', function(newvalue, oldvalue) {
+        if (oldvalue !== newvalue){
+            if(!(oldvalue.validated === false && newvalue.validated === true)){
+                newvalue.validated = false;
+                delete newvalue["identifier"];
             }
             surveyService.storeSurvey(user, $scope.survey);
         }
@@ -129,11 +131,24 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     // validate button
     $scope.validate = function() {
         $scope.survey.validated = true;
-        surveyService.validateSurvey(user, $scope.survey);
     };
+
+    $scope.toggleFullscreen = function(state) {
+        $scope.status.fsMode = true;
+        $scope.status.current_picture = $scope.survey.stage["picture_" + state];
+        $scope.status.state = state;
+        Fullscreen.enable(document.getElementById("fs_container"));
+    };
+
+    Fullscreen.$on("FBFullscreen.change",function(event, enabled){
+        if(!enabled){
+            $scope.status = {};
+            $scope.$apply();
+        }
+    })
 })
 
-.service('speciesService', function(storageTraverser, surveyService){
+.service('speciesService', function(storageTraverser, surveyService, toolService){
     var self = this;
     this.getTaskForSpecies = function(species){
         var tasks = [];
@@ -156,6 +171,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             species[i].stages = speciesInfo.stages.slice();
             species[i].tasks = self.getTaskForSpecies(speciesInfo);
             species[i].name = speciesInfo.name;
+            species[i].picture = toolService.getMediaUrl() +  speciesInfo.picture;
             species[i].individuals = self.getIndivuals(user, area, species[i].id)
         }
         return species;
@@ -199,7 +215,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     }
 })
 
-.service('surveyService', function(storageTraverser, $log){
+.service('surveyService', function(storageTraverser, $log, toolService){
     var self = this;
     this.getSurveyId = function(data) {
         var areaId = data.areaId || data.area;
@@ -220,7 +236,8 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     this.storeSurvey = function(user, data) {
         var data = angular.copy(data);
         data.surveyDate = (data.when == 'before') ? data.beforeDate : self.today();
-        delete data["stage"]
+        delete data["stage"];
+        delete data["identifier"];
         var surveyId = self.getSurveyId(data);
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
         $log.debug("updated")
@@ -236,9 +253,11 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         if (angular.isUndefined(data)) {
             data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId)) || {}
         }
-        data.when = "today";
         data.beforeDate = data.surveyDate;
-
+        if(angular.isDefined(data.beforeDate)){
+            data.when = 'today';
+        }
+        data.when = data.when;
         if(data.when=='today' && data.surveyDate != self.today()) {
             data.when = 'before';
         }
@@ -257,6 +276,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             isPassed: data.isPassed,
             isLost: data.isLost, 
             when: data.when,
+            identifier: data.identifier,
             status: data.status || [],
             id: data.id,
             validated: data.validated || false,
@@ -274,6 +294,12 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         else{
             stage = species.stages.filter(function(item){return item.id==stageId;})[0];
         }
+        stage = angular.copy(stage);
+        //console.log(stage);
+        stage.picture_before = toolService.getFullPictureUrl(stage.picture_before);
+        stage.picture_current = toolService.getFullPictureUrl(stage.picture_current);
+        stage.picture_after = toolService.getFullPictureUrl(stage.picture_after);
+
         return stage;
     }
     this.getAreaName=function(user, areaId){
@@ -288,5 +314,14 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     this.getIndivualName=function(user, areaId, speciesId, indId){
         return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]/name', 
                                                         user, areaId, speciesId, indId));
+    }
+})
+.service('toolService', function(storageTraverser, authApiClient){
+    var self = this;
+    this.getMediaUrl = function(){
+        return authApiClient.backend_url + "/media/";
+    }
+    this.getFullPictureUrl = function(picture_url){
+        return self.getMediaUrl() + picture_url;
     }
 });

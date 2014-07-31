@@ -3,37 +3,44 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
+
+    <div ng-show="status.fsMode==true">
+      <div fullscreen  id="fs_container" style="position:relative;width:100%;height:100%; font-size: 0;
+  text-align: center;width:100%;background-size:contain;background-repeat:no-repeat;background-position:center;" ng-style="{'background-image':'url(' + status.current_picture + ')'}">
+        <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="status.fsMode;">close</button>
+        <h3 style="margin:0;position:absolute;bottom:2%;width:100%;text-transform:uppercase;text-align:center;">{{status.state}}</h3>
+      </div>
+    </div>
+
     <div style="text-align:center;">
       <h2>{{survey.stage.name}}</h2>
       <span><i>{{survey.stage.date_start|date}} to {{survey.stage.date_end|date}}</i></span>
       <h4>{{individual.name}}</h4>
     </div>
+
     <div class="list">
 
-      <label class="item" style="position:relative;height:210px;">
-             <span class="picture" style="width:30%;z-index:1;left:0%;top:10px;">
-                <span fullscreen="fs1" ng-click="fs1=true;" >
-                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs1=false;" ng-show="fs1">close</button>
-                  <img style="max-height:80%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_before}}"  alt="before"></img>
+      <div class="row pictures">
+        <div class="col col-33 picture_left">
+             <span ng-click="toggleFullscreen('before')">
+                  <img ng-src="{{survey.stage.picture_before}}"  alt="before"></img>
                   <p>BEFORE</p>
+              </span>
+        </div>
+        <div class="col col-50 picture_front">
+                <span ng-click="toggleFullscreen('current')">
+                  <img ng-src="{{survey.stage.picture_current}}"  alt="current"></img>
+                  <p>CURRENT</p>
                 </span>
-             </span>
-             <span class="picture" style="width:50%;z-index:2;left:25%;top:20px">
-                <span fullscreen="fs2" ng-click="fs2=true;" style="background:none;">
-                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs2=false;" ng-show="fs2">close</button>
-                  <img style="max-height:90%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_current}}"  alt="before"></img>
-                  <p style="padding-bottom:20px;">CURRENT</p>
-                </span>
-             </span>
-             <span class="picture" style="width:30%;left:70%;top:10px">
-                <span fullscreen="fs3" ng-click="fs3=true;" >
-                  <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="fs3=false;" ng-show="fs3">close</button>
-                  <img style="max-height:80%;width:100%;"  ng-src="http://127.0.0.1:8000/media/{{survey.stage.picture_after}}"  alt="before"></img>
+        </div>
+        <div class="col col-33 picture_right">
+                <span class="picture_back" ng-click="toggleFullscreen('after')">
+                  <img ng-src="{{survey.stage.picture_after}}"  alt="after"></img>
                   <p>AFTER</p>
                 </span>
-             </span>
-        </ul>
-      </label>
+        </div>
+      </div>
+
       <div class="row" style="padding:0;">
         <label class="item item-radio col-50">
           <input type="radio" ng-model="survey.when" name="when" value="before">
@@ -75,14 +82,14 @@
         Validate
       </button>
       <button class="button button-block" ng-hide="!survey.validated">
-        Validated
+        Validated <span ng-if="survey.identifier">on server</span> <span ng-if="!survey.identifier">on mobile</span>
       </button>
 
       <label class="item item-input item-select">
         <div class="input-label">
           Change Stage
         </div>
-        <select ng-options="sta.name for sta in stages" ng-model="current_stage" ng-change="switchStage(current_stage)"></select>
+        <select ng-options="sta.id as sta.name for sta in stages" ng-model="current_stage.id" ng-change="switchStage(current_stage)"></select>
       </label>
     </div>
 
