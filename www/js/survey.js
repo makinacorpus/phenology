@@ -153,8 +153,52 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     })
 })
-.controller('MapCtrl', function($scope){
-    $scope.toto = "sfsdf";
+.controller('MapCtrl', function($scope, authApiClient, $stateParams, storageTraverser, speciesService){
+   var user = authApiClient.getUsername();
+    var areaId = $stateParams.areaId;
+    $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
+
+    if(!(angular.isDefined(areaId) && areaId !== "")){
+        areaId = $scope.areas[0].id;
+        $stateParams.areaId = areaId;
+    }
+
+    $scope.area = storageTraverser.traverse(        
+        String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
+    );
+    $scope.geojson = {
+        data: $scope.area.geojson,
+        style: {
+            fillColor: "green",
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.2
+        }
+    }
+    $scope.individuals = {};
+
+    $scope.center = {
+        lat: +$scope.area.lat,
+        lng: +$scope.area.lon,
+        zoom: 17
+    }
+    console.log($scope.center);
+
+    var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+
+    angular.forEach(all_species, function(species, id){
+       angular.forEach(species.individuals, function(individual, key){
+        if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
+            $scope.individuals[individual.id+""] = {
+                lat: +individual.lat,
+                lng: +individual.lon,
+                message: "<p><h4>" + individual.name + "</h4><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
+            };
+        }
+       });
+    });
 })
 
 .service('speciesService', function(storageTraverser, surveyService, toolService){
