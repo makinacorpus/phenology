@@ -53,6 +53,10 @@ $ source bin/activate
 $ cd phenology
 ```
 
+## Install Android SDK
+
+See http://doc.ubuntu-fr.org/android#installation_du_sdk_android
+
 ## Add a platform
 ```bash
 $ ionic platform android
