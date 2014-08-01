@@ -14,7 +14,8 @@ angular.module('phenology', [
   'survey.controllers',
   'ngResource',
   'ngApiClient',
-  'ngAuthApiClient'
+  'ngAuthApiClient',
+  'leaflet-directive'
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q, $state) {
