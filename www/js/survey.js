@@ -35,9 +35,8 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     }
 
 
-    $scope.filter = { showOnlyNeeded : "false" };
+    $scope.filter = { showOnlyNeeded : "true" };
 
-    $scope.species = all_species;
     // watch changes and store
     $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
         $scope.species = (newvalue === "false") ? all_species : filtered;
@@ -50,11 +49,12 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     }
 })
 
-.controller('LastSurveyCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location) {
+.controller('LastSurveyCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location, $log) {
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     var observations = storageTraverser.traverse("/users/" + user + "/observations");
     $scope.areas = speciesService.getAreaSpecies(user);
+    $log.info($scope.areas);
 })
 
 .controller('UploadCtrl', function($scope, authApiClient, storageTraverser, surveyService, synchronizeService) {
@@ -153,10 +153,12 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     })
 })
-.controller('MapCtrl', function($scope, authApiClient, $stateParams, storageTraverser, speciesService){
+.controller('MapCtrl', function($scope, $location, authApiClient, $stateParams, storageTraverser, speciesService){
    var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
+    $scope.filter = {};
+    $scope.filter.showOnlyNeeded = "true";
 
     if(!(angular.isDefined(areaId) && areaId !== "")){
         areaId = $scope.areas[0].id;
@@ -166,8 +168,9 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.area = storageTraverser.traverse(        
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
+
     $scope.geojson = {
-        data: $scope.area.geojson,
+        data: (Object.keys($scope.area.geojson).length > 0) ? $scope.area.geojson : undefined,
         style: {
             fillColor: "green",
             weight: 2,
@@ -184,21 +187,37 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         lng: +$scope.area.lon,
         zoom: 17
     }
-    console.log($scope.center);
 
     var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+    var all_individuals = {};
+    var filtered = {};
 
     angular.forEach(all_species, function(species, id){
        angular.forEach(species.individuals, function(individual, key){
         if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
-            $scope.individuals[individual.id+""] = {
+            all_individuals[individual.id+""] = {
                 lat: +individual.lat,
                 lng: +individual.lon,
-                message: "<p><h4>" + individual.name + "</h4><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
+                tasks: species.tasks,
+                message: "<p><h4>" + individual.name + "</h4><br><span>"+individual.lat+','+individual.lon+"</span><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
             };
+            if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
+                filtered[individual.id+""] = all_individuals[individual.id+""]
+            }
         }
        });
     });
+    
+    $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
+        console.log(newvalue);
+        $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
+    }, true);
+
+    $scope.switchArea = function(area){
+        $location.path(
+            String.format('/app/map/{0}', area.id)
+        );
+    }
 })
 
 .service('speciesService', function(storageTraverser, surveyService, toolService){

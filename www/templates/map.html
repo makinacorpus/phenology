@@ -2,7 +2,29 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-  <ion-content class="has-subheader">
-    <leaflet defaults="defaults" center="center" markers="individuals" geojson="geojson" height="500px" width="100%"></leaflet>
+  <ion-content class="has-subheader" has-bouncing="false">
+    <ul style="margin:0;" class="list">
+      <li class="item item-checkbox" style="padding-top:12px;padding-bottom:12px;">
+         <label class="checkbox">
+           <input type="radio" ng-model="filter.showOnlyNeeded" value="false">
+         </label>
+         See all my individuals
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="radio" ng-model="filter.showOnlyNeeded" value="true">
+         </label>
+         See all individuals to observe
+      </li>
+      <li>
+        <leaflet defaults="defaults" center="center" markers="individuals" geojson="geojson" height="350px" url-hash-center="yes" width="100%"></leaflet>
+      </li>
+      <li class="item item-input item-select">
+        <div class="input-label">
+          Change Area
+        </div>
+        <select ng-options="area as area.name for area in areas" ng-model="area" ng-change="switchArea(area)"></select>
+      </li>
+    </ul>
   </ion-content>
 </ion-view>
