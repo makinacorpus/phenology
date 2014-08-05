@@ -99,3 +99,11 @@ input.ng-valid.ng-dirty{
 	max-height:60%;
 	width:100%;
 }
+
+.mybar, .mybar .button-bar{
+	background-color:#22568f !important
+}
+
+.has-subheader{
+	top:78px !important;
+}

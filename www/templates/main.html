@@ -1,8 +1,8 @@
 <ion-side-menus>
 
-  <ion-pane ion-side-menu-content>
+  <ion-pane ion-side-menu-content animation="" ng-init="animation=(!($state.includes('app.species') || $state.includes('app.map'))) ? 'slide-left-right':'qsqsd'" no-tap-scroll="true">
 
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+    <ion-nav-bar class="bar bar-header bar-stable" animation="sdsd">
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
     </ion-nav-bar>
 
@@ -12,30 +12,29 @@
             <a class="button" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">Map</a>
         </div>
     </ion-header-bar>
-
-    <ion-nav-view name="mainContent" class="test" animation="slide-left-right"></ion-nav-view>
+    <ion-nav-view name="mainContent" class="test" animation="{{animation}}"></ion-nav-view>
 
   </ion-pane>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left"> ? 
     <header class="bar bar-dark bar-header bar-stable">
       <h1 class="title">Menu</h1>
     </header>
     <ion-content class="has-header" has-bouncing="false">
       <ion-list>
-        <ion-item nav-clear menu-close href="#/app/home">
+        <ion-item nav-clear menu-close ui-sref="app.home">
           Home
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/snowing">
+        <ion-item nav-clear menu-close ui-sref="app.snowing">
           Snow cover
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/areas">
+        <ion-item nav-clear menu-close ui-sref="app.areas">
           Survey
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/upload">
+        <ion-item nav-clear menu-close ui-sref="app.upload">
           Upload
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/last_surveys">
+        <ion-item nav-clear menu-close ui-sref="app.last_surveys">
           My last surveys
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/home">
