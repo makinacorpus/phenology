@@ -13,8 +13,8 @@
     </div>
 
     <div style="text-align:center;">
-      <h2>{{survey.stage.name}}</h2>
-      <span><i>{{survey.stage.date_start|date}} to {{survey.stage.date_end|date}}</i></span>
+      <h2>{{survey.stage.name | translate}}</h2>
+      <span><i>{{survey.stage.date_start|date|translate}} {{'to'|translate}} {{survey.stage.date_end|date|translate}}</i></span>
       <h4>{{individual.name}}</h4>
     </div>
 
@@ -79,10 +79,10 @@
       </label>
 
       <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
-        Validate
+        {{ 'action.submit' | translate}}
       </button>
       <button class="button button-block" ng-hide="!survey.validated">
-        Validated <span ng-if="survey.identifier">on server</span> <span ng-if="!survey.identifier">on mobile</span>
+        {{ 'action.submited' | translate }} <span ng-if="survey.identifier">on server</span> <span ng-if="!survey.identifier">on mobile</span>
       </button>
 
       <label class="item item-input item-select">

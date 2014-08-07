@@ -1,4 +1,4 @@
-<ion-view title="SnowCover">
+<ion-view title="{{ 'snowcover' | translate }}">
   
   <ion-nav-buttons side="left">
       <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
@@ -9,7 +9,7 @@
       <div class="list snowing">
 
           <div class="snowing_title">
-            <h3> Il a neigé !</h3>
+            <h3>{{ 'snowcover.title' | translate }}</h3>
             <p>{{ date | date }}</p>
           </div>
 
@@ -28,7 +28,7 @@
           <div class="row">
               <div class="col col-67 snowing_validate">
                 <button class="button button-block button-positive" ng-click="validate()">
-                  Validate
+                  {{ 'action.submit' | translate }}
                 </button>
               </div>
           </div>

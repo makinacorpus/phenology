@@ -1,4 +1,4 @@
-<ion-view title="Last surveys">
+<ion-view title="{{ 'nav.last_surveys' | translate }}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
@@ -12,7 +12,7 @@
  	  <div ng-if="showArea===true">
       	<label class="item item-input item-select">
 	        <div class="input-label">
-	          Species
+	          {{ 'species' | translate }}
 	        </div>
 			<select ng-options="sp.id as sp.name for sp in area.species" ng-model="sp_tmp"></select>
       	</label>

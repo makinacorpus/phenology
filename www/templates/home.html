@@ -1,11 +1,11 @@
-<ion-view title="Home">
+<ion-view title="{{ 'nav.home' | translate }}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
     <br/>
-    <button ng-click="synchronize()" class="button"><i class="ion-ios7-cloud-upload"></i> Synchronize</button>
-    <h1>Upcomming tasks</h1>
+    <button ng-click="synchronize()" class="button"><i class="ion-ios7-cloud-upload"></i> {{ 'action.synchronize' | translate }}</button>
+    <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
     <ion-list>
       <ion-item ng-repeat="task in user.upcomming_tasks">
         <span>{{task.species_name}}</span> 
