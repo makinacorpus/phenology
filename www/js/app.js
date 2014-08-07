@@ -15,7 +15,10 @@ angular.module('phenology', [
   'ngResource',
   'ngApiClient',
   'ngAuthApiClient',
-  'leaflet-directive'
+  //
+  'leaflet-directive',
+  //angular-translate
+  'pascalprecht.translate',
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q, $state) {

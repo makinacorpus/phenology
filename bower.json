@@ -9,6 +9,7 @@
     "angular-base64": "~2.0.2",
     "angular-resource": "~1.2.20",
     "angular-fullscreen": "*",
-    "angular-leaflet-directive": "~0.7.7"
+    "angular-leaflet-directive": "~0.7.7",
+    "angular-translate": "~2.2.0",
   }
 }
