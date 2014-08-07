@@ -13,8 +13,10 @@ angular.module('phenology', [
   'snowing.controllers',
   'survey.controllers',
   'ngResource',
+  
   'ngApiClient',
   'ngAuthApiClient',
+  'ngCordova',
   //
   'leaflet-directive',
   //angular-translate

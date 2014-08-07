@@ -11,5 +11,6 @@
     "angular-fullscreen": "*",
     "angular-leaflet-directive": "~0.7.7",
     "angular-translate": "~2.2.0",
+    "ngCordova": "~0.1.3-alpha",
   }
 }
