@@ -21,11 +21,15 @@ angular.module('phenology', [
   'leaflet-directive',
   //angular-translate
   'pascalprecht.translate',
+  'ngGlobalization',
   'pickadate'
   ])
 
-.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q, $state) {
+.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
   // Form data for the login modal
+  
+  globalizationService.init();
+
   $scope.$state = $state;
   //console.log($state);
   //console.log(configuration);
