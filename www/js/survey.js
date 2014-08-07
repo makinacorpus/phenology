@@ -82,7 +82,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     //$scope.areas = speciesService.getAreaSpecies(user);
 })
 
-.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $log, $location, toolService, Fullscreen) {
+.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $ionicModal, $log, $location, toolService, Fullscreen) {
     var stage, stageId;
     var user = authApiClient.getUsername();
     
@@ -127,6 +127,31 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     }, true);
 
+    $ionicModal.fromTemplateUrl('templates/datemodal.html',
+        function(modal) {
+            $scope.datemodal = modal;
+        },
+        {
+        // Use our scope for the scope of the modal to keep it simple
+        scope: $scope,
+        // The animation we want to use for the modal entrance
+        animation: 'slide-in-up'
+
+        }
+    );
+
+    $scope.opendateModal = function() {
+      $scope.datemodal.show();
+      //$scope.datemodal.scope.myDate = $scope.survey.beforeDate;
+    };
+    $scope.closedateModal = function(model) {
+
+      $scope.survey.beforeDate = model;
+      //$scope.$apply();
+
+      $scope.datemodal.hide();
+
+    };
     // switch stage
     $scope.switchStage = function(stage){
         $location.path(

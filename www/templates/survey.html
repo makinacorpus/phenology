@@ -60,8 +60,9 @@
 
       <label class="item item-input" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
-        <input type="date" ng-model="survey.beforeDate" name="beforeDate">
+        <div  ng-click="opendateModal()"><span> {{ survey.beforeDate }} </span> <button><i class="icon ion-compose"></i></button></div>
       </label>
+
       <label class="item item-radio">
           <input type="checkbox" ng-model="survey.isLost" name="isLost">
           <div class="item-content">
