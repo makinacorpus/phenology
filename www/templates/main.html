@@ -1,6 +1,6 @@
 <ion-side-menus>
 
-  <ion-pane ion-side-menu-content animation="" ng-init="animation=(!($state.includes('app.species') || $state.includes('app.map'))) ? 'slide-left-right':'qsqsd'" no-tap-scroll="true">
+  <ion-pane ion-side-menu-content animation="slide-left-right" no-tap-scroll="true">
 
     <ion-nav-bar class="bar bar-header bar-stable" animation="sdsd">
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
@@ -8,46 +8,48 @@
 
     <ion-header-bar class="bar-subheader bar bar-positive mybar" style="padding:0;height:auto;" ng-if="$state.includes('app.species') || $state.includes('app.map')">
         <div class="button-bar">
-            <a class="button" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">List</a>
-            <a class="button" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">Map</a>
+            <a class="button" nav-clear ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">List</a>
+            <a class="button" nav-clear ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">Map</a>
         </div>
     </ion-header-bar>
+
     <ion-nav-view name="mainContent" class="test" animation="{{animation}}"></ion-nav-view>
 
   </ion-pane>
 
-  <ion-side-menu side="left"> ? 
+  <ion-side-menu side="left">
     <header class="bar bar-dark bar-header bar-stable">
       <h1 class="title">Menu</h1>
     </header>
     <ion-content class="has-header" has-bouncing="false">
       <ion-list>
-        <ion-item nav-clear menu-close ui-sref="app.home">
-          Home
+        <ion-item class="item-icon-left " nav-clear menu-close ui-sref="app.home">
+          <i class="icon ion-ios7-home"></i>{{ 'nav.home' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close ui-sref="app.snowing">
-          Snow cover
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.snowing">
+          <i style="font-size:300%;" class="icon ion-ios7-snowy"></i>{{ 'nav.snowcover' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close ui-sref="app.areas">
-          Survey
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.areas">
+          <i class="icon icon ion-leaf"></i> {{ 'nav.survey' | translate }}
+          <!--Survey-->
         </ion-item>
-        <ion-item nav-clear menu-close ui-sref="app.upload">
-          Upload
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.upload">
+          <i class="icon ion-loop"></i>{{ 'nav.upload' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close ui-sref="app.last_surveys">
-          My last surveys
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.last_surveys">
+          <i class="icon ion-ios7-browsers"></i> {{ 'nav.last_surveys' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/home">
-          Protocol
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/home">
+          <i class="icon ion-ios7-ionic-outline"></i>{{ 'nav.protocol' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/home">
-          Help
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/home">
+          <i class="icon ion-help"></i>{{ 'nav.help' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/home">
-          Credits
+        <ion-item class="item-icon-left" nav-clear menu-close href="#/app/home">
+          <i class="icon ion-ios7-analytics-outline"></i>{{ 'nav.credits' | translate }}
         </ion-item>
-        <ion-item nav-clear menu-close ng-click="login()">
-          Change user
+        <ion-item class="item-icon-left" nav-clear menu-close ng-click="login()">
+          <i class="icon ion-person-stalker"></i>{{ 'nav.change_user' | translate }}
         </ion-item>
       </ion-list>
     </ion-content>
