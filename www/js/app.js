@@ -21,6 +21,7 @@ angular.module('phenology', [
   'leaflet-directive',
   //angular-translate
   'pascalprecht.translate',
+  'pickadate'
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, authApiClient, $q, $state) {
