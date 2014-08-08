@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiClient', 'home.controllers'])
+angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiClient', 'home.controllers', 'survey.controllers'])
 
-.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q, $log){
+.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q, $log, toolService){
     var self = this;
 
     this.loadUserSettings = function(userid) {
@@ -175,6 +175,17 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
                             create: true,
                             data: data
             });
+            if(angular.isDefined(window.cordova)){
+                var species = storageTraverser.traverse('/users/' + userid + '/species');
+                angular.forEach(species, function(spec){
+                    toolService.downloadPicture(spec.picture);
+                    angular.forEach(spec.stages, function(stage){
+                        toolService.downloadPicture(stage.picture_before);
+                        toolService.downloadPicture(stage.picture_current);
+                        toolService.downloadPicture(stage.picture_after);
+                    });
+                });
+            }
 
             return apiClient.get_user_surveys().$promise.then(function(surveys_data){
                 var surveys = [];
@@ -279,4 +290,4 @@ angular.module('synchronize', ['ngStorageTraverser', 'ngApiClient', 'ngAuthApiCl
             snowcovers = [];
         });
     };
-});
+})
