@@ -82,7 +82,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     //$scope.areas = speciesService.getAreaSpecies(user);
 })
 
-.controller('SurveyCtrl', function($scope, $stateParams, storageTraverser, surveyService, authApiClient, $ionicModal, $log, $location, toolService, Fullscreen) {
+.controller('SurveyCtrl', function($scope, $rootScope, $stateParams, storageTraverser, surveyService, authApiClient, $ionicModal, $log, $location, toolService, Fullscreen) {
     var stage, stageId;
     var user = authApiClient.getUsername();
     
@@ -178,12 +178,16 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     })
 })
-.controller('MapCtrl', function($scope, $location, authApiClient, $stateParams, storageTraverser, speciesService){
-   var user = authApiClient.getUsername();
+.controller('MapCtrl', function($scope, $rootScope, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, $timeout, mapService){
+    var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
-    $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
-    $scope.filter = {};
-    $scope.filter.showOnlyNeeded = "true";
+
+    angular.extend($scope,{
+            areas: storageTraverser.traverse("/users/" + user + "/areas"),
+            filter: {showOnlyNeeded: "true"},
+            individuals: {}
+        }
+    );
 
     if(!(angular.isDefined(areaId) && areaId !== "")){
         areaId = $scope.areas[0].id;
@@ -194,18 +198,56 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
 
-    $scope.geojson = {
-        data: (Object.keys($scope.area.geojson).length > 0) ? $scope.area.geojson : undefined,
-        style: {
-            fillColor: "green",
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.2
-        }
-    }
-    $scope.individuals = {};
+
+    $timeout(function() {
+        var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+        var filtered = {};
+        var all_individuals = {};
+        var class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark']
+        angular.forEach(all_species, function(species, id){
+
+             $scope.geojson = {
+                data: (Object.keys($scope.area.geojson).length > 0) ? $scope.area.geojson : undefined,
+                style: {
+                    fillColor: "green",
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.2,
+                }
+            } 
+
+            angular.forEach(species.individuals, function(individual, key){
+            if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
+                all_individuals[individual.id+""] = {
+                    lat: +individual.lat,
+                    lng: +individual.lon,
+                    icon: mapService.create_div_icon(class_tmp[id]),
+                    tasks: species.tasks,
+                    enable: ['click'],
+                    message: "<p><h4>" + individual.name + "</h4><br><span>"+individual.lat+','+individual.lon+"</span><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
+                };
+                if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
+                    filtered[individual.id+""] = all_individuals[individual.id+""]
+                }
+            }
+           });
+        });
+
+        $scope.individuals = filtered;
+
+        $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
+            console.log("watch");
+            console.log(newvalue );
+            leafletData.getMap().then(function(map) {
+                map.invalidateSize();
+            });
+            $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
+        }, true);
+
+ 
+    }, 100);
 
     $scope.center = {
         lat: +$scope.area.lat,
@@ -213,38 +255,24 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         zoom: 17
     }
 
-    var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
-    var all_individuals = {};
-    var filtered = {};
-
-    angular.forEach(all_species, function(species, id){
-       angular.forEach(species.individuals, function(individual, key){
-        if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
-            all_individuals[individual.id+""] = {
-                lat: +individual.lat,
-                lng: +individual.lon,
-                tasks: species.tasks,
-                message: "<p><h4>" + individual.name + "</h4><br><span>"+individual.lat+','+individual.lon+"</span><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
-            };
-            if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
-                filtered[individual.id+""] = all_individuals[individual.id+""]
-            }
-        }
-       });
-    });
-    
-    $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
-        console.log(newvalue);
-        $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
-    }, true);
-
     $scope.switchArea = function(area){
         $location.path(
             String.format('/app/map/{0}', area.id)
         );
     }
 })
-
+.service('mapService', function(){
+    var self = this;
+    this.create_div_icon = function(additional_class) {
+        return {
+                type: 'div',
+                iconAnchor: [13, 52],
+                popupAnchor: [0, -32],
+                className: 'icon ion-android-location mymarker ' + additional_class,
+                html: ''
+            }
+    }
+})
 .service('speciesService', function(storageTraverser, surveyService, toolService){
     var self = this;
     this.getTaskForSpecies = function(species){
