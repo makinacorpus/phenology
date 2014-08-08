@@ -7,8 +7,9 @@
       <h2>{{ 'area.choose' | translate }}</h2>
     </div>
     <ion-list>
-      <ion-item ng-repeat="area in areas" nav-clear href="#/app/species/{{area.id}}">
+      <ion-item ng-repeat="area in areas" class="item-icon-right" style="padding-top:20px;padding-bottom:20px;" nav-clear href="#/app/species/{{area.id}}">
         {{area.name}}
+        <i class="icon ion-ios7-arrow-right"></i>
       </ion-item>
     </ion-list>
   </ion-content>

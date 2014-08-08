@@ -4,9 +4,9 @@
   </ion-nav-buttons>
   <ion-content class="has-subheader">
     <!--<h2>{{area.name}} Species</h2>-->
-    <div class="list" ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
+    <div class="list card" ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
 
-      <div class="item item-divider" ng-click="showArea=!showArea">
+      <div class="item item-divider" ng-click="showArea=!showArea" style="padding-top: 20px;padding-bottom: 20px;">
         {{area.name}}
       </div>
  	  <div ng-if="showArea===true">

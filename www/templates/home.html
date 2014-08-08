@@ -4,15 +4,20 @@
   </ion-nav-buttons>
   <ion-content class="has-header tasks-section with-background">
     <br/>
-    <button ng-click="synchronize()" class="button"><i class="ion-ios7-cloud-upload"></i> {{ 'action.synchronize' | translate }}</button>
-    <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
-    <ion-list>
+    <div class="row item-button-right">
+      <button ng-click="synchronize()" class="button button-positive icon-left">
+        <i class="ion-ios7-cloud-upload icon"></i>&nbsp;{{ 'action.synchronize' | translate }} </button>
+    </div>
+    <div class="card" style="opacity:0.8;text-align:center;">
+      <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
+    </div>
+    <div class="card list">
       <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item">
         <span>{{task.species_name}}</span> 
         <span style="display:block;font-size:0.9em">{{task.name}}</span> 
         <span style="display:block;font-size:0.8em;">{{task.date_start|date }} to {{ task.date_end|date}}</span>
         <div style="white-space:initial;"> For : <span style="font-size:0.9em;margin-left:4px;" ng-repeat="ind in task.individuals" ng-bind="ind.name"></span></div>
       </ion-item>
-    </ion-list>
+    </div>
   </ion-content>
 </ion-view>
