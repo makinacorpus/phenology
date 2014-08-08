@@ -90,7 +90,11 @@ angular.module('phenology', [
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
+
+   // Add cdvfile to allowed protocols in ng-src directive
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile):|data:image\//);
+
   $stateProvider
 
     .state('app', {
