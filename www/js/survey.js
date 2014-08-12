@@ -356,13 +356,9 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             stageId
         )
     };
-    this.today = function() {
-        var today = new Date();
-        return today.toISOString().slice(0, 10);
-    };
     this.storeSurvey = function(user, data) {
         var data = angular.copy(data);
-        data.surveyDate = (data.when == 'before') ? data.beforeDate : self.today();
+        data.surveyDate = (data.when == 'before') ? data.beforeDate : toolService.today();
         delete data["stage"];
         delete data["identifier"];
         var surveyId = self.getSurveyId(data);
@@ -385,7 +381,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             data.when = 'today';
         }
         data.when = data.when;
-        if(data.when=='today' && data.surveyDate != self.today()) {
+        if(data.when=='today' && data.surveyDate != toolService.today()) {
             data.when = 'before';
         }
         return data;
@@ -408,7 +404,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             id: data.id,
             validated: data.validated || false,
         })
-        console.log(survey);
         return survey;
     };
     this.getStage = function(stageId, species){
@@ -422,7 +417,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             stage = species.stages.filter(function(item){return item.id==stageId;})[0];
         }
         stage = angular.copy(stage);
-        //console.log(stage);
         stage.picture_before = toolService.getFullPictureUrl(stage.picture_before);
         stage.picture_current = toolService.getFullPictureUrl(stage.picture_current);
         stage.picture_after = toolService.getFullPictureUrl(stage.picture_after);
@@ -447,7 +441,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     var self = this;
     this.mobile_root_path = 'cdvfile://localhost/persistent'
     this.mobile_path = 'cdvfile://localhost/persistent/phenology';
-    var create_div_icon = function(additional_class) {
+    this.create_div_icon = function(additional_class) {
         return {
                 type: 'div',
                 iconAnchor: [13, 52],
@@ -455,6 +449,10 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                 className: 'icon ion-android-location mymarker ' + additional_class,
                 html: ''
             }
+    }
+    this.today = function() {
+        var today = new Date();
+        return today.toISOString().slice(0, 10);
     }
     this.getRootCordovaUrl = function(){
         return self.mobile_path + '/';
