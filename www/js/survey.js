@@ -178,35 +178,39 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     })
 })
-.controller('MapCtrl', function($scope, $rootScope, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, $timeout, mapService){
+.controller('MapCtrl', function($scope, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, $timeout, toolService){
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
 
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
-            filter: {showOnlyNeeded: "true"},
+            filter: {
+                showOnlyNeeded: "true"
+            },
+            defaults: {
+                zoomControl: false,
+            },
             individuals: {}
         }
     );
 
     if(!(angular.isDefined(areaId) && areaId !== "")){
-        areaId = $scope.areas[0].id;
-        $stateParams.areaId = areaId;
+        areaId = $stateParams.areaId = $scope.areas[0].id;
     }
 
     $scope.area = storageTraverser.traverse(        
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
 
-
     $timeout(function() {
         var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
         var filtered = {};
         var all_individuals = {};
         var class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark']
+
         angular.forEach(all_species, function(species, id){
 
-             $scope.geojson = {
+            $scope.geojson = {
                 data: (Object.keys($scope.area.geojson).length > 0) ? $scope.area.geojson : undefined,
                 style: {
                     fillColor: "green",
@@ -216,43 +220,41 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                     dashArray: '3',
                     fillOpacity: 0.2,
                 }
-            } 
+            };
 
             angular.forEach(species.individuals, function(individual, key){
-            if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
-                all_individuals[individual.id+""] = {
-                    lat: +individual.lat,
-                    lng: +individual.lon,
-                    icon: mapService.create_div_icon(class_tmp[id]),
-                    tasks: species.tasks,
-                    enable: ['click'],
-                    message: "<p><h4>" + individual.name + "</h4><br><span>"+individual.lat+','+individual.lon+"</span><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
-                };
-                if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
-                    filtered[individual.id+""] = all_individuals[individual.id+""]
+                if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
+                    all_individuals[individual.id+""] = {
+                        lat: +individual.lat,
+                        lng: +individual.lon,
+                        icon: toolService.create_div_icon(class_tmp[id]),
+                        tasks: species.tasks,
+                        enable: ['click'],
+                        message: "<p><h4>" + individual.name + "</h4><br><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
+                    };
+                    if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
+                        filtered[individual.id+""] = all_individuals[individual.id+""]
+                    }
                 }
-            }
            });
         });
 
         $scope.individuals = filtered;
 
         $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
-            console.log("watch");
-            console.log(newvalue );
-            leafletData.getMap().then(function(map) {
-                map.invalidateSize();
-            });
             $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
         }, true);
 
- 
+         leafletData.getMap().then(function(map) {
+             var currentBounds = L.geoJson($scope.geojson.data).getBounds();
+             map.fitBounds(currentBounds);
+        });
     }, 100);
 
     $scope.center = {
         lat: +$scope.area.lat,
         lng: +$scope.area.lon,
-        zoom: 17
+        zoom: 7
     }
 
     $scope.switchArea = function(area){
