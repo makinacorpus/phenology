@@ -167,6 +167,15 @@ angular.module('phenology', [
         }
       }
     })
+    .state('app.globalmap', {
+      url: "/map",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/global_map.html",
+          controller: 'GlobalMapCtrl'
+        }
+      }
+    })
     .state('app.survey', {
       url: "/survey/:areaId/:specId/:indId",
       views: {
@@ -188,6 +197,8 @@ angular.module('phenology', [
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
+
+
 });
 
 // UTILS

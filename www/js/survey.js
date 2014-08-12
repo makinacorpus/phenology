@@ -263,16 +263,48 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         );
     }
 })
-.service('mapService', function(){
-    var self = this;
-    this.create_div_icon = function(additional_class) {
-        return {
-                type: 'div',
-                iconAnchor: [13, 52],
-                popupAnchor: [0, -32],
-                className: 'icon ion-android-location mymarker ' + additional_class,
-                html: ''
-            }
+.controller('GlobalMapCtrl', function($scope, $location, authApiClient, leafletData, storageTraverser, speciesService, $timeout){
+    var user = authApiClient.getUsername();
+
+    angular.extend($scope,{
+            defaults: {zoomControl: false},
+            markers: {},
+            geojson: undefined
+        }
+    );
+
+    $timeout(function() {
+        var areas = storageTraverser.traverse("/users/" + user + "/areas");
+        var features = areas.map(function(area){ return area.geojson.features[0] })
+
+        $scope.geojson = {
+                data:  {
+                    type: "FeatureCollection",
+                    features: features
+                },
+                style: {
+                    fillColor: "red",
+                    weight: 2,
+                    opacity: 1,
+                    color: 'red',
+                    dashArray: '5',
+                    fillOpacity: 1,
+                }
+        };
+
+        $scope.markers = features.map(function(feature){
+            return L.geoJson(feature).getBounds().getCenter();
+        });
+
+        leafletData.getMap().then(function(map) {
+             map.fitBounds(L.geoJson($scope.geojson.data).getBounds());
+        });
+
+    }, 100);
+
+    // get leaflet height using the ionic content height
+    $scope.height = function(){
+        return document.querySelectorAll(".has-header")[0].offsetHeight;
     }
 })
 .service('speciesService', function(storageTraverser, surveyService, toolService){

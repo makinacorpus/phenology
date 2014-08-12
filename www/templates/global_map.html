@@ -1,0 +1,22 @@
+<ion-view title="Map">
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-subheader" has-bouncing="false" ng-cloak>
+    <ul style="margin:0;" class="list">
+      <li>
+        <!-- Leaflet directive -->
+        <leaflet defaults="defaults" 
+                 markers="markers" 
+                 geojson="geojson" 
+                 defaults="defaults"
+                 height="{{height()}}" 
+                 width="100%"
+                 data-tap-disabled="true"></leaflet>
+      </li>
+    </ul>
+  </ion-content>
+
+</ion-view>
