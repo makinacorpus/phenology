@@ -1,0 +1,24 @@
+<div class="modal">
+    <header class="bar bar-header bar-positive">
+      <h1 class="title">{{ speciesName }} : {{ survey.stage.name | translate }}</h1>
+      <div class="button button-clear" ng-click="slidemodal.hide()"><span class="icon ion-close"></span></div>
+    </header>
+    <div class="has-header scroll-content ionic-scroll">
+      <ion-slide-box active-slide="slideIndex">
+        <ion-slide>
+            <img ng-src="{{survey.stage.picture_before}}"  alt="before"></img>
+        </ion-slide>
+        <ion-slide>
+            <img ng-src="{{survey.stage.picture_current}}"  alt="current"></img>
+        </ion-slide>
+        <ion-slide>
+            <img ng-src="{{survey.stage.picture_after}}"  alt="after"></img>
+        </ion-slide>
+      </ion-slide-box>       
+    </div>
+    <ion-footer-bar align-title="center" class="bar-stable">
+      <h2 class="title" ng-if="slideIndex==0">{{ 'survey.picture.before' | translate }}</h2>
+      <h2 class="title" ng-if="slideIndex==1">{{ 'survey.picture.current' | translate }}</h2>
+      <h2 class="title" ng-if="slideIndex==2">{{ 'survey.picture.after' | translate }}</h2>
+    </ion-footer-bar>
+</div>

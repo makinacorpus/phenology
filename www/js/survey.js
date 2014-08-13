@@ -107,7 +107,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             indId: $stateParams.indId,
             stageId: stageId
     };
-
+    $scope.speciesName = species.name;
     $scope.survey = surveyService.getSurvey(user, params);
     $scope.survey.stage = stage;
 
@@ -140,6 +140,20 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         }
     );
 
+    $ionicModal.fromTemplateUrl('templates/slidemodal.html',
+        function(modal) {
+            $scope.slidemodal = modal;
+        },
+        {
+        // Use our scope for the scope of the modal to keep it simple
+        scope: $scope,
+        // The animation we want to use for the modal entrance
+        animation: 'slide-in-up'
+
+        }
+    );
+
+
     $scope.opendateModal = function() {
       $scope.datemodal.show();
       //$scope.datemodal.scope.myDate = $scope.survey.beforeDate;
@@ -147,11 +161,16 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.closedateModal = function(model) {
 
       $scope.survey.beforeDate = model;
-      //$scope.$apply();
-
       $scope.datemodal.hide();
 
     };
+
+    $scope.openSlideModal = function(state) {
+      $scope.slideIndex = state;
+      $scope.slidemodal.show();
+      //$timeout( function() { $ionicSlideBoxDelegate.update(); });
+    };
+
     // switch stage
     $scope.switchStage = function(stage){
         $location.path(
