@@ -66,11 +66,6 @@ angular.module('phenology', [
     function(data){
       $scope.loginData.error = true;
     });
-    /**
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-    **/
   };
 })
 

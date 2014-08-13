@@ -114,7 +114,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     $scope.status = {};
 
     $scope.current_stage = $scope.survey.stage;
-    $scope.current_picture = $scope.current_picture;
 
     // watch changes and store
     $scope.$watch('survey', function(newvalue, oldvalue) {
@@ -132,11 +131,8 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             $scope.datemodal = modal;
         },
         {
-        // Use our scope for the scope of the modal to keep it simple
-        scope: $scope,
-        // The animation we want to use for the modal entrance
-        animation: 'slide-in-up'
-
+            scope: $scope,
+            animation: 'slide-in-up'
         }
     );
 
@@ -145,26 +141,23 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             $scope.slidemodal = modal;
         },
         {
-        // Use our scope for the scope of the modal to keep it simple
-        scope: $scope,
-        // The animation we want to use for the modal entrance
-        animation: 'slide-in-up'
-
+            scope: $scope,
+            animation: 'slide-in-up'
         }
     );
-
 
     $scope.opendateModal = function() {
       $scope.datemodal.show();
       //$scope.datemodal.scope.myDate = $scope.survey.beforeDate;
     };
-    $scope.closedateModal = function(model) {
 
+    // close datemodal
+    $scope.closedateModal = function(model) {
       $scope.survey.beforeDate = model;
       $scope.datemodal.hide();
-
     };
 
+    // open slides modal wich shows pictures of the current stage
     $scope.openSlideModal = function(state) {
       $scope.slideIndex = state;
       $scope.slidemodal.show();
@@ -204,7 +197,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         areaId = $stateParams.areaId = $scope.areas[0].id;
     }
 
-    $scope.area = storageTraverser.traverse(        
+    $scope.area = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
 
@@ -317,14 +310,15 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     var self = this;
     this.getTaskForSpecies = function(species){
         var tasks = [];
-        var today = new Date("2014-02-20");//surveyService.today();
-        angular.forEach(species.stages, function(stage){
+        var today = new Date("2014-02-20");//toolService.today();
+        for(var i=0; i<species.stages.length; i++){
+            var stage = species.stages[i];
             var date_start = new Date(stage.date_start);
             var date_end = new Date(stage.date_end);
             if(today >= date_start && today <= date_end){
-                this.push(stage);
+                tasks.push(stage);
             }
-        }, tasks);
+        }
         return tasks;
     }
     this.getSpecies = function(user, area) {
@@ -345,12 +339,13 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         var storedInds = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals', user, area, species));
         var stages = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages', user, species));
         var individuals = [];
-        angular.forEach(storedInds, function(item, key){
-            
-            var ind_tmp = angular.copy(item);
+        for (var i = 0; i < storedInds.length; i++) {
+            var ind_tmp = angular.copy(storedInds[i]);
             var surveys = []
-            angular.forEach(stages, function(stage, key2){
+            for (var j = 0; j < stages.length; j++) {
+                var stage = stages[j];
                 var local_observation = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}-{2}-{3}-{4}', user, area, species, ind_tmp.id, stage.id))
+               
                 if(angular.isUndefined(local_observation)){
                     local_observation = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}-{2}-{3}-{4}"]', user, area, species, ind_tmp.id, stage.id));
                 }
@@ -359,20 +354,20 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                 if(angular.isDefined(observation)){
                     var stageInfo = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]', user, species, stage.id));
                     observation.name = stageInfo.name;
-                    this.push(observation);
+                    surveys.push(observation);
                 }
-            },surveys);            
+            }
             ind_tmp.surveys = surveys;
 
-            this.push(ind_tmp);
-        }, individuals);
+            individuals.push(ind_tmp);
+        };
         return individuals;
     }
     this.getAreaSpecies = function(user){
         var areasLocal = storageTraverser.traverse(String.format('/users/{0}/areas', user))
         var areas = [];
         angular.forEach(areasLocal, function(area){
-            var tmp = area;
+            var tmp = angular.copy(area);
             tmp.species = self.getSpecies(user, area.id);
             this.push(tmp);
         }, areas)
@@ -477,8 +472,10 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
 })
 .service('toolService', function(storageTraverser, authApiClient, $cordovaFile, $http, $log, $q){
     var self = this;
+
     this.mobile_root_path = 'cdvfile://localhost/persistent'
     this.mobile_path = 'cdvfile://localhost/persistent/phenology';
+
     this.create_div_icon = function(additional_class) {
         return {
                 type: 'div',
@@ -488,25 +485,31 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                 html: ''
             }
     }
+
     this.today = function() {
         var today = new Date();
         return today.toISOString().slice(0, 10);
     }
+
     this.getRootCordovaUrl = function(){
         return self.mobile_path + '/';
     }
+
     this.getMediaUrl = function(){
         return authApiClient.backend_url + '/media/';
     } 
+
     this.getFullPictureUrl = function(picture_url){
         var root_url = (angular.isDefined(window.cordova)) ? self.getRootCordovaUrl() : self.getMediaUrl();
         return root_url + picture_url;
     }
+
     this.downloadPicture = function(relativePath){
         var path = self.getRootCordovaUrl() + relativePath;
         var url = self.getMediaUrl() + relativePath;
         return self.downloadFile(url, path, false);
     }
+
     //thanks to Natsu
     this.downloadFile = function(url, filepath, forceDownload) {
 
@@ -568,6 +571,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         else {
                 $log.info('forcing download of ' + url);
                 return $cordovaFile.downloadFile(url, filepath)
-            }  
+            }
         };
 });
