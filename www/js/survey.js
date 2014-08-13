@@ -262,7 +262,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         );
     }
 })
-.controller('GlobalMapCtrl', function($scope, $location, authApiClient, leafletData, storageTraverser, speciesService, $timeout){
+.controller('GlobalMapCtrl', function($scope, $location, authApiClient, leafletData, storageTraverser, speciesService, $timeout, mapService){
     var user = authApiClient.getUsername();
 
     angular.extend($scope,{
@@ -273,8 +273,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     );
 
     $timeout(function() {
-        var areas = storageTraverser.traverse("/users/" + user + "/areas");
-        var features = areas.map(function(area){ return area.geojson.features[0] })
+        var features = mapService.getAreaFeatures(user);
 
         $scope.geojson = {
                 data:  {
@@ -291,20 +290,57 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                 }
         };
 
-        $scope.markers = features.map(function(feature){
-            return L.geoJson(feature).getBounds().getCenter();
-        });
+        $scope.markers = mapService.getCenterMarkers(features);
 
-        leafletData.getMap().then(function(map) {
-             map.fitBounds(L.geoJson($scope.geojson.data).getBounds());
-        });
-
+        mapService.centerMap($scope.geojson.data);
     }, 100);
+
+    $scope.$on('leafletDirectiveMarker.dblclick', function(event, args){
+        $location.path(
+            String.format('/app/map/{0}', args.leafletEvent.latlng.id)
+        );
+    });
+
+    $scope.$on('leafletDirectiveMap.geojsonClick', function(event, geojson) {
+        $location.path(
+            String.format('/app/map/{0}', geojson.properties.id)
+        );
+    });
 
     // get leaflet height using the ionic content height
     $scope.height = function(){
         return document.querySelectorAll(".has-header")[0].offsetHeight;
     }
+
+})
+.service('mapService', function(storageTraverser, surveyService, leafletData, toolService){
+    var self = this;
+    this.getAreaFeatures = function(user){
+        var areas = storageTraverser.traverse("/users/" + user + "/areas");
+
+        var features = areas.map(function(area){ 
+            var feature = angular.copy(area.geojson.features[0]);
+            feature.properties.name = area.name;
+            feature.properties.id = area.id;
+            return feature;
+        });
+
+        return features;
+    }
+    this.centerMap = function(geojson){
+        leafletData.getMap().then(function(map) {
+            map.fitBounds(L.geoJson(geojson).getBounds());
+        });
+    }
+    this.getCenterMarkers = function(features){
+        return features.map(function(feature){
+            var point = L.geoJson(feature).getBounds().getCenter();
+            point.message = feature.properties.name;
+            point.id = feature.properties.id;
+            return point;
+        });
+    }
+
 })
 .service('speciesService', function(storageTraverser, surveyService, toolService){
     var self = this;
