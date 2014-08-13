@@ -14,51 +14,55 @@
 
       <div class="row pictures">
         <div class="col col-33 picture_left">
-             <span ng-click="toggleFullscreen('before')">
+             <span ng-click="openSlideModal(0)">
                   <img ng-src="{{survey.stage.picture_before}}"  alt="before"></img>
-                  <p>BEFORE</p>
+                  <p>{{ 'survey.picture.before' | translate }}</p>
               </span>
         </div>
-        <div class="col col-50 picture_front">
-                <span ng-click="toggleFullscreen('current')">
+        <div class="col col-50 picture_front" style="z-index:1000;">
+                <span ng-click="openSlideModal(1)">
                   <img ng-src="{{survey.stage.picture_current}}"  alt="current"></img>
-                  <p>CURRENT</p>
                 </span>
         </div>
-        <div class="col col-33 picture_right">
-                <span class="picture_back" ng-click="toggleFullscreen('after')">
+        <div class="col col-33 picture_right" style="z-index:0;">
+                <span class="picture_back" ng-click="openSlideModal(2)">
                   <img ng-src="{{survey.stage.picture_after}}"  alt="after"></img>
-                  <p>AFTER</p>
+                  <p>{{ 'survey.picture.after' | translate }}</p>
                 </span>
         </div>
       </div>
 
       <div class="row" style="padding:0;">
-        <label class="item item-radio col-50">
+        <label class="item item-radio col col-50" style="padding: 0;">
           <input type="radio" ng-model="survey.when" name="when" value="before">
           <div class="item-content">
-            Observed
+            {{ 'survey.status.observed' | translate }}
           </div>
           <i class="radio-icon ion-checkmark"></i>
         </label>
 
-        <div class="item item-checkbox col-50">
-          <label class="checkbox">
+        <div class="item item-checkbox col col-50" style="padding:0;padding-top:15px;padding-left:56px;">
+          <div class="checkbox">
             <input type="radio" ng-model="survey.when" name="when" value="today" style="border-color:grey;">
-          </label>
-              Today
+          </div>
+          <div class="item-content">
+            {{ 'survey.status.today' | translate }}
+          </div>
         </div>
       </div>
 
       <label class="item item-input" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
-        <div  ng-click="opendateModal()"><span> {{ survey.beforeDate }} </span> <button><i class="icon ion-compose"></i></button></div>
+        <div  ng-click="opendateModal()">
+          <span> {{ survey.beforeDate }} </span> 
+          <button><i class="icon ion-compose"></i></button>
+        </div>
       </label>
 
       <label class="item item-radio">
           <input type="checkbox" ng-model="survey.isLost" name="isLost">
           <div class="item-content">
-            Individual lost
+            {{ 'survey.status.lost' | translate }}
           </div>
           <i class="radio-icon ion-checkmark"></i>
       </label>
@@ -66,7 +70,7 @@
       <label class="item item-radio">
         <input type="checkbox" ng-model="survey.isPassed" name="isPassed ">
         <div class="item-content">
-          Already passed
+            {{ 'survey.status.alreadypassed' | translate }}
         </div>
         <i class="radio-icon ion-checkmark"></i>
       </label>
@@ -75,14 +79,18 @@
         {{ 'action.submit' | translate}}
       </button>
       <button class="button button-block" ng-hide="!survey.validated">
-        {{ 'action.submited' | translate }} <span ng-if="survey.identifier">on server</span> <span ng-if="!survey.identifier">on mobile</span>
+        {{ 'action.submited' | translate }} 
+        <span ng-if="survey.identifier">on server</span> 
+        <span ng-if="!survey.identifier">on mobile</span>
       </button>
 
       <label class="item item-input item-select">
         <div class="input-label">
           Change Stage
         </div>
-        <select ng-options="sta.id as sta.name for sta in stages" ng-model="current_stage.id" ng-change="switchStage(current_stage)"></select>
+        <select ng-options="sta.id as sta.name for sta in stages" 
+                ng-model="current_stage.id" 
+                ng-change="switchStage(current_stage)"></select>
       </label>
     </div>
 

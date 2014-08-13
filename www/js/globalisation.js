@@ -105,14 +105,43 @@ angular.module('ngGlobalization', ['ngCordova'])
         'nav.help': 'Aide',
         'nav.credits': 'Crédits',
         'nav.change_user': 'Changer utilisateur',
+        'nav.subheader.list': 'Liste',
+        'nav.subheader.map': 'Carte',
+        // button labels
         'action.submit': 'Validez',
         'action.submited': 'Validé',
         'action.synchronize': 'Synchroniser mes données',
+        'action.close': 'Fermer',
+        // login section
+        'login.title': 'Login',
+        'login.username': 'Identifiant',
+        'login.password': 'Mot de passe',
+        'login.action': 'S\'identifier',
+        // home section
         'home.upcoming_tasks': 'Tâches en cours',
+        // survey section
+        'survey.picture.before': 'AVANT',
+        'survey.picture.current': 'PENDANT',
+        'survey.picture.after': 'APRES',
+        'survey.status.observed': 'Observé',
+        'survey.status.today': 'Aujourd\'hui',
+        'survey.status.lost': 'Individu perdu',
+        'survey.status.alreadypassed': 'Stade déjà passé',
+        // snowcover section
         'snowcover.title': 'Il a neigé !',
+        // area select
+        'area.choose': 'Choisir une zone',
+        // species section
         'species': 'Espèce',
+        'species.choice.see_all': 'Voir tout les Individus',
+        'species.choice.see_to_observed': 'Voir les individus à observer',
+        'species.change_area': 'Changer zone',
+        // general
+        'areas': 'Zones',
+        'snowcover': 'Enneigement',
         'to': 'à',
         'Flowering': 'Floraison',
+
     },
     'en': {
         'nav.home': 'Home',
@@ -129,9 +158,15 @@ angular.module('ngGlobalization', ['ngCordova'])
         'action.synchronize': 'Synchronyze my data',
         'home.upcoming_tasks': 'Upcoming Tasks',
         'snowcover.title': 'It snowed !',
+        // area select
+        'area.choose': 'Choose an area',
+        // species section
         'species': 'Species',
-        'to': 'à',
-        'Flowering': 'Floraison',
+        'species.choice.see_all': 'See all indivuals',
+        'species.choice.see_to_observed': 'See indivuals to observe',
+        // general
+        'areas': 'Areas',
+        'snowcover': 'Snow cover',
     }
 })
 
