@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 .menu-left, .menu-left header,.menu-left .item, .menu-left .item-content{
-	background-color:#22568f !important;
-	color:white !important;
+    background-color:#22568f !important;
+    color:white !important;
 }
 
 .bar.bar-stable .title{
-	color: #4874a4 !important;
+    color: #4874a4 !important;
 }
 
 .picture{
@@ -16,109 +16,129 @@
   top:10px;
 }
 
-.isInFullScreen{
-	width:100%;
-	height:100%;
-}
-
 /* small validation effect */
 input.ng-invalid{
-	border:1px solid red!important;
+    border:1px solid red!important;
 }
-input.ng-valid.ng-dirty{
-	border:1px solid green!important;
+input[type=number].ng-valid.ng-dirty{
+    border:1px solid green!important;
 }
 
 /* snowing part */
 .snowing_validate{
-	margin:auto;
+    margin:auto;
 }
 .snowing_additional, .snowing_input>input{
-	text-align: center;
+    text-align: center;
 }
 .snowing_label{
-	padding-left:20px;
-	padding-right:10px;
-	font-weight: bold;
-	font-size:1.1em;
+    padding-left:20px;
+    padding-right:10px;
+    font-weight: bold;
+    font-size:1.1em;
 }
 .snowing .snowing_item{
-	padding-bottom:20px;
+    padding-bottom:20px;
 }
 .snowing_title{
-	padding:40px;
-	padding-bottom:20px;
-	text-align: center;
-}
-
-/** fullscreen **/
-#fs_container img {
-  display: inline-block;
-  vertical-align: middle;
-  max-height: 100%;
-  max-width: 100%;
-}
-#fs_container .trick {
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
+    padding:40px;
+    padding-bottom:20px;
+    text-align: center;
 }
 
 /** pictures **/
 .pictures{
-	max-height:220px;
-	margin:auto;
-	max-width:500px;
+    max-height:220px;
+    margin:auto;
+    max-width:500px;
 }
 .picture_left{
-	text-align:left;
-	padding-left:0;
-	padding-right:0;
+    text-align:left;
+    padding-left:0;
+    padding-right:0;
 }
 .pictures .picture_front{
-	z-index:10;
-	margin-left:-10%;
-	text-align:center;
-	padding-left:0;
-	padding-top:5%;
-	padding-right:0;
+    z-index:10;
+    margin-left:-10%;
+    text-align:center;
+    padding-left:0;
+    padding-top:5%;
+    padding-right:0;
 }
 .pictures .picture_front img{
-	max-height:75%;
-	width:100%;
+    max-height:75%;
+    width:100%;
 }
 .picture_right{
-	z-index:1;
-	text-align:right;
-	padding-left:0;
-	margin-left:-9%;
-	padding-right:0;
+    z-index:1;
+    text-align:right;
+    padding-left:0;
+    margin-left:-9%;
+    padding-right:0;
 }
 
 .pictures img{
-	max-height:60%;
-	width:100%;
+    max-height:60%;
+    width:100%;
 }
 
-.mybar, .mybar .button-bar{
-	background-color:#22568f !important
+.bar-subheader.bar.bar-positive{
+    padding:0;
+    height:auto; 
 }
 
+.item-icon-left .icon.ion-ios7-snowy{
+    font-size: 300%;
+}
 .has-subheader{
-	top:78px !important;
+    top:78px !important;
 }
 
 .with-background{
-	background-image: url("../img/background-main.jpg");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 0% 10%;
+    background-image: url("../img/background-main.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0% 10%;
 }
 
 .task-item{
-	opacity: 1;
-	background-color: rgba(255, 255, 255, 0.82) !important;
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.82) !important;
 }
 .task-item span{
-	opacity: 1;
+    opacity: 1;
+}
+
+.mymarker{
+    font-size:42px;
+}
+
+.individual-item i.ion-android-checkmark{
+    color:green;
+    font-size:1.2em;
+}
+
+.login-error{
+    color:red;
+    font-size:1.1em;
+    text-align: center;
+}
+
+.list .area-item{
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.list-areas-section .section-title{
+    text-align:center;
+    padding:5px;
+    padding-top:15px;
+}
+
+.slider{
+    height:95%;
+}
+
+.slider-slide img{
+    width: 100%;
 }
