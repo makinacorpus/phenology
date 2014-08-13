@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'FBAngular', 'ngCordova'])
+angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAuthApiClient', 'ngCordova'])
 
 .controller('AreasCtrl', function($scope, storageTraverser, authApiClient, $state) {
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
@@ -82,7 +82,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     //$scope.areas = speciesService.getAreaSpecies(user);
 })
 
-.controller('SurveyCtrl', function($scope, $rootScope, $stateParams, storageTraverser, surveyService, authApiClient, $ionicModal, $log, $location, toolService, Fullscreen) {
+.controller('SurveyCtrl', function($scope, $rootScope, $stateParams, storageTraverser, $ionicSlideBoxDelegate, surveyService, authApiClient, $ionicModal, $log, $location, toolService) {
     var stage, stageId;
     var user = authApiClient.getUsername();
     
@@ -164,19 +164,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
         $scope.survey.validated = true;
     };
 
-    $scope.toggleFullscreen = function(state) {
-        $scope.status.fsMode = true;
-        $scope.status.current_picture = $scope.survey.stage["picture_" + state];
-        $scope.status.state = state;
-        Fullscreen.enable(document.getElementById("fs_container"));
-    };
-
-    Fullscreen.$on("FBFullscreen.change",function(event, enabled){
-        if(!enabled){
-            $scope.status = {};
-            $scope.$apply();
-        }
-    })
 })
 .controller('MapCtrl', function($scope, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, $timeout, toolService){
     var user = authApiClient.getUsername();

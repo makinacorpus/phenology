@@ -2,13 +2,12 @@
   "name": "Phenology",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.9"
+    "ionic": "driftyco/ionic-bower#1.0.0-beta.11"
   },
   "dependencies": {
     "ngstorage": "~0.3.0",
     "angular-base64": "~2.0.2",
     "angular-resource": "~1.2.20",
-    "angular-fullscreen": "*",
     "angular-leaflet-directive": "~0.7.7",
     "angular-translate": "~2.2.0",
     "ngCordova": "~0.1.3-alpha",

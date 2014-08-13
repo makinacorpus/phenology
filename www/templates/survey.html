@@ -4,14 +4,6 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
 
-    <div ng-show="status.fsMode==true">
-      <div fullscreen  id="fs_container" style="position:relative;width:100%;height:100%; font-size: 0;
-  text-align: center;width:100%;background-size:contain;background-repeat:no-repeat;background-position:center;" ng-style="{'background-image':'url(' + status.current_picture + ')'}">
-        <button style="position:absolute;top:0;right:0;" class="button button-light" ng-click="status.fsMode;">close</button>
-        <h3 style="margin:0;position:absolute;bottom:2%;width:100%;text-transform:uppercase;text-align:center;">{{status.state}}</h3>
-      </div>
-    </div>
-
     <div style="text-align:center;">
       <h2>{{survey.stage.name | translate}}</h2>
       <span><i>{{survey.stage.date_start|date|translate}} {{'to'|translate}} {{survey.stage.date_end|date|translate}}</i></span>
