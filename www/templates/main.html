@@ -1,19 +1,35 @@
 <ion-side-menus>
 
-  <ion-pane ion-side-menu-content animation="slide-left-right" no-tap-scroll="true">
+  <ion-pane ion-side-menu-content animation="no" no-tap-scroll="true">
 
-    <ion-nav-bar class="bar bar-header bar-stable" animation="sdsd">
-      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
+    <ion-nav-bar class="bar bar-header bar-stable">
+      <!-- back button -->
+      <!-- <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button> -->
     </ion-nav-bar>
-
-    <ion-header-bar class="bar-subheader bar bar-positive mybar" style="padding:0;height:auto;" ng-if="$state.includes('app.species') || $state.includes('app.map')">
+    <!-- area subheader -->
+    <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.species') || $state.includes('app.map')">
         <div class="button-bar">
-            <a class="button" nav-clear ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">List</a>
-            <a class="button" nav-clear ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">Map</a>
+            <a class="button" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">
+              {{ 'nav.subheader.list' | translate }}
+            </a>
+            <a class="button" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">
+              {{ 'nav.subheader.map' | translate }}
+            </a>
+        </div>
+    </ion-header-bar>
+    <!-- areas subheader --> 
+    <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.areas') || $state.includes('app.globalmap')">
+        <div class="button-bar">
+            <a class="button" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}">
+              {{ 'nav.subheader.list' | translate }}
+            </a>
+            <a class="button" ui-sref="app.globalmap" ng-class="{ active: $state.includes('app.globalmap') }">
+              {{ 'nav.subheader.map' | translate }}
+            </a>
         </div>
     </ion-header-bar>
 
-    <ion-nav-view name="mainContent" class="test" animation="{{animation}}"></ion-nav-view>
+    <ion-nav-view name="mainContent"></ion-nav-view>
 
   </ion-pane>
 
@@ -27,7 +43,7 @@
           <i class="icon ion-ios7-home"></i>{{ 'nav.home' | translate }}
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.snowing">
-          <i style="font-size:300%;" class="icon ion-ios7-snowy"></i>{{ 'nav.snowcover' | translate }}
+          <i class="icon ion-ios7-snowy"></i>{{ 'nav.snowcover' | translate }}
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.areas">
           <i class="icon icon ion-leaf"></i> {{ 'nav.survey' | translate }}

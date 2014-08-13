@@ -6,6 +6,7 @@
 
 .bar.bar-stable .title{
     color: #4874a4 !important;
+    font-size: 20px;
 }
 
 .picture{
@@ -82,9 +83,11 @@ input[type=number].ng-valid.ng-dirty{
     width:100%;
 }
 
-.bar-subheader.bar.bar-positive{
+.bar-subheader.bar.bar-darkblue{
     padding:0;
     height:auto; 
+    border-width: 0;
+    background-color: #193c58;
 }
 
 .item-icon-left .icon.ion-ios7-snowy{
@@ -141,4 +144,17 @@ input[type=number].ng-valid.ng-dirty{
 
 .slider-slide img{
     width: 100%;
+}
+
+.bar.bar-darkblue .button.active, .bar.bar-darkblue .button.activated {
+    border-color: #295d85;
+    background-color: #295d85;
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.15);
+    color: white;
+}
+
+.bar.bar-darkblue .button {
+    color: grey;
+    border-color: #193c58;
+    background-color: #193c58;
 }
