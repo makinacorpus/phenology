@@ -228,7 +228,11 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
                         icon: toolService.create_div_icon(class_tmp[id]),
                         tasks: species.tasks,
                         enable: ['click'],
-                        message: "<p><h4>" + individual.name + "</h4><br><span><a href='#/app/survey/"+ areaId +"/"+ species.id +"/" + individual.id + "'>saisir l'observation</a></span></p>"
+                        message: '<div class="individual-popup">' +
+                                    '<h5>' + individual.name + '</h5>' +
+                                    '<div><img src="' + species.picture + '" /></div>' +
+                                    '<a href="#/app/survey/"' + areaId  + '/' + species.id + '/' + individual.id + '>saisir l\'observation</a>' +
+                                 '</div>'
                     };
                     if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
                         filtered[individual.id+""] = all_individuals[individual.id+""]

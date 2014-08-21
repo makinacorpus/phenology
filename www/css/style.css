@@ -168,4 +168,7 @@ input[type=number].ng-valid.ng-dirty{
     background-position: center;
 }
 
+
+.leaflet-popup .individual-popup{
+    text-align: center;
 }
