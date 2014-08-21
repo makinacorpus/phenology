@@ -11,6 +11,8 @@
     "angular-leaflet-directive": "~0.7.7",
     "angular-translate": "~2.2.0",
     "ngCordova": "~0.1.3-alpha",
-    "angular-pickadate": "*"
+    "angular-pickadate": "*",
+    "angular-dynamic-locale": "~0.1.17",
+    "angular-i18n": "~1.2.22"
   }
 }
