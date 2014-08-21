@@ -9,13 +9,14 @@
     font-size: 20px;
 }
 
+/**
 .picture{
   text-align:center;
   max-height:180px;
   z-index:1;
   position:absolute;
   top:10px;
-}
+}**/
 
 /* small validation effect */
 input.ng-invalid{
@@ -157,4 +158,14 @@ input[type=number].ng-valid.ng-dirty{
     color: grey;
     border-color: #193c58;
     background-color: #193c58;
+}
+
+.slide-picture{
+    background-repeat:no-repeat;
+    width:100%;
+    height:100%;
+    background-size: contain;
+    background-position: center;
+}
+
 }

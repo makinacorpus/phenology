@@ -54,7 +54,6 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     var areaId = $stateParams.areaId;
     var observations = storageTraverser.traverse("/users/" + user + "/observations");
     $scope.areas = speciesService.getAreaSpecies(user);
-    $log.info($scope.areas);
 })
 
 .controller('UploadCtrl', function($scope, authApiClient, storageTraverser, surveyService, synchronizeService) {
@@ -159,7 +158,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
 
     // open slides modal wich shows pictures of the current stage
     $scope.openSlideModal = function(state) {
-      $scope.slideIndex = state;
+      $scope.status.slideIndex = state;
       $scope.slidemodal.show();
       //$timeout( function() { $ionicSlideBoxDelegate.update(); });
     };
