@@ -176,7 +176,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
     };
 
 })
-.controller('MapCtrl', function($scope, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, $timeout, toolService){
+.controller('MapCtrl', function($scope, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, storageTraverser, speciesService, mapService, $timeout, toolService){
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
 
@@ -243,10 +243,7 @@ angular.module('survey.controllers', ['synchronize', 'ngStorageTraverser', 'ngAu
             $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
         }, true);
 
-         leafletData.getMap().then(function(map) {
-             var currentBounds = L.geoJson($scope.geojson.data).getBounds();
-             map.fitBounds(currentBounds);
-        });
+        mapService.centerMap($scope.geojson.data);
     }, 100);
 
     $scope.center = {
