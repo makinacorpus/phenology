@@ -55,6 +55,7 @@ angular.module('phenology', [
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+    console.log("doLogin");
     //console.log('Doing login', $scope.loginData);
     authApiClient.setCredentials($scope.loginData.username, $scope.loginData.password);
     authApiClient.login().then(function(){;
@@ -63,7 +64,12 @@ angular.module('phenology', [
       deferred.resolve();
     },
     function(data){
-      $scope.loginData.error = true;
+      if(data.status == "0"){
+        $scope.loginData.error = "The server is unreachable";
+      }
+      else if(data.status == "401"){
+        $scope.loginData.error = "The login and password is wrong";
+      }
     });
   };
 })

@@ -8,7 +8,7 @@
   <ion-content>
     <form ng-submit="doLogin()">
       <div class="login-error" ng-if="loginData.error">
-        Error : try again
+        {{ loginData.error}}
       </div>
       <div class="list ">
         <label class="item item-input">
