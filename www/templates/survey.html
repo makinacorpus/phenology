@@ -26,52 +26,26 @@
         </div>
       </div>
 
-      <div class="row" style="padding:0;">
-        <label class="item item-radio col col-50" style="padding: 0;">
-          <input type="radio" ng-model="survey.when" name="when" value="before">
-          <div class="item-content">
-            {{ 'survey.status.observed' | translate }}
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
+      <ion-radio ng-model="survey.when" ng-value="'today'">{{ 'survey.status.today' | translate }}</ion-radio>
 
-        <div class="item item-checkbox col col-50" style="padding:0;padding-top:15px;padding-left:56px;">
-          <div class="checkbox">
-            <input type="radio" ng-model="survey.when" name="when" value="today" style="border-color:grey;">
-          </div>
-          <div class="item-content">
-            {{ 'survey.status.today' | translate }}
-          </div>
-        </div>
-      </div>
+      <ion-radio ng-model="survey.when" ng-value="'before'">{{ 'survey.status.observed' | translate }}</ion-radio>
 
-      <label class="item item-input" ng-if="survey.when=='before'">
+      <label class="item item-input item-date" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
-        <div  ng-click="opendateModal()">
-          <span> {{ survey.beforeDate }} </span> 
-          <button><i class="icon ion-compose"></i></button>
+        <div  ng-click="opendateModal()" class="item-content">
+          <span class="title"> {{ survey.beforeDate | date:"mediumDate" }} </span> 
+          <button class="button button-small" ><i class="icon ion-compose"></i></button>
         </div>
       </label>
 
-      <label class="item item-radio">
-          <input type="checkbox" ng-model="survey.isLost" name="isLost">
-          <div class="item-content">
-            {{ 'survey.status.lost' | translate }}
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-      </label>
+      <ion-radio ng-model="survey.when" ng-value="'isLost'">{{ 'survey.status.lost' | translate }}</ion-radio>
 
-      <label class="item item-radio">
-        <input type="checkbox" ng-model="survey.isPassed" name="isPassed ">
-        <div class="item-content">
-            {{ 'survey.status.alreadypassed' | translate }}
-        </div>
-        <i class="radio-icon ion-checkmark"></i>
-      </label>
+      <ion-radio ng-model="survey.when" ng-value="'isPassed'">{{ 'survey.status.alreadypassed' | translate }}</ion-radio>
 
       <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
         {{ 'action.submit' | translate}}
       </button>
+
       <button class="button button-block" ng-hide="!survey.validated">
         {{ 'action.submited' | translate }} 
         <span ng-if="survey.identifier">on server</span> 
