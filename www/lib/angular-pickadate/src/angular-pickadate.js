@@ -72,8 +72,8 @@
           '<div class="pickadate">' +
             '<div class="pickadate-header">' +
               '<div class="pickadate-controls">' +
-                '<a href="" class="pickadate-prev" ng-click="changeMonth(-1)" ng-show="allowPrevMonth">{{t("prev")}}</a>' +
-                '<a href="" class="pickadate-next" ng-click="changeMonth(1)" ng-show="allowNextMonth">{{t("next")}}</a>' +
+                '<a href="" class="pickadate-prev" ng-click="changeMonth(-1)" ng-show="allowPrevMonth"><span ng-bind-html="t(\'prev\')"></span></a>' +
+                '<a href="" class="pickadate-next" ng-click="changeMonth(1)" ng-show="allowNextMonth"><span ng-bind-html="t(\'next\')"></span></a>' +
               '</div>'+
               '<h3 class="pickadate-centered-heading">' +
                 '{{currentDate | date:"MMMM yyyy"}}' +

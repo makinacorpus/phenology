@@ -22,17 +22,16 @@ angular.module('phenology', [
   //angular-translate
   'pascalprecht.translate',
   'ngGlobalization',
-  'pickadate'
+  'pickadate',
   ])
 
-.controller('MainCtrl', function($scope, $ionicModal, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
+.controller('MainCtrl', function($scope, $ionicModal, $location, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
   // Form data for the login modal
   
   globalizationService.init();
 
   $scope.$state = $state;
-  //console.log($state);
-  //console.log(configuration);
+
   var deferred = $q.defer()
   $scope.loginData = {};
   
@@ -84,11 +83,15 @@ angular.module('phenology', [
     }
   });
 })
-
-.config(function($stateProvider, $urlRouterProvider, $compileProvider) {
+.config(function($stateProvider, $urlRouterProvider, $compileProvider, pickadateI18nProvider) {
 
    // Add cdvfile to allowed protocols in ng-src directive
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile):|data:image\//);
+
+  pickadateI18nProvider.translations = {
+      prev: '<i class="icon ion-arrow-left-a"></i>',
+      next: '<i class="icon ion-arrow-right-a"></i>'
+  }
 
   $stateProvider
 
