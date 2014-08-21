@@ -54,9 +54,9 @@
 
       <label class="item item-input item-select">
         <div class="input-label">
-          Change Stage
+          {{ 'survey.change_stage' | translate}}
         </div>
-        <select ng-options="sta.id as sta.name for sta in stages" 
+        <select ng-options="sta.id as sta.name | translate for sta in stages" 
                 ng-model="current_stage.id" 
                 ng-change="switchStage(current_stage)"></select>
       </label>
