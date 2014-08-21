@@ -20,7 +20,7 @@
 				{{indiv.name}}
 				<div ng-repeat="survey in indiv.surveys">
 					{{survey.surveyDate}}
-					{{survey.name}}
+					<a ui-sref="app.stages(survey)" data-tap-disabled="true">{{survey.name}}</a>
 					<span ng-if="survey.identifier">in server</span>
 					<span ng-if="!survey.identifier">in local</span>
 				</div>
