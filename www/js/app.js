@@ -53,6 +53,11 @@ angular.module('phenology', [
     return deferred.promise;
   };
 
+  $scope.login_and_redirect = function(){
+    $scope.login().then(function(element){
+        $location.path('/app/home/');
+    })
+  };
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log("doLogin");
