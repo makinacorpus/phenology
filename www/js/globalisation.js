@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngGlobalization', ['ngCordova'])
+angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
 
 /// factoryZ
 .factory('globalizationFactory', ['$injector', '$window', '$log', '$q', function ($injector, $window, $log, $q) {
@@ -44,24 +44,26 @@ angular.module('ngGlobalization', ['ngCordova'])
 
 }])
 
-.config(['$translateProvider', 'locales', function($translateProvider, locales) {
+.config(['$translateProvider', 'tmhDynamicLocaleProvider', 'locales', function($translateProvider,  tmhDynamicLocaleProvider, locales) {
 
     // Initialize app languages
     $translateProvider.translations('fr', locales['fr']);
     $translateProvider.translations('en', locales['en']);
     $translateProvider.translations('it', locales['it']);
     $translateProvider.preferredLanguage('en');
+
+    tmhDynamicLocaleProvider.localeLocationPattern("lib/angular-i18n/angular-locale_{{locale}}.js");
 }])
 
-.service('globalizationService', ['$q', '$translate', 'globalizationFactory', '$localStorage', function($q, $translate, globalizationFactory, $localStorage, userSettingsService) {
-
+.service('globalizationService', ['$q', '$translate', 'globalizationFactory', '$localStorage', 'tmhDynamicLocale', function($q, $translate, globalizationFactory, $localStorage, tmhDynamicLocale) {
+    var self = this;
     this.init = function() {
         var deferred = $q.defer();
 
         globalizationFactory.detectLanguage()
         .then(function(language) {
-            console.log(language);
-            $translate.use(language);
+        $translate.use(language);
+            self.translateTo(language);
             deferred.resolve(language);
         }, function(error){
             console.log(error);
@@ -72,6 +74,7 @@ angular.module('ngGlobalization', ['ngCordova'])
 
     this.translateTo = function(language) {
         $translate.use(language);
+        tmhDynamicLocale.set(language);
     };
 
 }])
@@ -92,10 +95,7 @@ angular.module('ngGlobalization', ['ngCordova'])
 // App translatable strings (.po/.mo equivalent)
 .constant('locales', {
     'fr': {
-        'area.choose': 'Choisir une zone',
-        'areas': 'Zones',
-        'snowcover': 'Enneigement',
-        
+        // nav
         'nav.home': 'Accueil',
         'nav.survey': 'Observations',
         'nav.snowcover': 'Enneigement',
@@ -123,8 +123,8 @@ angular.module('ngGlobalization', ['ngCordova'])
         'survey.picture.before': 'AVANT',
         'survey.picture.current': 'PENDANT',
         'survey.picture.after': 'APRES',
-        'survey.status.observed': 'Observé',
-        'survey.status.today': 'Aujourd\'hui',
+        'survey.status.observed': 'Observé un autre jour',
+        'survey.status.today': 'Observé Aujourd\'hui',
         'survey.status.lost': 'Individu perdu',
         'survey.status.alreadypassed': 'Stade déjà passé',
         // snowcover section
@@ -138,12 +138,17 @@ angular.module('ngGlobalization', ['ngCordova'])
         'species.change_area': 'Changer zone',
         // general
         'areas': 'Zones',
+        'area': 'Zone',
+        'survey': 'Observation',
+        'survey.change_stage': 'Changer le stade de développement',
         'snowcover': 'Enneigement',
-        'to': 'à',
+        'to': 'au',
         'Flowering': 'Floraison',
-
+        'Blooming': 'Débourrement',
+        'Leafing': 'Feuillaison'
     },
     'en': {
+        // nav
         'nav.home': 'Home',
         'nav.survey': 'Surveys',
         'nav.snowcover': 'Snow cover',
@@ -153,20 +158,45 @@ angular.module('ngGlobalization', ['ngCordova'])
         'nav.help': 'Help',
         'nav.credits': 'Credits',
         'nav.change_user': 'Change user',
+        'nav.subheader.list': 'List',
+        'nav.subheader.map': 'Map',
+        // button labels
         'action.submit': 'Validate',
         'action.submited': 'Validated',
-        'action.synchronize': 'Synchronyze my data',
-        'home.upcoming_tasks': 'Upcoming Tasks',
-        'snowcover.title': 'It snowed !',
+        'action.synchronize': 'Synchronize my data',
+        'action.close': 'Close',
+        // login section
+        'login.title': 'Login',
+        'login.username': 'Username',
+        'login.password': 'Password',
+        'login.action': 'Login',
+        // home section
+        'home.upcoming_tasks': 'Upcoming tasks',
+        // survey section
+        'survey.picture.before': 'BEFORE',
+        'survey.picture.current': 'CURRENT',
+        'survey.picture.after': 'AFTER',
+        'survey.status.observed': 'Observed',
+        'survey.status.today': 'Today',
+        'survey.status.lost': 'Individual lost',
+        'survey.status.alreadypassed': 'Stage already passed',
+        // snowcover section
+        'snowcover.title': 'It snowed!',
         // area select
         'area.choose': 'Choose an area',
         // species section
         'species': 'Species',
-        'species.choice.see_all': 'See all indivuals',
-        'species.choice.see_to_observed': 'See indivuals to observe',
+        'species.choice.see_all': 'See all individuals',
+        'species.choice.see_to_observed': 'See individuals to observe',
+        'species.change_area': 'Change area',
         // general
         'areas': 'Areas',
+        'area': 'Area',
+        'survey': 'Survey',
+        'survey.change_stage': 'Change stage',
         'snowcover': 'Snow cover',
+        'to': 'to',
+        'Flowering': 'Flowering',
     }
 })
 
