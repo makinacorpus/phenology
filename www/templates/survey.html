@@ -1,4 +1,4 @@
-<ion-view title="Survey">
+<ion-view title="{{ 'survey' | translate }}">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
@@ -6,29 +6,23 @@
 
     <div style="text-align:center;">
       <h2>{{survey.stage.name | translate}}</h2>
-      <span><i>{{survey.stage.date_start|date|translate}} {{'to'|translate}} {{survey.stage.date_end|date|translate}}</i></span>
+      <span><i> {{ survey.stage.date_start|date}} {{'to'|translate}} {{survey.stage.date_end|date}} </i></span>
       <h4>{{individual.name}}</h4>
     </div>
 
     <div class="list">
 
-      <div class="row pictures">
-        <div class="col col-33 picture_left">
-             <span ng-click="openSlideModal(0)">
-                  <img ng-src="{{survey.stage.picture_before}}"  alt="before"></img>
-                  <p>{{ 'survey.picture.before' | translate }}</p>
-              </span>
+      <div class="pictures">
+        <div class="picture_left" ng-click="openSlideModal(0)">
+              <div class="picture" ng-style="{'background-image':'url({{survey.stage.picture_before}})'}"></div>
+              <p>{{ 'survey.picture.before' | translate }}</p>
         </div>
-        <div class="col col-50 picture_front" style="z-index:1000;">
-                <span ng-click="openSlideModal(1)">
-                  <img ng-src="{{survey.stage.picture_current}}"  alt="current"></img>
-                </span>
+        <div class="picture_right" ng-click="openSlideModal(2)">
+              <div class="picture" ng-style="{'background-image':'url({{survey.stage.picture_after}})'}"></div>
+              <p>{{ 'survey.picture.after' | translate }}</p>
         </div>
-        <div class="col col-33 picture_right" style="z-index:0;">
-                <span class="picture_back" ng-click="openSlideModal(2)">
-                  <img ng-src="{{survey.stage.picture_after}}"  alt="after"></img>
-                  <p>{{ 'survey.picture.after' | translate }}</p>
-                </span>
+        <div class="picture_front">
+              <div class="picture" ng-click="openSlideModal(1)" ng-style="{'background-image':'url({{survey.stage.picture_current}})'}"></div>
         </div>
       </div>
 

@@ -50,33 +50,55 @@ input[type=number].ng-valid.ng-dirty{
 
 /** pictures **/
 .pictures{
-    max-height:220px;
+    height:220px;
     margin:auto;
     max-width:500px;
+    position: relative;
+    margin-bottom:10px;
 }
-.picture_left{
+.pictures div{
+    height:100%;
+}
+.pictures .picture_left{
     text-align:left;
-    padding-left:0;
-    padding-right:0;
+    width:40%;
+    max-height: 75%;
+    left:3%;
+    position:absolute;
+}
+.picture{
+    background-repeat:no-repeat;
+    height:100%;
+    background-size: contain;
+    background-position: top;
 }
 .pictures .picture_front{
+    position:absolute;
     z-index:10;
-    margin-left:-10%;
+    left:25%;
     text-align:center;
     padding-left:0;
     padding-top:5%;
     padding-right:0;
+    width:50%;
 }
-.pictures .picture_front img{
-    max-height:75%;
-    width:100%;
-}
-.picture_right{
+.pictures .picture_right{
+    position:absolute;
+    left:55%;
     z-index:1;
+    max-height: 75%;
     text-align:right;
-    padding-left:0;
-    margin-left:-9%;
-    padding-right:0;
+    width:40%;
+}
+
+.picture_left p{
+    text-align:left;
+    padding-left:30px;
+}
+
+.picture_right p{
+    text-align:right;
+    padding-right:30px;
 }
 
 .pictures img{
