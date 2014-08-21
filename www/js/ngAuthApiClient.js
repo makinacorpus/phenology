@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ngAuthApiClient', ['ngResource', 'base64', 'ngStorageTraverser'])
-    .service('authApiClient', ["$resource", "$base64", "$http", "storageTraverser", function ($resource, $base64, $http, storageTraverser) {
+    .service('authApiClient', ["$resource", "$base64", "$http", "storageTraverser", "$q", function ($resource, $base64, $http, storageTraverser, $q) {
         var self = this;
 
         // TODO : create a confValues
@@ -20,16 +20,36 @@ angular.module('ngAuthApiClient', ['ngResource', 'base64', 'ngStorageTraverser']
             storageTraverser.traverse('/')['users'] = {};
         }
         this.login = function(){
-            return resource.get().$promise.then(function(data){
-                storageTraverser.traverse('/sessions/current',{
-                    create: true,
-                    data: {username: username, password: password}
-                })
-                storageTraverser.traverse('/sessions/' + username,{
-                    create: true,
-                    data: {username: username, password: password}
-                })
-            });
+            var promise = $q.defer();
+            var local_data = storageTraverser.traverse('/sessions/' + username);
+            if(angular.isDefined(local_data) && local_data.password === password){
+                    storageTraverser.traverse('/sessions')["current"] = local_data;
+                    promise.resolve();
+            }
+            else{
+                resource.get().$promise.then(function(data){
+                    storageTraverser.traverse('/sessions/current',{
+                        create: true,
+                        data: {username: username, password: password}
+                    })
+                    storageTraverser.traverse('/sessions/' + username,{
+                        create: true,
+                        data: {username: username, password: password}
+                    })
+                    promise.resolve();
+
+                },function(event){
+                    var current = storageTraverser.traverse('/sessions/current');
+                    if(angular.isDefined(current)){
+                        self.setCredentials(current.username, current.password);
+                    }
+                    else{
+                        self.clearCredentials();
+                    }
+                    promise.reject(event);
+                });
+            }
+            return promise.promise;
         }
 
         this.setCredentials = function(usr, pwd){
