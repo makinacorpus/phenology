@@ -1,16 +1,27 @@
 'use strict';
 
-angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'survey.controllers'])
+angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'ngStorage', 'survey.controllers', 'ngStorageTraverser'])
 
-.controller('HomeCtrl', function($scope, synchronizeService, authApiClient, HomeService) {
+.controller('HomeCtrl', function($scope, synchronizeService, $localStorage, storageTraverser, authApiClient, HomeService, $ionicLoading, $ionicPopup, $cordovaNetwork) {
     $scope.user = {};
-    var username = authApiClient.getUsername()
-    $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
+
+    $scope.$watch(function() {
+        return angular.toJson(storageTraverser.traverse("/sessions/current"));
+    }, function() {
+        $scope.user.upcomming_tasks = HomeService.getTasks(storageTraverser.traverse("/sessions/current/username"), true);
+    });
+
     /**
     [
         { title: 'Watch bud stage next month'},
         { title: 'Watch tree growth before summertime'}
     ];**/
+    /** TODO : 
+    make it pretty
+    add popup if all is ok
+    add popup if fail
+    **/
+
     $scope.synchronize = function(){
         var username = authApiClient.getUsername();
         if (username == ""){
