@@ -1,0 +1,23 @@
+{
+    "name": "ngGeolocation",
+    "version": "0.0.4",
+    "main": [
+        "ngGeolocation.js",
+        "ngGeolocation.min.js"
+    ],
+    "dependencies": {
+        "angular": ">=1.0.8"
+    },
+    "dev-dependencies": {
+        "angular": ">=1.0.8",
+        "angular-mocks": ">=1.0.8"
+    },
+    "ignore": [
+        "bower_components/",
+        "Gruntfile.js",
+        "jasmine.conf.js",
+        "ngGeolocation.test.js",
+        "package.json",
+        ".travis.yml"
+    ]
+}

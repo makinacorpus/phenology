@@ -13,6 +13,8 @@
     "ngCordova": "~0.1.3-alpha",
     "angular-pickadate": "*",
     "angular-dynamic-locale": "~0.1.17",
-    "angular-i18n": "~1.2.22"
+    "angular-i18n": "~1.2.22",
+    "leaflet.locatecontrol": "~0.30.0",
+    "ngGeolocation": "~0.0.4"
   }
 }

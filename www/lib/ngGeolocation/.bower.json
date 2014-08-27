@@ -1,0 +1,34 @@
+{
+  "name": "ngGeolocation",
+  "version": "0.0.4",
+  "main": [
+    "ngGeolocation.js",
+    "ngGeolocation.min.js"
+  ],
+  "dependencies": {
+    "angular": ">=1.0.8"
+  },
+  "dev-dependencies": {
+    "angular": ">=1.0.8",
+    "angular-mocks": ">=1.0.8"
+  },
+  "ignore": [
+    "bower_components/",
+    "Gruntfile.js",
+    "jasmine.conf.js",
+    "ngGeolocation.test.js",
+    "package.json",
+    ".travis.yml"
+  ],
+  "homepage": "https://github.com/ninjatronic/ngGeolocation",
+  "_release": "0.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.4",
+    "commit": "e8e495bb6cf74aba114b2d87e151d034230e3a87"
+  },
+  "_source": "git://github.com/ninjatronic/ngGeolocation.git",
+  "_target": "~0.0.4",
+  "_originalSource": "ngGeolocation",
+  "_direct": true
+}
