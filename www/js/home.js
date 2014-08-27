@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('home.controllers', ['synchronize','ngAuthApiClient', 'ngStorage', 'survey.controllers', 'ngStorageTraverser'])
+angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngStorage', 'phenology.survey', 'ngStorageTraverser'])
 
 .controller('HomeCtrl', function($scope, synchronizeService, $localStorage, storageTraverser, authApiClient, HomeService, $ionicLoading, $ionicPopup, $cordovaNetwork) {
     $scope.user = {};
