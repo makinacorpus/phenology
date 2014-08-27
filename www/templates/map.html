@@ -37,7 +37,9 @@
         <div class="input-label">
           Change Area
         </div>
-        <select ng-options="area as area.name for area in areas" ng-model="area" ng-change="switchArea(area)"></select>
+        <select ng-options="area as area.name for area in areas" 
+                ng-model="area" 
+                ng-change="switchArea(area)"></select>
       </li>
 
     </ul>
