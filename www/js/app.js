@@ -9,20 +9,22 @@
 angular.module('phenology', [
   'ionic',
   'base64',
-  'home.controllers',
-  'snowing.controllers',
-  'survey.controllers',
   'ngResource',
-  
-  'ngApiClient',
-  'ngAuthApiClient',
   'ngCordova',
   //
   'leaflet-directive',
   //angular-translate
   'pascalprecht.translate',
-  'ngGlobalization',
+  'ngGeolocation',
   'pickadate',
+  'phenology.home',
+  'phenology.snowings',
+  'phenology.survey',
+  'phenology.api',
+  'phenology.synchronize',
+  'phenology.tools',
+  'phenology.globalization',
+  'phenology.map'
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $location, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
@@ -88,6 +90,9 @@ angular.module('phenology', [
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }**/
+    if(navigator.splashcreen){
+      navigator.splashcreen.hide();
+    }
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
