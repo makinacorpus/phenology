@@ -1,14 +1,43 @@
 'use strict';
 
-angular.module('ngAuthApiClient', ['ngResource', 'base64', 'ngStorageTraverser'])
-    .service('authApiClient', ["$resource", "$base64", "$http", "storageTraverser", "$q", function ($resource, $base64, $http, storageTraverser, $q) {
+angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'])
+
+.factory('apiClient', ["$resource", function ($resource) {
+
+        // TODO : create a confValues
+        var backend_url = "http://192.168.1.45:8000";
+        //var backend_url = "http://" + location.hostname + ":8000";
+        //"http://192.168.1.45:8000"//"http://192.168.100.38:8000";//http://192.168.1.45:8000"//"http://192.168.56.1:8000" //http://127.0.0.1:8000"
+
+        // TODO : PUT/POST
+
+        var resource =  $resource(backend_url + '/api/:action ',
+          { action:'@action', id: '@id'},
+          { 
+            get_user_settings: { url: backend_url + '/user_settings/  ', method:'GET'},
+            get_user_surveys: { url: backend_url + '/user_surveys/  ', isArray: true, method:'GET'},
+            create_survey: { url: backend_url + '/user_surveys/ ', method:'POST'},
+            save_survey: { url: backend_url + '/user_surveys/:id', method:'PUT'},
+            create_snowcover: { url: backend_url + '/user_snowcover', method:'POST'}
+          },
+          {
+            timeout: '1000'
+          }
+        );
+
+        return resource;
+}])
+
+.service('authApiClient', ["$resource", "$base64", "$http", "storageTraverser", "$q", function ($resource, $base64, $http, storageTraverser, $q) {
         var self = this;
 
         // TODO : create a confValues
-        self.backend_url = "http://127.0.0.1:8000"
+
+        self.backend_url = "http://192.168.1.45:8000";
+        //"http://" + location.hostname + ":8000";
+        //"http://192.168.1.45:8000";//"http://192.168.100.38:8000";//"http://192.168.56.1:8000"//"http://127.0.0.1:8000"
         var username = ""
         var password = ""
-
         // TODO : PUT/POST
 
         var resource =  $resource(self.backend_url + '/api/ ');
