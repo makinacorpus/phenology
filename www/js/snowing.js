@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('snowing.controllers', ['ngStorageTraverser', 'ngAuthApiClient'])
+angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
 
-.controller('SnowingCtrl', function($scope, storageTraverser, authApiClient, snowingService) {
+.controller('SnowingCtrl', function($scope, authApiClient, snowingService) {
     var userid = authApiClient.getUsername();
     
     var areas = snowingService.getAreas(userid);
@@ -20,26 +20,11 @@ angular.module('snowing.controllers', ['ngStorageTraverser', 'ngAuthApiClient'])
     $scope.snowings = snowings_tmp;
     
     $scope.validate = function(){
-        //init date
-        var date = new Date();
-        //array
-        var snowings_filled = [];
-        //just keep filled inputs
-        angular.forEach($scope.snowings, function(snowing){
-            // add date
-            snowing.date = date;
-            // criteria
-            if(angular.isDefined(snowing.height)){
-                this.push(snowing);
-            }
-        }, snowings_filled);
-
-        //store in localstorage
-        snowingService.storeSnowing(userid, snowings_filled);
+        snowingService.validate(userid, $scope.snowings);
     };
 })
 
-.service('snowingService', ['storageTraverser', function(storageTraverser){
+.service('snowingService', ['storageTraverser', '$ionicPopup', '$translate', '$location', function(storageTraverser, $ionicPopup, $translate, $location){
     var self = this;
 
     //get user areas localstorage values
@@ -59,4 +44,51 @@ angular.module('snowing.controllers', ['ngStorageTraverser', 'ngAuthApiClient'])
             snow_covers.push(snowing);
         });
     }
+
+    //validate and save 
+    this.validate = function(userId, snowings){
+        var date = new Date();
+        //array
+        var snowings_filled = [];
+        var regex_error_found = false;
+        //just keep filled inputs
+        angular.forEach(snowings, function(snowing){
+            // add date
+            snowing.date = date;
+            // criteria
+            if(angular.isDefined(snowing.height)){
+                if(!isNaN(parseFloat(snowing.height)) && isFinite(snowing.height)){
+                    this.push(snowing);
+                }
+                else{
+                    regex_error_found = true;
+                }
+            }
+        }, snowings_filled);
+
+        if(snowings_filled.length > 0 && !regex_error_found){
+            //store in localstorage
+            self.storeSnowing(userId, snowings_filled);
+            //show a popup that confirms success
+            $translate('sucess.title').then(function(title){
+                $ionicPopup.alert({
+                    title: title,
+                    template: $translate('message.snowing_success')
+                });
+                //redirect to the homepage
+                //$location.path('/app/home');
+            });
+        }
+        else{
+            //show a popup that explains errors
+            var template = (regex_error_found === true) ? 'error.not_number' : 'error.at_least_one';
+            $translate('error.title').then(function(title){
+                $ionicPopup.alert({
+                    title: title,
+                    template: $translate(template)
+                });
+            });
+        }
+    }
+
 }])
