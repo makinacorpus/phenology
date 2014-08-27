@@ -21,7 +21,12 @@
          {{ 'species.choice.see_to_observed' | translate}}
       </li>
 
-      <li>
+      <li style="position:relative">
+        <div class=" leaflet-bar leaflet-control" style="position:absolute;left:10px;top:10px;">
+          <button class="button button-medium" ng-click="centerMapOnUser()" title="Show me where I am">
+            <i class="icon ion-android-locate"></i>
+          </button>
+        </div>
         <!-- Leaflet directive -->
         <leaflet defaults="defaults" 
                  center="center" 
@@ -30,6 +35,7 @@
                  defaults="defaults"
                  height="350px" 
                  width="100%"
+                 paths="paths"
                  data-tap-disabled="true"></leaflet>
       </li>
 
