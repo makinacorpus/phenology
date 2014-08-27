@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
+angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 
 /// factoryZ
 .factory('globalizationFactory', ['$injector', '$window', '$log', '$q', function ($injector, $window, $log, $q) {
@@ -92,6 +92,14 @@ angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
 
 }])
 
+.service('globalizationDeviceService', ['$q', '$cordovaGlobalization', function ($q, $cordovaGlobalization) {
+
+    this.getPreferredLanguage = function() {
+        return $cordovaGlobalization.getPreferredLanguage(options);
+    };
+
+}])
+
 // App translatable strings (.po/.mo equivalent)
 .constant('locales', {
     'fr': {
@@ -137,6 +145,7 @@ angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
         'species.choice.see_to_observed': 'Voir les individus à observer',
         'species.change_area': 'Changer zone',
         // general
+        'phenology': 'Phénologie',
         'areas': 'Zones',
         'area': 'Zone',
         'survey': 'Observation',
@@ -145,7 +154,14 @@ angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
         'to': 'au',
         'Flowering': 'Floraison',
         'Blooming': 'Débourrement',
-        'Leafing': 'Feuillaison'
+        'Leafing': 'Feuillaison',
+        'status.in_mobile': 'sur mobile',
+        'status.in_server': 'sur le serveur',
+        'error.at_least_one': 'Au moins un champ est requis',
+        'error.not_number': 'Doit être un chiffre',
+        'error.title': 'Erreur',
+        'sucess.title': 'Succès',
+        'message.snowing_success': 'Les données sont enregistrées sur le mobile'
     },
     'en': {
         // nav
@@ -197,6 +213,10 @@ angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
         'snowcover': 'Snow cover',
         'to': 'to',
         'Flowering': 'Flowering',
+        'error.at_least_one': 'At least one field has to be filled',
+        'error.not_number': 'Need a number',
+        'error.title': 'Error',
+        'message.snowing_success': 'Done, need to synchronize to send it to the server'
     }
 })
 
@@ -214,12 +234,4 @@ angular.module('ngGlobalization', ['ngCordova', 'tmh.dynamicLocale'])
         label: 'Italian',
         locale: 'it'
     }
-})
-
-.service('globalizationDeviceService', ['$q', '$cordovaGlobalization', function ($q, $cordovaGlobalization) {
-
-    this.getPreferredLanguage = function() {
-        return $cordovaGlobalization.getPreferredLanguage(options);
-    };
-
-}]);
+});
