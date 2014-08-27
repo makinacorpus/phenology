@@ -125,13 +125,16 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     );
 
     $scope.opendateModal = function() {
+      var date = $scope.survey.beforeDate;
+      $scope.datemodal.date = (angular.isDefined(date)) ? date : new Date();
       $scope.datemodal.show();
-      //$scope.datemodal.scope.myDate = $scope.survey.beforeDate;
     };
 
     // close datemodal
     $scope.closedateModal = function(model) {
-      $scope.survey.beforeDate = model;
+      if( angular.isDefined(model)){
+        $scope.survey.beforeDate = model;
+      }
       $scope.datemodal.hide();
     };
 

@@ -1,16 +1,12 @@
 <div class="modal">
-    <header class="bar bar-header bar-positive">
-      <h1 class="title">Date</h1>
-      <div class="button button-clear" ng-click="closedateModal()"><span class="icon ion-close"></span></div>
+    <header class="bar bar-header bar-stable">
+      <h1 class="title">Choose a date</h1>
+      <div class="button button-clear" ng-click="closedateModal()"><span class="icon ion-close"></span>Cancel </div>
     </header>
     <ion-content class="has-header">
-      
-       
         <div class="padding">
-          <div pickadate ng-model="survey.beforeDate"></div>
-        </div>
-        
-         <button class="button button-full button-balanced" ng-click="closedateModal(survey.beforeDate)">Choice</button>
-       
+          <div pickadate ng-model="datemodal.date"></div>
+        </div>  
+        <button class="button button-full button-positive" ng-click="closedateModal(datemodal.date)">{{'action.submit'|translate}}</button>
     </ion-content>
 </div>
