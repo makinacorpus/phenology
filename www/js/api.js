@@ -36,8 +36,8 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
         self.backend_url = "http://192.168.1.45:8000";
         //"http://" + location.hostname + ":8000";
         //"http://192.168.1.45:8000";//"http://192.168.100.38:8000";//"http://192.168.56.1:8000"//"http://127.0.0.1:8000"
-        var username = ""
-        var password = ""
+        var username,
+            password;
         // TODO : PUT/POST
 
         var resource =  $resource(self.backend_url + '/api/ ');
@@ -89,8 +89,8 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
 
         this.clearCredentials = function(){
             delete storageTraverser.traverse("/sessions/current");
-            username = "";
-            password = "";
+            username = undefined;
+            password = undefined;
         }
 
         this.getUsername = function(){

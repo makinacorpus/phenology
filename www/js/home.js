@@ -24,7 +24,7 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
 
     $scope.synchronize = function(){
         var username = authApiClient.getUsername();
-        if (username == ""){
+        if (angular.isUndefined(username)){
             $scope.login().then(function(){
                  $scope.synchronize();
             })
@@ -44,8 +44,6 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
 
     this.getTasks = function(username, withIndividuals){
         if(username){
-            var ind = 1;
-            //console.log(storageTraverser.traverse(String.format('/users/{0}/observations/[indId="{1}"]', username, ind)));
             var species = storageTraverser.traverse("/users/" + username + "/species");
             var tasks = [];
 
@@ -91,12 +89,11 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         var individuals = [];
         angular.forEach(areas,function(area, id){
             angular.forEach(area.species,function(species, id2){
-                //console.log(species.id + "   " + speciesid);
                 var tmp = species.individuals;
                 tmp = tmp.map(function(element){
                     var ind = element;
                     ind.areaId = area.id;
-                    ind.speciesId = species.id;
+                    ind.specId = species.id;
                     ind.indId = element.id;
                     return ind;
                 });
