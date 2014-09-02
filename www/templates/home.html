@@ -1,23 +1,30 @@
-<ion-view title="{{ 'nav.home' | translate }}">
+<ion-view title="{{ 'phenology' | translate }}">
+
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-  <ion-content class="has-header tasks-section with-background">
-    <br/>
-    <div class="row item-button-right">
-      <button ng-click="synchronize()" class="button button-positive icon-left">
-        <i class="ion-ios7-cloud-upload icon"></i>&nbsp;{{ 'action.synchronize' | translate }} </button>
+
+  <ion-content class="has-header tasks-section with-background" data-tap-disabled="true">
+
+    <div class="synchronize-button-container">
+      <button ng-click="synchronize()" class="button button-positive icon ion-ios7-cloud-upload">
+        <span>{{ 'action.synchronize' | translate }}</span>
+      </button>
     </div>
-    <div class="card" style="opacity:0.8;text-align:center;">
+
+    <div class="card tasks-section-title" style="opacity:0.8;text-align:center;">
       <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
     </div>
+
     <div class="card list">
-      <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item">
-        <span>{{task.species_name}}</span> 
-        <span style="display:block;font-size:0.9em">{{task.name}}</span> 
-        <span style="display:block;font-size:0.8em;">{{task.date_start|date }} to {{ task.date_end|date}}</span>
-        <div style="white-space:initial;"> For : <span style="font-size:0.9em;margin-left:4px;" ng-repeat="ind in task.individuals" ng-bind="ind.name"></span></div>
-      </ion-item>
+        <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals">
+          <span>{{task.species_name}}</span> 
+          <span class="task-name">{{task.name | translate}}</span> 
+          <span class="task-dates">{{task.date_start|date }} to {{ task.date_end|date}}</span>
+          <div class="task-individuals"> For : <a ui-sref="app.stages(ind)" class="task-individual" ng-repeat="ind in task.individuals" ng-bind="ind.name"></a></div>
+        </ion-item>
     </div>
+
   </ion-content>
+
 </ion-view>

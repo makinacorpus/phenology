@@ -5,7 +5,7 @@
   <ion-content class="has-subheader">
     <div class="list card" ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
 
-      <div class="item item-divider" ng-click="showArea=!showArea" style="padding-top: 20px;padding-bottom: 20px;">
+      <div class="item item-divider last-survey-item" ng-click="showArea=!showArea">
         {{area.name}}
       </div>
  	  <div ng-if="showArea===true">
@@ -19,10 +19,10 @@
 			<div ng-repeat="indiv in areaSpecies.individuals" ng-if="indiv.surveys">
 				{{indiv.name}}
 				<div ng-repeat="survey in indiv.surveys">
-					{{survey.surveyDate}}
-					<a ui-sref="app.stages(survey)" data-tap-disabled="true">{{survey.name}}</a>
-					<span ng-if="survey.identifier">in server</span>
-					<span ng-if="!survey.identifier">in local</span>
+					{{survey.surveyDate | date:"shortDate"}}
+					<a ui-sref="app.stages(survey)" data-tap-disabled="true">{{survey.name | translate}}</a>
+					<span ng-if="survey.identifier">{{ 'status.in_server' | translate }}</span>
+					<span ng-if="!survey.identifier">{{ 'status.in_mobile' | translate }}</span>
 				</div>
 			</div>
 		</label>

@@ -1,7 +1,6 @@
 <ion-view title="{{ 'area' | translate}} : {{area.name}}">
 
   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content class="has-subheader">
@@ -21,13 +20,12 @@
       </li>
     </ul>
 
-    <div class="list species-item" style="margin-bottom: 10px;" ng-repeat="spec in species">
-      <div class="item item-thumbnail-left item-divider item-icon-right" 
-           style="max-height:100px;" 
+    <div class="list species-item" ng-repeat="spec in species">
+      <div class="item item-thumbnail-left item-divider item-icon-right"  
            ng-init="many=(species.length>1)" 
            ng-click="spec.toggle=!spec.toggle;">
 
-        <img height="80" ng-src="{{spec.picture}}">
+        <img height="80" ng-src="{{spec.picture}}" err-src="img/icon.png">
         <span style="display:block;padding:30px;font-size:1.2em;">{{spec.name}}<span>
         <i ng-class="{ 'icon ion-arrow-down-b': !spec.toggle, 'icon ion-arrow-up-b': spec.toggle }" ng-if="many"></i>
 

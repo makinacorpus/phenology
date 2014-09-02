@@ -1,13 +1,12 @@
 <ion-view title="Map">
 
   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
-  <ion-content class="has-subheader" has-bouncing="false" ng-cloak>
-    <ul style="margin:0;" class="list">
+  <ion-content class="has-subheader area-map-section" has-bouncing="false" ng-cloak>
+    <ul class="list">
 
-      <li class="item item-checkbox" style="padding-top:12px;padding-bottom:12px;">
+      <li class="item item-checkbox item-first">
          <label class="checkbox">
            <input type="radio" ng-model="filter.showOnlyNeeded" value="false">
          </label>
@@ -21,9 +20,9 @@
          {{ 'species.choice.see_to_observed' | translate}}
       </li>
 
-      <li style="position:relative">
-        <div class=" leaflet-bar leaflet-control" style="position:absolute;left:10px;top:10px;">
-          <button class="button button-medium" ng-click="centerMapOnUser()" title="Show me where I am">
+      <li class="map">
+        <div class="leaflet-bar leaflet-control">
+          <button class="button button-medium" ng-click="centerMapOnUser()">
             <i class="icon ion-android-locate"></i>
           </button>
         </div>

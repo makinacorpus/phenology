@@ -159,6 +159,15 @@
 
 /** home page **/
 .tasks-section{
+    .synchronize-button-container{
+        width:100%;
+        text-align:right;
+        padding:10px;
+        padding-bottom:0;
+        span{
+            padding-left:10px;
+        }
+    }
     .task-item{
         opacity: 1;
         background-color: rgba(255, 255, 255, 0.82);
