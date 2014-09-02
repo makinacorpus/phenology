@@ -2,11 +2,12 @@
 
 angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 
-/// factoryZ
+/// factory
 .factory('globalizationFactory', ['$injector', '$window', '$log', '$q', function ($injector, $window, $log, $q) {
 
     var globalizationFactory;
 
+    // choose factory in checking context
     if (angular.isDefined($window.cordova) && (!$window.ionic.Platform.isAndroid())) {
         globalizationFactory = $injector.get('globalizationDeviceService');
     }
@@ -47,12 +48,35 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 .config(['$translateProvider', 'tmhDynamicLocaleProvider', 'locales', function($translateProvider,  tmhDynamicLocaleProvider, locales) {
 
     // Initialize app languages
-    $translateProvider.translations('fr', locales['fr']);
-    $translateProvider.translations('en', locales['en']);
-    $translateProvider.translations('it', locales['it']);
+    $translateProvider.translations('fr', locales['fr']); //project context
+    $translateProvider.translations('it', locales['it']); //project context
+    $translateProvider.translations('en', locales['en']); //universal
     $translateProvider.preferredLanguage('en');
 
     tmhDynamicLocaleProvider.localeLocationPattern("lib/angular-i18n/angular-locale_{{locale}}.js");
+}])
+
+/** Used in browser Context **/
+.service('globalizationRemoteService', ['$q', function ($q) {
+
+    this.getPreferredLanguage = function() {
+        var deferred = $q.defer(),
+            preferredLanguage = navigator.language || navigator.userLanguage;
+
+        deferred.resolve(preferredLanguage);
+
+        return deferred.promise;
+    };
+
+}])
+
+/** Used in mobile Context **/
+.service('globalizationDeviceService', ['$q', '$cordovaGlobalization', function ($q, $cordovaGlobalization) {
+
+    this.getPreferredLanguage = function() {
+        return $cordovaGlobalization.getPreferredLanguage(options);
+    };
+
 }])
 
 .service('globalizationService', ['$q', '$translate', 'globalizationFactory', '$localStorage', 'tmhDynamicLocale', function($q, $translate, globalizationFactory, $localStorage, tmhDynamicLocale) {
@@ -79,29 +103,9 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 
 }])
 
-.service('globalizationRemoteService', ['$q', function ($q) {
-
-    this.getPreferredLanguage = function() {
-        var deferred = $q.defer(),
-            preferredLanguage = navigator.language || navigator.userLanguage;
-
-        deferred.resolve(preferredLanguage);
-
-        return deferred.promise;
-    };
-
-}])
-
-.service('globalizationDeviceService', ['$q', '$cordovaGlobalization', function ($q, $cordovaGlobalization) {
-
-    this.getPreferredLanguage = function() {
-        return $cordovaGlobalization.getPreferredLanguage(options);
-    };
-
-}])
-
 // App translatable strings (.po/.mo equivalent)
 .constant('locales', {
+    // french
     'fr': {
         // nav
         'nav.home': 'Accueil',
@@ -163,6 +167,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'sucess.title': 'Succès',
         'message.snowing_success': 'Les données sont enregistrées sur le mobile'
     },
+    // english
     'en': {
         // nav
         'nav.home': 'Home',
