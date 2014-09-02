@@ -1,0 +1,315 @@
+/* Empty. Add your own CSS if you like */
+
+.bar.bar-stable .title{
+    color: #4874a4 !important;
+    font-size: 20px;
+}
+
+/* snowing part */
+.snowing{
+    .snowing_additional, .snowing_input>input{
+        text-align: center;
+    }
+    .snowing_validate{
+        margin:auto;
+    }
+    .snowing_label{
+        padding-left:20px;
+        padding-right:10px;
+        font-weight: bold;
+        font-size:1.1em;
+    }
+    .snowing_item{
+        padding-bottom:20px;
+    }
+    .snowing_title{
+        padding:40px;
+        padding-bottom:20px;
+        text-align: center;
+    }
+}
+
+/** pictures **/
+.pictures{
+    height:220px;
+    margin:auto;
+    max-width:500px;
+    position: relative;
+    margin-bottom:10px;
+    div{
+        height:100%;
+    }
+    .picture{
+        background-repeat:no-repeat;
+        height:100%;
+        background-size: contain;
+        background-position: top;
+    }
+    .picture_left{
+        text-align:left;
+        width:40%;
+        max-height: 75%;
+        left:3%;
+        position:absolute;
+        p{
+            text-align:left;
+            padding-left:30px;
+        }
+    }
+    .picture_front{
+        position:absolute;
+        z-index:10;
+        left:25%;
+        text-align:center;
+        padding-left:0;
+        padding-top:5%;
+        padding-right:0;
+        width:50%;
+    }
+    .picture_right{
+        position:absolute;
+        left:55%;
+        z-index:1;
+        max-height: 75%;
+        text-align:right;
+        width:40%;
+        p{
+            text-align:right;
+            padding-right:30px;
+        }
+    }
+    img{
+        max-height:60%;
+        width:100%;
+    }
+}
+
+/** Pickadate plugin**/
+.pickadate{
+    .pickadate-controls i{
+        font-size:2em;
+    }
+    .pickadate-centered-heading {
+        font-weight: normal;
+        text-align: center;
+        font-size: 1.5em;
+        margin: 13px 0 15px 0;
+        padding-top:10px;
+        text-transform: capitalize;
+    }
+
+   .pickadate-cell li{
+        font-size: 1.4em;
+        padding:3%;
+        &.pickadate-head{
+            font-size: 1.4em;
+            padding:1%;
+        }
+        .pickadate-active {
+            background-color: #b52a00;
+        }
+    }
+}
+
+/** General **/
+.view{
+    .has-subheader{
+        top:78px !important;
+    }
+    .with-background{
+        background-image: url("../img/background-main.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0% 10%;
+    }
+    .bar-subheader.bar.bar-darkblue{
+        padding:0;
+        height:auto; 
+        border-width: 0;
+        background-color: #193c58;
+    }
+    .bar.bar-darkblue .button.active, .bar.bar-darkblue .button.activated {
+        border-color: #295d85;
+        background-color: #295d85;
+        box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.15);
+        color: white;
+    }
+    .bar.bar-darkblue .button {
+        color: grey;
+        border-color: #193c58;
+        background-color: #193c58;
+    }
+}
+
+/** Side menu**/
+.menu-left{
+    .bar.bar-header h1{
+        color: #6D8FB5;
+    }
+    .item-icon-left .icon.ion-ios7-snowy{
+        font-size: 300%;
+    }
+}
+
+//ugly
+.menu-left, .menu-left header,.menu-left .item, .menu-left .item-content{
+    background-color:#22568f !important;
+    color:white !important;
+}
+
+/** home page **/
+.tasks-section{
+    .task-item{
+        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.82);
+        span{
+            opacity: 1;
+        }
+        .task-name{
+            display:block;
+            font-size:0.9em
+        }
+        .task-dates{
+            display:block;
+            font-size:0.8em;
+        }
+        .task-individuals{
+            white-space:initial;
+        }
+        .task-individual{
+            font-size:0.9em;
+            margin-left:4px;
+        }
+    }
+}
+
+/** area map section **/
+.area-map-section{
+    .list{ 
+        margin:0;
+    }
+    .item-first{
+        padding-top:12px;
+        padding-bottom:12px;
+    }
+    .map{
+        position:relative;
+        >.leaflet-control{
+            position:absolute;
+            left:10px;
+            top:10px;
+        }
+    }
+}
+
+/** species **/
+.species-item{
+    margin-bottom: 10px;
+    .item.item-divider{
+        max-height:100px;
+    }
+}
+
+/** Last surveys **/
+.last-survey-item{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/** leaflet plugin **/
+.angular-leaflet-map{
+    .mymarker{
+        font-size:42px;
+    }
+    .leaflet-live-user {
+        -webkit-animation: pulse 2s ease-out;
+        animation: pulse 2s ease-out;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite; 
+    }
+    .leaflet-popup .individual-popup{
+        text-align: center;
+    }
+}
+
+
+.individual-item i.ion-android-checkmark{
+    color:green;
+    font-size:1.2em;
+}
+
+.login-error{
+    color:red;
+    font-size:1.1em;
+    text-align: center;
+}
+
+/* areas section **/
+.list-areas-section{
+    .area-item{
+        padding-top:20px;
+        padding-bottom:20px;
+    }
+    .section-title{
+        text-align:center;
+        padding:5px;
+        padding-top:15px;
+    }
+}
+
+/** slide box **/
+.slider{
+    height:95%;
+    .slider-slide img{
+        width: 100%;
+    }
+    .slide-picture{
+        background-repeat:no-repeat;
+        width:100%;
+        height:100%;
+        background-size: contain;
+        background-position: center;
+    }
+}
+
+/** hack **/
+.visible.active .loading{
+    visibility: visible;
+    opacity: 1;
+    left:40%;
+}
+
+/** item date **/
+.item-date{
+    .item-content{
+        text-align:center;
+        width: 50%;
+    }
+    .title{
+        padding-right:10px;
+        margin-top: 5px;
+        display: inline-block;
+    }
+}
+
+/** pulse animation **/
+@-webkit-keyframes pulse {
+    from {
+        stroke-width: 15;
+        stroke-opacity: 1; 
+    }
+    to {
+        stroke-width: 50;
+        stroke-opacity: 0; 
+    } 
+}
+@keyframes pulse {
+    from {
+        stroke-width: 15;
+        stroke-opacity: 1; 
+    }
+    to {
+        stroke-width: 50;
+        stroke-opacity: 0; 
+    } 
+}
