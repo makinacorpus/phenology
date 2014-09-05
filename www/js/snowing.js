@@ -76,7 +76,7 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
                     template: $translate('message.snowing_success')
                 });
                 //redirect to the homepage
-                //$location.path('/app/home');
+                $location.path('/app/home');
             });
         }
         else{
