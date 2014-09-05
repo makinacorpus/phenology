@@ -1,14 +1,11 @@
 var APP_ROOT, ENV_GLOBALS, GLOBALS, LOCAL_IP, PUBLIC_GLOBALS_KEYS, Q, android_release_file, cache, changed, child_process, clean, cmd, coffee, concat, deploy_release_cmd, destinations, ecstatic, ejs, gulp, gutil, http, ios_deploy_release_tasks, ios_release_file, jade, k, livereload, notify, open, open_qrcode_cmd, options, path, paths, phantomChild, phantomDefer, protractor, ripple, runSequence, sass, shell, v;
 
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var bower = require('bower');
-var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-var argv = require('minimist')(process.argv.slice(2));
 var karma = require('karma').server;
 var protractor = require("gulp-protractor").protractor;
 var os=require('os');
