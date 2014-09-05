@@ -1,0 +1,10 @@
+language: node_js
+node_js: 
+  - "0.10"
+before_script:
+  - "git clone https://github.com/makinacorpus/phenology-backend.git"
+  - "cd ./phenology-backend"
+  - "python bootstrap.py -c buildout.cfg"
+  - "./bin/buildout -Nv"
+  - "sh ./resetDb.sh"
+  - "python ./bin/django_admin.py runserver 0.0.0.0:8100"
