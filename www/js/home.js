@@ -32,8 +32,6 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         else{
              synchronizeService.synchronize().then(function(event){
                 $scope.user.upcomming_tasks = HomeService.getTasks(username, true);
-            },function(event){
-                console.log(event);
             });
         }
     };
