@@ -63,7 +63,9 @@ describe('areaSpecies', function() {
     expect(individuals.first().isDisplayed()).toBe(false);
     element.all(by.css(".species-item")).first().click();
     expect(individuals.first().isDisplayed()).toBe(true);
-    individuals.first().click();
-    var pictures = by.css(".pictures");
+    //individuals.first().click();
+    //var pictures = by.css(".pictures");
+    //element(by.css(".picture_left")).click();
+    //element(by.css(".ion-close")).click();
   });
 });

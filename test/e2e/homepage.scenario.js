@@ -29,16 +29,18 @@ describe('homepage', function() {
   it('with wrong values, submit should fire error', function() {
     element(by.model('loginData.username')).sendKeys('example');
     element(by.model('loginData.password')).sendKeys('example');
-    element(by.css('form button')).click();
-    var error_element = by.css('.login-error');
-  	expect(ptor.isElementPresent(error_element)).toBe(true);
+    element(by.css('form button')).click().then(function(){
+        var error_element = by.css('.login-error');
+        expect(ptor.isElementPresent(error_element)).toBe(true);  
+    });
   });
 
   it('with good values, submit should be good and load data', function() {
     element(by.model('loginData.username')).clear().sendKeys('admin');
     element(by.model('loginData.password')).clear().sendKeys('admin');
-    element(by.css('form button')).click();
-    var error_element = by.css('.login-error');
-  	expect(ptor.isElementPresent(error_element)).toBe(false);
+    element(by.css('form button')).click().then(function(){
+      var error_element = by.css('.login-error');
+  	  expect(ptor.isElementPresent(error_element)).toBe(false);
+    });
   }); 
 });

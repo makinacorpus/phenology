@@ -15,7 +15,6 @@ describe('snowing', function() {
   it('should fire error if empty', function() {
     var snowing_submit = by.css(".snowing_validate");
     element(snowing_submit).click();
-
     var popup_title = by.css(".popup-title");
     expect(ptor.isElementPresent(popup_title)).toBe(true);
     expect(element(popup_title).getText()).toMatch('Err');
