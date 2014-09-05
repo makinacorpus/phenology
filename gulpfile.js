@@ -12,7 +12,6 @@ var os=require('os');
 
 APP_ROOT = require("execSync").exec("pwd").stdout.trim() + "/";
 
-
 LOCAL_IP = process.env.LOCAL_IP || "127.0.0.1";
 var ifaces=os.networkInterfaces();
 for (var dev in ifaces) {
@@ -82,7 +81,7 @@ gulp.task('test', function (done) {
 gulp.task('e2e', function (done) {
 gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
-        configFile: "test/protractor.config.js",
+        configFile: "test/protractor.conf.js",
         args: ['--baseUrl', 'http://' + LOCAL_IP + ':8100']
     })) 
     .on('error', function(e) { throw e })

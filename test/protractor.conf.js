@@ -2,6 +2,8 @@ var path = require('canonical-path');
 var projectRoot = path.resolve(__dirname, '..');
 
 exports.config = {
+  seleniumAddress: "http://localhost:4444/wd/hub",
+  baseUrl: 'http://localhost:8100',
   capabilities: {
     'browserName': 'chrome',
     'chromeOptions': {
@@ -23,6 +25,6 @@ exports.config = {
 
   // The file path to the selenium server jar ()
   // tip to load automatically the selenium server
-  seleniumServerJar: path.resolve(projectRoot, 'node_modules/protractor/selenium/selenium-server-standalone-2.42.2.jar'),
+  //seleniumServerJar: path.resolve(projectRoot, 'node_modules/protractor/selenium/selenium-server-standalone-2.42.2.jar'),
 
 };
