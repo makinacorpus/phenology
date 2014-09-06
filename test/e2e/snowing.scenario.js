@@ -13,18 +13,19 @@ describe('snowing', function() {
   });
 
   it('should fire error if empty', function() {
-    var snowing_submit = by.css(".snowing_validate");
-    element(snowing_submit).click();
+    var snowing_submit = by.css(".snowing_validate button");
     var popup_title = by.css(".popup-title");
-    expect(ptor.isElementPresent(popup_title)).toBe(true);
-    expect(element(popup_title).getText()).toMatch('Err');
-    element(by.css(".popup button")).click();
+    element(snowing_submit).click().then(function(){
+      expect(ptor.isElementPresent(popup_title)).toBe(true);
+      expect(element(popup_title).getText()).toMatch('Err');
+      element(by.css(".popup button")).click(); 
+    });
   });
 
   it('should fire error if not a number', function() {
-	
-	  element(by.model('snowing.height')).sendKeys('test');
-    var snowing_submit = by.css(".snowing_validate");
+  
+    element.all(by.model('snowing.height')).first().sendKeys('test');
+    var snowing_submit = by.css(".snowing_validate button");
     element(snowing_submit).click();
 
     var popup_title = by.css(".popup-title");
@@ -36,8 +37,8 @@ describe('snowing', function() {
   it('should show a success message if one input is filled by a number', function() {
   
     ptor.refresh();
-    element(by.model('snowing.height')).sendKeys('1.2424');
-    var snowing_submit = by.css(".snowing_validate");
+    element.all(by.model('snowing.height')).first().sendKeys('1.2424');
+    var snowing_submit = by.css(".snowing_validate button");
     element(snowing_submit).click();
 
     var popup_title = by.css(".popup-title");

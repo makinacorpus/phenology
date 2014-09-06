@@ -4,14 +4,14 @@ describe('homepage', function() {
   beforeEach(function() {
     ptor = protractor.getInstance();
     browser.getSession().then(function(session){
-    	//console.log(session)
+      //console.log(session)
     });
   });
 
   it('should load homepage', function() {
     browser.get('#/dsfsdfsdfsdf');
     var button_synchro = by.css('.synchronize-button-container button');
-  	expect(ptor.isElementPresent(button_synchro)).toBe(true);
+    expect(ptor.isElementPresent(button_synchro)).toBe(true);
   });
 
    it('on synchronize it should load login page', function() {
@@ -21,9 +21,9 @@ describe('homepage', function() {
     var password = by.model('loginData.password');
     var submit_button = by.css('form button');
 
-  	expect(ptor.isElementPresent(username)).toBe(true);
-  	expect(ptor.isElementPresent(password)).toBe(true);
-  	expect(ptor.isElementPresent(submit_button)).toBe(true);
+    expect(ptor.isElementPresent(username)).toBe(true);
+    expect(ptor.isElementPresent(password)).toBe(true);
+    expect(ptor.isElementPresent(submit_button)).toBe(true);
   });
 
   it('with wrong values, submit should fire error', function() {
@@ -40,7 +40,7 @@ describe('homepage', function() {
     element(by.model('loginData.password')).clear().sendKeys('admin');
     element(by.css('form button')).click().then(function(){
       var error_element = by.css('.login-error');
-  	  expect(ptor.isElementPresent(error_element)).toBe(false);
+      expect(ptor.isElementPresent(error_element)).toBe(false);
     });
   }); 
 });
