@@ -222,6 +222,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.at_least_one': 'At least one field has to be filled',
         'error.not_number': 'Need a number',
         'error.title': 'Error',
+        'sucess.title': 'Success',
         'message.snowing_success': 'Done, need to synchronize to send it to the server'
     }
 })
