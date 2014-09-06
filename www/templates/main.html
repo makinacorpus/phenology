@@ -9,10 +9,10 @@
     <!-- area subheader -->
     <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.species') || $state.includes('app.map')">
         <div class="button-bar">
-            <a class="button" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">
+            <a class="button species-list" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">
               {{ 'nav.subheader.list' | translate }}
             </a>
-            <a class="button" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">
+            <a class="button species-map" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">
               {{ 'nav.subheader.map' | translate }}
             </a>
         </div>
@@ -20,10 +20,10 @@
     <!-- areas subheader --> 
     <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.areas') || $state.includes('app.globalmap')">
         <div class="button-bar">
-            <a class="button" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}">
+            <a class="button areas-list" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}">
               {{ 'nav.subheader.list' | translate }}
             </a>
-            <a class="button" ui-sref="app.globalmap" ng-class="{ active: $state.includes('app.globalmap') }">
+            <a class="button areas-map" ui-sref="app.globalmap" ng-class="{ active: $state.includes('app.globalmap') }">
               {{ 'nav.subheader.map' | translate }}
             </a>
         </div>
