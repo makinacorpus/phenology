@@ -6,8 +6,8 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm run webdriver-update
   - npm run webdriver-start > /dev/null &
-  - sleep 1 # give server time to start
-  - node_modules/ionic/bin/ionic serve &
+  - sleep 2 # give server time to start
+  - node_modules/ionic/bin/ionic serve --nolivereload &
   - git clone https://github.com/makinacorpus/phenology-backend.git
   - cd ./phenology-backend
   - python bootstrap.py -c buildout.cfg
