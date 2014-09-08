@@ -15,11 +15,26 @@ describe('snowing', function() {
   it('should fire error if empty', function() {
     var snowing_submit = by.css(".snowing_validate button");
     var popup_title = by.css(".popup-title");
-    element(snowing_submit).click().then(function(){
-      expect(ptor.isElementPresent(popup_title)).toBe(true);
-      expect(element(popup_title).getText()).toMatch('Err');
-      element(by.css(".popup button")).click(); 
+    var popup_button = by.css(".popup button");
+
+    expect(ptor.isElementPresent(snowing_submit)).toBe(true);
+
+    element(snowing_submit).click();
+    expect(ptor.isElementPresent(popup_title)).toBe(true);
+    element(popup_title).getText().then(function(elem){
+      console.log(elem);
     });
+    element.all(popup_button).count().then(function(elem){
+      console.log(elem);
+    });
+    expect(ptor.isElementPresent(popup_button)).toBeTruthy();;
+    browser.wait(function() {
+       return element(popup_button).isDisplayed();
+    }, 8000);
+    expect(element(popup_button).isDisplayed()).toBe(true);
+    expect(element(popup_title).getText()).toMatch('Err');
+    ptor.sleep(1000)
+    element(popup_button).click(); 
   });
 
   it('should fire error if not a number', function() {
@@ -47,12 +62,11 @@ describe('snowing', function() {
     element(by.css(".popup button")).click();
 
   });
-
     //expect(browser.getTitle()).toEqual('Super Calculator');
     //expect(browser.getTitle()).toEqual('Super Calculator');
     //element(by.model('yourName')).sendKeys('Julie');
     //var greeting = element(by.binding('yourName'));
     //expect(greeting.getText()).toEqual('Hello Julie!');
     //expect(web.findElement(by.tagName('legend')).getText()).toMatch("LOGIN_CONNE‌​CT"); 
-});
 
+});

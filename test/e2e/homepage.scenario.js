@@ -1,11 +1,7 @@
 describe('homepage', function() {
   var ptor;
-
   beforeEach(function() {
     ptor = protractor.getInstance();
-    browser.getSession().then(function(session){
-      //console.log(session)
-    });
   });
 
   it('should load homepage', function() {
