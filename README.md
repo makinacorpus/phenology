@@ -83,3 +83,4 @@ $ gulp test
 ```bash
 $ gulp e2e
 ```
+[![Build Status](https://travis-ci.org/makinacorpus/phenology.svg?branch=phenology-test)](https://travis-ci.org/makinacorpus/phenology)
