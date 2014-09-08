@@ -24,13 +24,7 @@
     "protractor": "^1.1.1",
     "shelljs": "^0.3.0"
   },
-  "webdriverVersions": {
-    "selenium": "2.42.2",
-    "chromedriver": "2.10",
-    "iedriver": "2.42.0"
-  },
   "scripts": {
-    "postinstall": "node_modules/.bin/bower install",
     "webdriver-start": "node_modules/protractor/bin/webdriver-manager start",
     "webdriver-update": "node_modules/protractor/bin/webdriver-manager update",
     "test": "echo 'all is done'"
