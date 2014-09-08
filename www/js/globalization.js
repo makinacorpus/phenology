@@ -120,7 +120,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'nav.subheader.list': 'Liste',
         'nav.subheader.map': 'Carte',
         // button labels
-        'action.submit': 'Validez',
+        'action.submit': 'Valider',
         'action.submited': 'Validé',
         'action.synchronize': 'Synchroniser mes données',
         'action.close': 'Fermer',
@@ -153,7 +153,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'areas': 'Zones',
         'area': 'Zone',
         'survey': 'Observation',
-        'survey.change_stage': 'Changer le stade de développement',
+        'survey.change_stage': 'Choisir un autre stade',
+        'survey.date.title': 'Choisir une date',
         'snowcover': 'Enneigement',
         'to': 'au',
         'Flowering': 'Floraison',
@@ -221,6 +222,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.at_least_one': 'At least one field has to be filled',
         'error.not_number': 'Need a number',
         'error.title': 'Error',
+        'sucess.title': 'Success',
         'message.snowing_success': 'Done, need to synchronize to send it to the server'
     }
 })

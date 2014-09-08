@@ -3,10 +3,12 @@
 angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey'])
 
 .controller('UploadCtrl', function($scope, authApiClient, storageTraverser, surveyService, synchronizeService) {
-    var user = authApiClient.getUsername();
-    var stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations") || {};
-    var observations = angular.copy(stored_observations);
+    var user = authApiClient.getUsername(),
+        stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations") || {},
+        observations = angular.copy(stored_observations);
+    
     $scope.observations  = [];
+    
     angular.forEach(observations, function(obs){
          if(obs.validated === true){
              obs.area_name = surveyService.getAreaName(user, obs.areaId)
@@ -16,17 +18,18 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
              this.push(obs);
         }
     }, $scope.observations);
+    
     $scope.test = { obs_checked: []};
+
     $scope.uploadSurveys = function(){
         var surveys = $scope.observations.filter(function(item){
             return item.checked === true;
         });
         synchronizeService.uploadSurveys(surveys);
-
     }
 })
 
-.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q, $log, toolService){
+.service('synchronizeService', function(storageTraverser, apiClient, authApiClient, surveyService, $q, $log, toolService, $ionicPopup, $ionicLoading, $cordovaNetwork){
     var self = this;
 
     this.loadUserSettings = function(userid) {
@@ -97,13 +100,42 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
     };
 
     this.synchronize = function(){
-        var userid = authApiClient.getUsername();
-        var promises = [];
+        var userid = authApiClient.getUsername(),
+            promises = [],
+            typeNetwork = "computer",
+            isOnline = undefined,
+            defer = $q.defer();
+
+        if(angular.isDefined(navigator.connection)){
+            typeNetwork = $cordovaNetwork.getNetwork();
+            isOnline = $cordovaNetwork.isOnline();
+        }
+
         promises.push(self.uploadLocalSurveys());
         promises.push(self.uploadLocalSnowings());
-        return $q.all(promises).then(function(){
+        $ionicLoading.show();
+
+        return $q.all(promises).then(function(test){
+            console.log(test)
+            console.log("loading user settings, promise")
             return self.loadUserSettings(userid);
-        });
+        }).catch(function(event){
+            var message = "Error";
+            if( angular.isDefined(isOnline) && isOnline === false){
+                message = "Network is unreachable, turn on the network to be able to synchronize."
+            }
+            else if(event.status == "0"){
+                message = "Server is unreachable";
+            }
+            $ionicPopup.alert({
+                title: 'Error',
+                template: message
+            });
+            return $q.reject(event);
+
+        }).finally(function(){
+            $ionicLoading.hide();
+        })
     };
 
     this.uploadLocalSurveys = function(){

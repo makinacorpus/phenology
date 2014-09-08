@@ -2,16 +2,16 @@
 
 angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'])
 
-.factory('apiClient', ["$resource", function ($resource) {
+.factory('apiClient', ["$resource", "apiSettings", function ($resource, apiSettings) {
 
         // TODO : create a confValues
-        var backend_url = "http://192.168.1.45:8000";
-        //var backend_url = "http://" + location.hostname + ":8000";
+        self.backend_url = apiSettings.backend_url;      
+         //var backend_url = "http://" + location.hostname + ":8000";
         //"http://192.168.1.45:8000"//"http://192.168.100.38:8000";//http://192.168.1.45:8000"//"http://192.168.56.1:8000" //http://127.0.0.1:8000"
 
         // TODO : PUT/POST
 
-        var resource =  $resource(backend_url + '/api/:action ',
+        var resource =  $resource(self.backend_url + '/api/:action ',
           { action:'@action', id: '@id'},
           { 
             get_user_settings: { url: backend_url + '/user_settings/  ', method:'GET'},
@@ -19,21 +19,18 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
             create_survey: { url: backend_url + '/user_surveys/ ', method:'POST'},
             save_survey: { url: backend_url + '/user_surveys/:id', method:'PUT'},
             create_snowcover: { url: backend_url + '/user_snowcover', method:'POST'}
-          },
-          {
-            timeout: '1000'
           }
         );
 
         return resource;
 }])
 
-.service('authApiClient', ["$resource", "$base64", "$http", "storageTraverser", "$q", function ($resource, $base64, $http, storageTraverser, $q) {
+.service('authApiClient', ["$resource", "$base64", "$http", "apiClient", "storageTraverser", "$q", "apiSettings", function ($resource, $base64, $http, apiClient, storageTraverser, $q, apiSettings) {
         var self = this;
 
         // TODO : create a confValues
 
-        self.backend_url = "http://192.168.1.45:8000";
+        self.backend_url = apiSettings.backend_url;      
         //"http://" + location.hostname + ":8000";
         //"http://192.168.1.45:8000";//"http://192.168.100.38:8000";//"http://192.168.56.1:8000"//"http://127.0.0.1:8000"
         var username,
@@ -101,4 +98,7 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
             var current = storageTraverser.traverse('/sessions/current');
             self.setCredentials(current.username, current.password)
         }
-}]);
+}])
+.constant('apiSettings', {
+  backend_url: "http://0.0.0.0:8000"
+});

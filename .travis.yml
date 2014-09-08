@@ -1,0 +1,24 @@
+language: node_js
+node_js: 
+  - "0.10"
+addons:
+  sauce_connect:
+    username: "davisp1"
+    access_key: "a151e8a4-3829-4875-b8b0-c6fcd35f3b5e"
+before_script:
+  - node_modules/ionic/bin/ionic serve &
+  - node_modules/gulp/bin/gulp.js sass
+  - sleep 30
+  - if [[ "$BACKEND" == "real" ]]; then git clone https://github.com/makinacorpus/phenology-backend.git; fi
+  - if [[ "$BACKEND" == "real" ]]; then cd ./phenology-backend; fi
+  - if [[ "$BACKEND" == "real" ]]; then python bootstrap.py -c buildout.cfg; fi
+  - if [[ "$BACKEND" == "real" ]]; then ./bin/buildout -N; fi
+  - if [[ "$BACKEND" == "real" ]]; then sh ./resetDb.sh; fi
+  - if [[ "$BACKEND" == "real" ]]; then python ./bin/django-admin.py runserver 0.0.0.0:8000 & fi
+  - sleep 30
+  - if [[ "$BACKEND" == "real" ]]; then cd ..; fi
+script:
+  - node_modules/protractor/bin/protractor test/protractor.conf.js
+env:
+  - BACKEND=mocked
+  - BACKEND=real
