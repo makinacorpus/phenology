@@ -67,6 +67,13 @@ $ ionic platform android
 $ ionic build android
 $ ionic emulate android
 ```
+## cordova dependencies
+```bash
+$ cordova plugin add org.apache.cordova.file
+$ cordova plugin add org.apache.cordova.statusbar
+$ cordova plugin add org.apache.cordova.device
+$ cordova plugin add org.apache.cordova.geolocation
+$ cordova plugin add org.apache.cordova.network-information
 
 ## Run in Chrome for testing
 ```bash
