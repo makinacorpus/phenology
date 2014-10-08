@@ -137,8 +137,9 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.picture.after': 'APRES',
         'survey.status.observed': 'Observé un autre jour',
         'survey.status.today': 'Observé Aujourd\'hui',
-        'survey.status.lost': 'Individu perdu',
-        'survey.status.alreadypassed': 'Stade déjà passé',
+        'survey.status.lostOrDead': 'Individu mort ou perdu',
+        'survey.status.missed': 'Stade raté',
+        'survey.status.notDone': 'Stade absent',
         // snowcover section
         'snowcover.title': 'Il a neigé !',
         // area select
@@ -157,6 +158,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.date.title': 'Choisir une date',
         'snowcover': 'Enneigement',
         'to': 'au',
+        'forindividuals': 'Pour les individus',
         'Flowering': 'Floraison',
         'Blooming': 'Débourrement',
         'Leafing': 'Feuillaison',

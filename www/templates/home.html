@@ -21,7 +21,7 @@
           <span>{{task.species_name}}</span> 
           <span class="task-name">{{task.name | translate}}</span> 
           <span class="task-dates">{{task.date_start|date }} to {{ task.date_end|date}}</span>
-          <div class="task-individuals"> For : <a ui-sref="app.stages(ind)" class="task-individual" ng-repeat="ind in task.individuals" ng-bind="ind.name"></a></div>
+          <div class="task-individuals"> {{'forindividuals'|translate}} : <a ui-sref="app.stages(ind)" class="task-individual" ng-repeat="ind in task.individuals" ng-bind="ind.name"></a></div>
         </ion-item>
     </div>
 
