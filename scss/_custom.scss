@@ -104,9 +104,13 @@
         &.pickadate-head{
             font-size: 1.4em;
             padding:1%;
+            text-transform: capitalize;
         }
-        .pickadate-active {
-            background-color: #b52a00;
+        &.pickadate-active {
+            background-color: #0089ec;
+        }
+        &.pickdate-today {
+            color: #0089ec;
         }
     }
 }
