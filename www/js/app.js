@@ -90,13 +90,23 @@ angular.module('phenology', [
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }**/
-    if(navigator.splashcreen){
-      navigator.splashcreen.hide();
+    // Wait for Cordova to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    //
+    function onDeviceReady() {
+      if(navigator.splashscreen){
+        console.log("hide splashscreen");
+        console.log(new Date());
+        navigator.splashscreen.hide();
+      }
+      if(window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
     }
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+
   });
 })
 .config(function($stateProvider, $urlRouterProvider, $compileProvider, pickadateI18nProvider) {
