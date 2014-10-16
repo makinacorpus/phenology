@@ -2,7 +2,7 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-  <ion-content class="has-subheader">
+  <ion-content class="has-subheader last-surveys">
     <div class="list card" ng-repeat="area in areas" ng-init="showArea=false;sp_tmp=area.species[0].id">
 
       <div class="item item-divider last-survey-item" ng-click="showArea=!showArea">
@@ -16,15 +16,15 @@
 			<select ng-options="sp.id as sp.name for sp in area.species" ng-model="sp_tmp"></select>
       	</label>
       	<label class="item" ng-repeat="areaSpecies in area.species" ng-if="sp_tmp == areaSpecies.id">
-			<div ng-repeat="indiv in areaSpecies.individuals" ng-if="indiv.surveys">
+			<ion-list ng-repeat="indiv in areaSpecies.individuals" ng-if="indiv.surveys">
 				{{indiv.name}}
-				<div ng-repeat="survey in indiv.surveys">
+				<ion-item ng-repeat="survey in indiv.surveys" ui-sref="app.stages(survey)" class="item item-icon-right">
 					{{survey.surveyDate | date:"shortDate"}}
-					<a ui-sref="app.stages(survey)" data-tap-disabled="true">{{survey.name | translate}}</a>
-					<span ng-if="survey.identifier">{{ 'status.in_server' | translate }}</span>
-					<span ng-if="!survey.identifier">{{ 'status.in_mobile' | translate }}</span>
-				</div>
-			</div>
+					{{survey.name | translate}}
+                    <i ng-if="survey.identifier" class="icon ion-cloud icon_ok"></i>
+					<i ng-if="!survey.identifier" class="icon ion-upload icon_warning"></i>
+				</ion-item>
+			</ion-list>
 		</label>
 	  </div>
   	 </div>

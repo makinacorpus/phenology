@@ -213,9 +213,19 @@
 }
 
 /** Last surveys **/
-.last-survey-item{
-    padding-top: 20px;
-    padding-bottom: 20px;
+.last-surveys {
+    .last-survey-item{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: $lastsurvey_bg;
+        color: $lastsurvey;
+    }
+    .icon_ok {
+        color: $ok;
+    }
+    .icon_warning {
+        color: $warning;
+    }
 }
 
 /** leaflet plugin **/

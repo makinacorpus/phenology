@@ -24,10 +24,13 @@ $darkgreen: #12A537;
 $green: #76B72A;
 $lightgreen: #ABCA26;
 $white: white;
+$orange: orange;
 
 // variables
 $positive: $darkgreen;
 $base_color: $darkgreen;
+$warning: $orange;
+$ok: $lightgreen;
 
 $sidemenubg: $darkgreen;
 $sidemenu_title: $white;
@@ -35,6 +38,8 @@ $subheader_dark_bg: $lightgreen;
 $subheader_dark: $darkgreen;
 $subheader_dark_active_bg: $green;
 $subheader_dark_active: $white;
+$lastsurvey_bg: $darkgreen;
+$lastsurvey: $white;
 
 @font-face {
     font-family: Klavika;
