@@ -59,7 +59,13 @@ See http://doc.ubuntu-fr.org/android#installation_du_sdk_android
 
 ## Add a platform
 ```bash
-$ ionic platform android
+$ ionic platform add android
+```
+
+## Add plugin to manipulate/transfert files
+```bash
+$ cordova plugin add org.apache.cordova.file@1.2.0
+$ cordova plugin add org.apache.cordova.file-transfer@0.4.4
 ```
 
 ## Build and run on a platform

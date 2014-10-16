@@ -1,10 +1,3 @@
-/* Empty. Add your own CSS if you like */
-
-.bar.bar-stable .title{
-    color: #4874a4 !important;
-    font-size: 20px;
-}
-
 /* snowing part */
 .snowing{
     .snowing_additional, .snowing_input>input{
@@ -122,29 +115,29 @@
         background-size: cover;
         background-position: 0% 10%;
     }
-    .bar-subheader.bar.bar-darkblue{
+    .bar-subheader.bar.bar-dark {
         padding:0;
         height:auto; 
         border-width: 0;
-        background-color: #193c58;
+        background-color: $subheader_dark_bg;
     }
-    .bar.bar-darkblue .button.active, .bar.bar-darkblue .button.activated {
-        border-color: #295d85;
-        background-color: #295d85;
+    .bar.bar-dark .button.active, .bar.bar-dark .button.activated {
+        border-color: $subheader_dark_active_bg;
+        background-color: $subheader_dark_active_bg;
         box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.15);
-        color: white;
+        color: $subheader_dark_active;
     }
-    .bar.bar-darkblue .button {
-        color: grey;
-        border-color: #193c58;
-        background-color: #193c58;
+    .bar.bar-dark .button {
+        color: $subheader_dark;
+        border-color: $subheader_dark_bg;
+        background-color: $subheader_dark_bg;
     }
 }
 
 /** Side menu**/
 .menu-left{
     .bar.bar-header h1{
-        color: #6D8FB5;
+        color: $sidemenu_title;
     }
     .item-icon-left .icon.ion-ios7-snowy{
         font-size: 300%;
@@ -153,7 +146,7 @@
 
 //ugly
 .menu-left, .menu-left header,.menu-left .item, .menu-left .item-content{
-    background-color:#22568f !important;
+    background-color: $sidemenubg !important;
     color:white !important;
 }
 

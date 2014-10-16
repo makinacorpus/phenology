@@ -13,10 +13,14 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
             defaults: {
-                zoomControl: false,
+                zoomControl: false
             },
             filter: {
                 showOnlyNeeded: "true"
+            },
+            tiles: {
+                url: 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+                options: {}
             },
             geojson: undefined,
             individuals: {},
@@ -84,7 +88,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                         message: '<div class="individual-popup">' +
                                     '<h5>' + individual.name + '</h5>' +
                                     '<div><img src="' + species.picture + '" /></div>' +
-                                    '<a href="#/app/survey/' + areaId  + '/' + species.id + '/' + individual.id + '">saisir l\'observation</a>' +
+                                    '<a class="button button-small button-positive" href="#/app/survey/' + areaId  + '/' + species.id + '/' + individual.id + '">saisir l\'observation</a>' +
                                  '</div>'
                     };
                     if(angular.isDefined(species.tasks) && species.tasks.length > 0) {
@@ -144,6 +148,10 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     angular.extend($scope,{
             defaults: {zoomControl: false},
             markers: {},
+            tiles: {
+                url: 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+                options: {}
+            },
             geojson: undefined
         }
     );
@@ -157,12 +165,12 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                     features: features
                 },
                 style: {
-                    fillColor: "red",
+                    fillColor: "green",
                     weight: 2,
                     opacity: 1,
-                    color: 'red',
-                    dashArray: '5',
-                    fillOpacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.2,
                 }
         };
 

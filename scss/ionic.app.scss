@@ -18,7 +18,42 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+// Phenoclim colors
+$yellow: #FFE45A;
+$darkgreen: #12A537;
+$green: #76B72A;
+$lightgreen: #ABCA26;
+$white: white;
+
+// variables
+$positive: $darkgreen;
+$base_color: $darkgreen;
+
+$sidemenubg: $darkgreen;
+$sidemenu_title: $white;
+$subheader_dark_bg: $lightgreen;
+$subheader_dark: $darkgreen;
+$subheader_dark_active_bg: $green;
+$subheader_dark_active: $white;
+
+@font-face {
+    font-family: Klavika;
+    src: url(../fonts/Klavika-Regular.woff) format(woff);
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Klavika-light;
+    src: url(../fonts/Klavika-Light.woff) format(woff);
+    font-weight: 300;
+    font-style: bold;
+}
+$font-family-sans-serif: "Klavika", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !default;
+$font-family-light-sans-serif: "Klavika-light", "Helvetica Neue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !default;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
 @import "_custom.scss";
 

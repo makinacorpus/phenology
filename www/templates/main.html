@@ -7,7 +7,7 @@
     <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
     </ion-nav-bar>
     <!-- area subheader -->
-    <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.species') || $state.includes('app.map')">
+    <ion-header-bar class="bar-subheader bar bar-dark" ng-if="$state.includes('app.species') || $state.includes('app.map')">
         <div class="button-bar">
             <a class="button species-list" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">
               {{ 'nav.subheader.list' | translate }}
@@ -18,7 +18,7 @@
         </div>
     </ion-header-bar>
     <!-- areas subheader --> 
-    <ion-header-bar class="bar-subheader bar bar-darkblue" ng-if="$state.includes('app.areas') || $state.includes('app.globalmap')">
+    <ion-header-bar class="bar-subheader bar bar-dark" ng-if="$state.includes('app.areas') || $state.includes('app.globalmap')">
         <div class="button-bar">
             <a class="button areas-list" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}">
               {{ 'nav.subheader.list' | translate }}
