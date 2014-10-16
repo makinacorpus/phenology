@@ -174,7 +174,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                 }
         };
 
-        $scope.markers = mapService.getCenterMarkers(features);
+        //$scope.markers = mapService.getCenterMarkers(features);
 
         mapService.centerMap($scope.geojson.data);
     }, 100);

@@ -11,6 +11,7 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
     this.create_div_icon = function(additional_class) {
         return {
                 type: 'div',
+                iconSize: [34, 52],
                 iconAnchor: [13, 52],
                 popupAnchor: [0, -32],
                 className: 'icon ion-android-location mymarker ' + additional_class,
