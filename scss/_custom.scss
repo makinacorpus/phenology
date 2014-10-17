@@ -1,3 +1,9 @@
+.icon_ok {
+    color: $ok;
+}
+.icon_warning {
+    color: $warning;
+}
 /* snowing part */
 .snowing{
     .snowing_additional, .snowing_input>input{
@@ -151,6 +157,9 @@
 }
 
 /** home page **/
+.home__logo {
+    float: right;
+}
 .tasks-section{
     .synchronize-button-container{
         width:100%;
@@ -219,12 +228,6 @@
         padding-bottom: 20px;
         background-color: $lastsurvey_bg;
         color: $lastsurvey;
-    }
-    .icon_ok {
-        color: $ok;
-    }
-    .icon_warning {
-        color: $warning;
     }
 }
 
