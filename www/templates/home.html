@@ -17,12 +17,14 @@
     </div>
 
     <div class="card list">
-        <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals" ui-sref="app.areas">
+        <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals.length!=0" ui-sref="app.areas">
           <span>{{task.species_name}}</span> 
           <span class="task-name">{{task.name | translate}}</span> 
-          <span class="task-dates">{{task.date_start|date }} to {{ task.date_end|date}}</span>
+          <span class="task-dates">{{'home.from' | translate}} {{task.date_start|date }} {{'home.to' | translate}} {{ task.date_end|date}}</span>
         </ion-item>
     </div>
+    <div ng-if="task.individuals.length==0">{{'home.no_task' | translate}}</div>
+
     <img src="../img/logo.png" class="home__logo" />
 
   </ion-content>

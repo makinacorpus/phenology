@@ -131,6 +131,9 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.action': 'S\'identifier',
         // home section
         'home.upcoming_tasks': 'Tâches en cours',
+        'home.no_task': 'Il n\y a aucune tâche à traiter',
+        'home.from': 'du',
+        'home.to': 'au',
         // survey section
         'survey.picture.before': 'AVANT',
         'survey.picture.current': 'PENDANT',
@@ -195,6 +198,9 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.action': 'Login',
         // home section
         'home.upcoming_tasks': 'Upcoming tasks',
+        'home.no_task': 'No task',
+        'home.from': 'to',
+        'home.to': 'to',
         // survey section
         'survey.picture.before': 'BEFORE',
         'survey.picture.current': 'CURRENT',
