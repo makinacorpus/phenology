@@ -42,6 +42,13 @@ angular.module('phenology', [
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
+
+    // Force initial login + synchronize if no local user
+    if (angular.isUndefined(authApiClient.getUsername())){
+      $scope.login().then(function() {
+        synchronizeService.synchronize();
+      });
+    }
   });
 
   // Triggered in the login modal to close it
