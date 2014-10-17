@@ -284,6 +284,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         angular.extend(survey, {
             beforeDate: data.beforeDate,
             surveyDate: data.surveyDate,
+            isNever: data.isNever,
             isPassed: data.isPassed,
             isLost: data.isLost, 
             when: data.when,

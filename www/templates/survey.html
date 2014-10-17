@@ -40,7 +40,7 @@
       </label>
 
       <ion-radio ng-model="survey.when" ng-value="'isLost'">{{ 'survey.status.lost' | translate }}</ion-radio>
-
+      <ion-radio ng-model="survey.when" ng-value="'isNever'">{{ 'survey.status.never' | translate }}</ion-radio>
       <ion-radio ng-model="survey.when" ng-value="'isPassed'">{{ 'survey.status.alreadypassed' | translate }}</ion-radio>
 
       <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
@@ -49,8 +49,8 @@
 
       <button class="button button-block" ng-hide="!survey.validated">
         {{ 'action.submited' | translate }} 
-        <span ng-if="survey.identifier">on server</span> 
-        <span ng-if="!survey.identifier">on mobile</span>
+        <i ng-if="survey.identifier" class="icon ion-cloud icon_ok"></i>
+        <i ng-if="!survey.identifier" class="icon ion-upload icon_warning"></i>
       </button>
 
       <label class="item item-input item-select">

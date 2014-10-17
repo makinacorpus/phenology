@@ -137,7 +137,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.picture.after': 'APRES',
         'survey.status.observed': 'Observé un autre jour',
         'survey.status.today': 'Observé Aujourd\'hui',
-        'survey.status.lost': 'Individu perdu',
+        'survey.status.lost': 'Individu mort ou disparu',
+        'survey.status.never': 'Stade absent',
         'survey.status.alreadypassed': 'Stade déjà passé',
         // snowcover section
         'snowcover.title': 'Il a neigé !',
@@ -201,6 +202,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.status.observed': 'Observed',
         'survey.status.today': 'Today',
         'survey.status.lost': 'Individual lost',
+        'survey.status.never': 'Stage never happened',
         'survey.status.alreadypassed': 'Stage already passed',
         // snowcover section
         'snowcover.title': 'It snowed!',
