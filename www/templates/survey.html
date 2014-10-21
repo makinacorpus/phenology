@@ -51,6 +51,7 @@
         ng-click="unlock()">
         {{ 'action.submitted' | translate }} 
         <i class="icon ion-cloud icon_ok"></i>
+        <span ng-if="locked">{{ 'action.unlock' | translate }}</span>
       </button>
       <button class="button button-block" ng-hide="!(survey.validated && !survey.identifier)">
         {{ 'action.validated' | translate }} 

@@ -122,7 +122,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         // button labels
         'action.submit': 'Valider',
         'action.validated': 'Validé',
-        'action.submitted': 'Déjà synchronisé (cliquer pour déverouiller)',
+        'action.submitted': 'Déjà synchronisé',
+        'action.unlock': '(cliquer pour déverouiller)',
         'action.synchronize': 'Synchroniser mes données',
         'action.close': 'Fermer',
         'action.cancel': 'Annuler',
@@ -191,7 +192,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         // button labels
         'action.submit': 'Validate',
         'action.validated': 'Validated',
-        'action.submitted': 'Already synchronised (click to unlock)',
+        'action.submitted': 'Already synchronized',
+        'action.unlock': '(click to unlock)',
         'action.synchronize': 'Synchronize my data',
         'action.close': 'Close',
         'action.cancel': 'Cancel',

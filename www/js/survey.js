@@ -352,7 +352,6 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         var stage = undefined;
         if(!angular.isDefined(stageId)){
             stage = species.stages[0];
-            var stage_tmp = species.stages.filter(function(item){return item.id==stageId;})[0];
         }
         else{
             stage = species.stages.filter(function(item){return item.id==stageId;})[0];
