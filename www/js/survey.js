@@ -6,7 +6,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
 })
 
-.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location) {
+.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $state) {
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
@@ -48,9 +48,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     }, true);
 
     $scope.switchArea = function(area){
-        $location.path(
-            String.format('/app/species/{0}', area.id)
-        );
+        $state.go(String.format('/app/species/{0}', area.id));
     }
 })
 
@@ -100,10 +98,12 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     // watch changes and store
     $scope.$watch('survey', function(newvalue, oldvalue) {
-        if (oldvalue !== newvalue){
-            if(!(oldvalue.validated === false && newvalue.validated === true)){
-                newvalue.validated = false;
-                delete newvalue["identifier"];
+        var oldData = [oldvalue.when, oldvalue.beforeDate, oldvalue.validated];
+        var newData = [newvalue.when, newvalue.beforeDate, newvalue.validated];
+        if (!angular.equals(oldData, newData)){
+            if(oldvalue.validated == newvalue.validated){
+                $scope.survey.validated = false;
+                delete $scope.survey["identifier"];
             }
             surveyService.storeSurvey(user, $scope.survey);
         }
@@ -130,6 +130,9 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     );
 
     $scope.opendateModal = function() {
+      if($scope.locked) {
+        return
+      }
       var date = $scope.survey.beforeDate;
       $scope.datemodal.date = (angular.isDefined(date)) ? date : new Date();
       $scope.datemodal.show();
@@ -167,6 +170,14 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         $scope.survey.validated = false;
         delete $scope.survey.when;
         delete $scope.survey.beforeDate;
+    };
+
+    // locking
+    if($scope.survey.validated && $scope.survey.identifier) {
+        $scope.locked = true;
+    }
+    $scope.unlock = function() {
+        $scope.locked = false;
     };
 })
 .service('speciesService', function(storageTraverser, surveyService, toolService){

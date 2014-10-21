@@ -27,9 +27,9 @@
         </div>
       </div>
 
-      <ion-radio ng-model="survey.when" ng-value="'today'">{{ 'survey.status.today' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'today'">{{ 'survey.status.today' | translate }}</ion-radio>
 
-      <ion-radio ng-model="survey.when" ng-value="'before'">{{ 'survey.status.observed' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'before'">{{ 'survey.status.observed' | translate }}</ion-radio>
 
       <label class="item item-input item-date" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
@@ -39,18 +39,22 @@
         </div>
       </label>
 
-      <ion-radio ng-model="survey.when" ng-value="'isLost'">{{ 'survey.status.lost' | translate }}</ion-radio>
-      <ion-radio ng-model="survey.when" ng-value="'isNever'">{{ 'survey.status.never' | translate }}</ion-radio>
-      <ion-radio ng-model="survey.when" ng-value="'isPassed'">{{ 'survey.status.alreadypassed' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'isLost'">{{ 'survey.status.lost' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'isNever'">{{ 'survey.status.never' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'isPassed'">{{ 'survey.status.alreadypassed' | translate }}</ion-radio>
 
       <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
         {{ 'action.submit' | translate}}
       </button>
 
-      <button class="button button-block" ng-hide="!survey.validated">
-        {{ 'action.submited' | translate }} 
-        <i ng-if="survey.identifier" class="icon ion-cloud icon_ok"></i>
-        <i ng-if="!survey.identifier" class="icon ion-upload icon_warning"></i>
+      <button class="button button-block" ng-hide="!(survey.validated && survey.identifier)"
+        ng-click="unlock()">
+        {{ 'action.submitted' | translate }} 
+        <i class="icon ion-cloud icon_ok"></i>
+      </button>
+      <button class="button button-block" ng-hide="!(survey.validated && !survey.identifier)">
+        {{ 'action.validated' | translate }} 
+        <i class="icon ion-upload icon_warning"></i>
       </button>
 
       <button class="button button-clear" ng-click="cancel()">
