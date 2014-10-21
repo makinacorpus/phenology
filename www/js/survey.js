@@ -265,14 +265,27 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId]['validated'] = true;
     };
     this.getSurveyLocalInfo = function(user, surveyId){
-        // inject existing data if any (and change today to before if no sync since last day)
+        // inject existing local data if any
         var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId));
         if (angular.isUndefined(data)) {
-            data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId)) || {}
+            // if nothing local, get synced data
+            data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId));
+            if (!angular.isUndefined(data)) {
+                data.when = data.answer;
+                if(data.when == 'isObserved') {
+                    data.when = 'before';
+                }
+            } else {
+                data = {};
+            }
         }
+        // set before or today according the current day
         data.beforeDate = data.surveyDate;
         if(data.when == 'today' && data.surveyDate != toolService.today()) {
             data.when = 'before';
+        }
+        if(data.when == 'before' && data.surveyDate == toolService.today()) {
+            data.when = 'today';
         }
         return data;
     };

@@ -78,11 +78,12 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                         indId: survey.individual,
                         areaId: survey.area,
                         surveyDate: survey.date,
-                        validated: true,
+                        answer: survey.answer,
+                        validated: true
                     }
                     // get identifier
                     survey_tmp['identifier'] = surveyService.getSurveyId(survey_tmp);
-                    // remove local observations in order to don't create conflict
+                    // remove local observations in order to avoid conflicts
                     if (storageTraverser.traverse('/users/' + userid + '/current_observations/' + survey_tmp['identifier'])){
                         storageTraverser.traverse('/users/' + userid + '/current_observations/' + survey_tmp['identifier'], { delete: true });
                     }
@@ -151,7 +152,11 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
         var promise;
 
         angular.forEach(surveys, function(value, key){
-            if(value.validated === true){
+            if(value.validated === true) {
+                var answer = value.when;
+                if(answer == 'today' || answer == 'before') {
+                    answer = 'isObserved';
+                }
                 var obs = {
                     'key': key,
                     'date': value.surveyDate,
@@ -159,6 +164,7 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                     'individual': value.indId,
                     'area': value.areaId,
                     'species': value.specId,
+                    'answer': answer,
                     'id': value.id // undefined if creation
                 };
 
