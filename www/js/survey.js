@@ -21,6 +21,12 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     );
 
     var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+    for(var i=0; i<all_species.length; i++) {
+        for(var j=0; j<all_species[i].individuals.length; j++) {
+            all_species[i].individuals[j].tasks = speciesService.getTaskForIndividual(user, $scope.area, all_species[i], all_species[i].individuals[j]);
+        }
+    }
+
     var filtered = [];
 
     angular.forEach(all_species, function(item, id){
@@ -34,12 +40,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         filtered[0].toggle = true;
     }
 
-
     $scope.filter = { showOnlyNeeded : "true" };
-
-    $scope.getTaskForIndividual = function(species, individual) {
-        return speciesService.getTaskForIndividual(user, $scope.area, species, individual);
-    };
 
     // watch changes and store
     $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
