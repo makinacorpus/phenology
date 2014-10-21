@@ -257,11 +257,11 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         delete data["identifier"];
         var surveyId = self.getSurveyId(data);
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId] = data;
-        $log.debug("updated")
+        $log.debug("updated");
     };
     this.validateSurvey = function(user, data) {
         var surveyId = self.getSurveyId(data);
-        $log.debug("validate")
+        $log.debug("validate");
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId]['validated'] = true;
     };
     this.getSurveyLocalInfo = function(user, surveyId){
@@ -271,11 +271,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId)) || {}
         }
         data.beforeDate = data.surveyDate;
-        if(angular.isDefined(data.beforeDate)){
-            data.when = 'today';
-        }
-        data.when = data.when;
-        if(data.when=='today' && data.surveyDate != toolService.today()) {
+        if(data.when == 'today' && data.surveyDate != toolService.today()) {
             data.when = 'before';
         }
         return data;
