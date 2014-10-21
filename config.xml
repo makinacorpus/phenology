@@ -39,4 +39,7 @@
     <feature name="Splashscreen">
         <param name="id" value="org.apache.cordova.splashscreen" />
     </feature>
+    <feature name="Zip">
+        <param name="android-package" value="org.apache.cordova.Zip" />
+    </feature>
 </widget>

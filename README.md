@@ -68,6 +68,11 @@ $ cordova plugin add org.apache.cordova.file@1.2.0
 $ cordova plugin add org.apache.cordova.file-transfer@0.4.4
 ```
 
+## Add zip plugin
+```bash
+$ cordova plugin add https://github.com/MobileChromeApps/zip.git
+```
+
 ## Build and run on a platform
 ```bash
 $ ionic build android
