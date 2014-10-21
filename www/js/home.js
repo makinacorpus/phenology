@@ -26,11 +26,11 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         var username = authApiClient.getUsername();
         if (angular.isUndefined(username)){
             $scope.login().then(function(){
-                 $scope.synchronize();
+                $scope.synchronize();
             })
         }
         else{
-             synchronizeService.synchronize().then(function(event){
+            synchronizeService.synchronize().then(function(event){
                 $scope.user.upcomming_tasks = HomeService.getTasks(username);
             });
         }

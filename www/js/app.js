@@ -46,7 +46,9 @@ angular.module('phenology', [
     // Force initial login + synchronize if no local user
     if (angular.isUndefined(authApiClient.getUsername())){
       $scope.login().then(function() {
-        synchronizeService.synchronize();
+        synchronizeService.synchronize().then(function() {
+          $state.go('app.home', {}, {reload: true});
+        });
       });
     }
   });
