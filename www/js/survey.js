@@ -157,6 +157,12 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         $scope.survey.validated = true;
     };
 
+    // cancel button
+    $scope.cancel = function() {
+        $scope.survey.validated = false;
+        delete $scope.survey.when;
+        delete $scope.survey.beforeDate;
+    };
 })
 .service('speciesService', function(storageTraverser, surveyService, toolService){
     var self = this;

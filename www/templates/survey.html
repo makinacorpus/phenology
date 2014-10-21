@@ -53,6 +53,10 @@
         <i ng-if="!survey.identifier" class="icon ion-upload icon_warning"></i>
       </button>
 
+      <button class="button button-clear" ng-click="cancel()">
+        {{ 'action.cancel' | translate}}
+      </button>
+      
       <label class="item item-input item-select">
         <div class="input-label">
           {{ 'survey.change_stage' | translate}}
