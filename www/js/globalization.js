@@ -151,7 +151,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'species': 'Espèce',
         'species.choice.see_all': 'Voir tout les Individus',
         'species.choice.see_to_observed': 'Voir les individus à observer',
-        'species.change_area': 'Changer zone',
+        'species.change_area': 'Changer de zone',
         // general
         'phenology': 'Phénologie',
         'areas': 'Zones',
