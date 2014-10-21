@@ -37,6 +37,10 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     $scope.filter = { showOnlyNeeded : "true" };
 
+    $scope.getTaskForIndividual = function(species, individual) {
+        return speciesService.getTaskForIndividual(user, $scope.area, species, individual);
+    };
+
     // watch changes and store
     $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
         $scope.species = (newvalue === "false") ? all_species : filtered;
@@ -178,6 +182,24 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             }
         }
         return tasks;
+    };
+    this.getTaskForIndividual = function(user, area, species, individual) {
+        var tasks = this.getTaskForSpecies(species);
+        var surveys = this.getSurveys(user, area.id, species.id, individual.id);
+        var individualTasks = {};
+        for(var i=0, len=tasks.length; i<len; i++) {
+            individualTasks[tasks[i].id] = {
+                label: tasks[i].name,
+                validated: false
+            };
+        }
+        for(var j=0, len=surveys.length; j<len; j++) {
+            var stage = surveys[j].stageId;
+            if(individualTasks[stage] && surveys[j].validated) {
+               individualTasks[stage].validated = true; 
+            }
+        }
+        return individualTasks;
     }
     this.getSpecies = function(user, area) {
         var areaSpecies = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species', user, area));
@@ -204,9 +226,12 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         return individuals;
     }
     this.getSurveys = function(user, area, species, individual){
-        var surveys = []
         var stages = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages', user, species));
+        if(!stages) {
+            return [];
+        }
 
+        var surveys = []
         for (var j = 0; j < stages.length; j++) {
             var stage = stages[j];
             var local_observation = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}-{2}-{3}-{4}', user, area, species, individual, stage.id))

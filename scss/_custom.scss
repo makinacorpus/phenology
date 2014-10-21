@@ -220,6 +220,24 @@
         max-height:100px;
     }
 }
+a.individual-item {
+    color: $dark;
+    .individual-item-task {
+        &.todo {
+           color: $warning;
+           font-weight: bold;
+        }
+        &.done {
+            color: $ok;
+            text-decoration: line-through;
+        }
+    }
+
+    i.ion-android-checkmark{
+        color:green;
+        font-size:1.2em;
+    }
+}
 
 /** Last surveys **/
 .last-surveys {
@@ -245,12 +263,6 @@
     .leaflet-popup .individual-popup{
         text-align: center;
     }
-}
-
-
-.individual-item i.ion-android-checkmark{
-    color:green;
-    font-size:1.2em;
 }
 
 .login-error{

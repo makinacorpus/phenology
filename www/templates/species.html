@@ -31,8 +31,11 @@
 
       </div>
       <a class="item item-icon-right individual-item" ng-show="spec.toggle==true || !many" ng-repeat="ind in spec.individuals" href="#/app/survey/{{area.id}}/{{spec.id}}/{{ind.id}}">
-        <span>{{ind.name}}</span> 
-        <i class="ion-android-checkmark" ng-repeat="survey in ind.surveys" ng-if="survey.validated"></i>
+        <span>{{ind.name}}</span> :
+        <span ng-repeat="task in getTaskForIndividual(spec, ind)">
+          <span class="individual-item-task" ng-class="{'todo': !task.validated, 'done': task.validated}">
+            {{ task.label }}
+          </span>
         <i class="icon ion-ios7-arrow-right"></i>
       </a>
     </div>
