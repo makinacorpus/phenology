@@ -48,7 +48,21 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     }, true);
 
     $scope.switchArea = function(area){
-        $state.go(String.format('/app/species/{0}', area.id));
+        $state.go('app.species', {areaId: area.id});
+    }
+
+    $scope.goToFirstPending = function(species, individual) {
+        var taskId;
+        angular.forEach(individual.tasks, function(value, key){
+            if(!value.validated) {
+                taskId = key;
+            }
+        });
+        if(!taskId) {
+            $state.go('app.survey', {areaId: areaId, specId: species.id, indId: individual.id});
+        } else {
+            $state.go('app.stages', {areaId: areaId, specId: species.id, indId: individual.id, stageId: taskId});
+        }
     }
 })
 
