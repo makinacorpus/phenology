@@ -19,7 +19,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                 showOnlyNeeded: "true"
             },
             tiles: {
-                url: 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+                url: mapService.getBackGroundUrl(),
                 options: {}
             },
             geojson: undefined,
@@ -149,7 +149,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             defaults: {zoomControl: false},
             markers: {},
             tiles: {
-                url: 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png',
+                url: mapService.getBackGroundUrl(),
                 options: {}
             },
             geojson: undefined
@@ -233,6 +233,11 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             }
         }
     }
+
+    this.getBackGroundUrl = function(){
+        return (window.cordova) ? toolService.mobile_background_url : toolService.remote_background_url;
+    }
+
     this.watchPosition = function(){
         $geolocation.watchPosition({
             timeout: 40000,
