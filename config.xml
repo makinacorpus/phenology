@@ -40,6 +40,6 @@
         <param name="id" value="org.apache.cordova.splashscreen" />
     </feature>
     <feature name="Zip">
-        <param name="android-package" value="org.apache.cordova.Zip" />
+        <param name="id" value="org.chromium.zip" />
     </feature>
 </widget>
