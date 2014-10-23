@@ -29,7 +29,7 @@
 
       <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'today'">{{ 'survey.status.today' | translate }}</ion-radio>
 
-      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'before'">{{ 'survey.status.observed' | translate }}</ion-radio>
+      <ion-radio ng-disabled="locked" ng-model="survey.when" ng-value="'before'" ng-click="opendateModal()">{{ 'survey.status.observed' | translate }}</ion-radio>
 
       <label class="item item-input item-date" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>

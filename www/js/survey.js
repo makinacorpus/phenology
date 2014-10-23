@@ -153,11 +153,14 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     };
 
     // close datemodal
-    $scope.closedateModal = function(model) {
+    $scope.closedateModal = function(model, force) {
       if( angular.isDefined(model)){
         $scope.survey.beforeDate = model;
+        $scope.datemodal.hide();
       }
-      $scope.datemodal.hide();
+      if( angular.isDefined(force) && force === true){
+        $scope.datemodal.hide();
+      }
     };
 
     // open slides modal wich shows pictures of the current stage
