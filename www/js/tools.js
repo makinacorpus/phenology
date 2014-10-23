@@ -5,8 +5,11 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
 .service('toolService', function(storageTraverser, authApiClient, $cordovaFile, $http, $log, $q){
     var self = this;
 
-    this.mobile_root_path = 'cdvfile://localhost/persistent'
+    this.mobile_root_path = 'cdvfile://localhost/persistent';
     this.mobile_path = 'cdvfile://localhost/persistent/phenology';
+    this.mobile_path_tiles = 'cdvfile://localhost/persistent/phenology/tiles';
+    this.remote_background_url = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
+    this.mobile_background_url = this.mobile_path_tiles + "/{z}/{x}/{y}.png";
 
     this.create_div_icon = function(additional_class) {
         return {
