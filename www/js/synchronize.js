@@ -66,6 +66,11 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                         toolService.downloadPicture(stage.picture_after);
                     });
                 });
+                toolService.downloadTiles('global.zip');
+                var areas = storageTraverser.traverse('/users/' + userid + '/areas');
+                angular.forEach(areas, function(area){
+                    toolService.downloadTiles("area_" + area["id"] + ".zip");
+                });
             }
 
             return apiClient.get_user_surveys().$promise.then(function(surveys_data){
