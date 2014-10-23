@@ -46,6 +46,12 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
         return self.downloadFile(url, path, false);
     }
 
+    this.downloadTiles =function(filename){
+        var path = self.getRootCordovaUrl() + "tiles";
+        var url = self.getMediaUrl() + "tiles/" + filename;
+        return self.downloadAndUnzip(url, path);
+    }
+
     //thanks to Natsu
     this.downloadFile = function(url, filepath, forceDownload) {
 
@@ -108,5 +114,32 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
                 $log.info('forcing download of ' + url);
                 return $cordovaFile.downloadFile(url, filepath)
             }
+        };
+
+        this.unzip = function(zipLocalPath, toPath) {
+
+            var deferred = $q.defer();
+
+            // Calling unzip method from Zip Plugin (https://github.com/MobileChromeApps/zip)
+            zip.unzip(zipLocalPath, toPath, function(result) {
+
+                if (result == 0) {
+                    deferred.resolve("unzip complete");
+                }
+                else {
+                    deferred.reject("unzip failed");
+                }
+
+            });
+            return deferred.promise;
+        };
+
+        this.downloadAndUnzip = function(url, folderPath) {
+            var filename = url.split(/[\/]+/).pop();
+
+            return self.downloadFile(url, folderPath + "/" + filename, false)
+            .then(function(response) {
+                 return self.unzip(folderPath + "/" + filename, folderPath);
+            });
         };
 });
