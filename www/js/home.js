@@ -46,7 +46,7 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
             var tasks = [];
 
             //Fake to see some tasks
-            var today = new Date("2014-02-20");
+            var today = new Date();
 
             angular.forEach(species, function(item, id){
                 angular.forEach(item.stages, function(item2, id2){

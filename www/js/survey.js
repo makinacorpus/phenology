@@ -201,7 +201,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     var self = this;
     this.getTaskForSpecies = function(species){
         var tasks = [];
-        var today = new Date("2014-02-20");//toolService.today();
+        var today = new Date();
         for(var i=0; i<species.stages.length; i++){
             var stage = species.stages[i];
             var date_start = new Date(stage.date_start);
