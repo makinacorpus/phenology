@@ -173,7 +173,10 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.not_number': 'Doit être un chiffre',
         'error.title': 'Erreur',
         'sucess.title': 'Succès',
-        'message.snowing_success': 'Les données sont enregistrées sur le mobile'
+        'message.snowing_success': 'Les données sont enregistrées sur le mobile',
+        'login.error.wrong': 'L\'identifiant ou le mot de passe est incorrect',
+        'login.error.no_observer': 'L\'utilisateur n\'est pas considéré comme observeur',
+        'login.error.no_connexion': 'Le serveur n\'est pas accéssible'
     },
     // english
     'en': {
