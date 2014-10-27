@@ -83,10 +83,13 @@ angular.module('phenology', [
     },
     function(data){
       if(data.status == "0"){
-        $scope.loginData.error = "The server is unreachable";
+        $scope.loginData.error = "login.error.no_connexion";
       }
       else if(data.status == "401"){
-        $scope.loginData.error = "The login and password is wrong";
+        $scope.loginData.error = "login.error.wrong";
+      }
+      else if(data.status == "403"){
+        $scope.loginData.error = "login.error.no_observer";
       }
     });
   };
