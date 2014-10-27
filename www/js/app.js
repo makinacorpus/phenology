@@ -65,9 +65,11 @@ angular.module('phenology', [
   };
 
   $scope.login_and_redirect = function(){
-    $scope.login().then(function(element){
-        $location.path('/app/home/');
-    })
+    $scope.login().then(function() {
+      synchronizeService.synchronize().then(function() {
+        $state.go('app.home', {}, {reload: true});
+      });
+    });
   };
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
