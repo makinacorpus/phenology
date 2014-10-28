@@ -10,9 +10,7 @@ describe('homepage', function() {
     expect(ptor.isElementPresent(button_synchro)).toBe(true);
   });
 
-   it('on synchronize it should load login page', function() {
-    element(by.css('.synchronize-button-container button')).click();
-
+  it('show login form if first connexion', function() {
     var username = by.model('loginData.username');
     var password = by.model('loginData.password');
     var submit_button = by.css('form button');

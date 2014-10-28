@@ -1,9 +1,21 @@
 describe('snowing', function() {
   var ptor;
+  var snowing_submit = by.css(".snowing_validate button");
+  var popup_title = by.css(".popup-title");
+  var popup_button = by.css(".popup button");
 
   beforeEach(function() {
     ptor = protractor.getInstance();
   });
+
+  function clearText(elem) {
+      length = 100;
+      var backspaceSeries = '';
+      for (var i = 0; i < length; i++) {
+          backspaceSeries += protractor.Key.BACK_SPACE;
+      }
+      elem.sendKeys(backspaceSeries);
+  }
 
   it('use side to load snowing section', function() {
     element(by.css('.menu-content .left-buttons')).click();
@@ -13,20 +25,9 @@ describe('snowing', function() {
   });
 
   it('should fire error if empty', function() {
-    var snowing_submit = by.css(".snowing_validate button");
-    var popup_title = by.css(".popup-title");
-    var popup_button = by.css(".popup button");
-
     expect(ptor.isElementPresent(snowing_submit)).toBe(true);
-
     element(snowing_submit).click();
     expect(ptor.isElementPresent(popup_title)).toBe(true);
-    element(popup_title).getText().then(function(elem){
-      console.log(elem);
-    });
-    element.all(popup_button).count().then(function(elem){
-      console.log(elem);
-    });
     expect(ptor.isElementPresent(popup_button)).toBeTruthy();;
     browser.wait(function() {
        return element(popup_button).isDisplayed();
@@ -38,11 +39,11 @@ describe('snowing', function() {
   });
 
   it('should fire error if not a number', function() {
-  
     element.all(by.model('snowing.height')).first().sendKeys('test');
-    var snowing_submit = by.css(".snowing_validate button");
     element(snowing_submit).click();
-
+    browser.wait(function() {
+       return element(popup_button).isDisplayed();
+    }, 8000);
     var popup_title = by.css(".popup-title");
     expect(ptor.isElementPresent(popup_title)).toBe(true);
     expect(element(popup_title).getText()).toMatch('Err');
@@ -50,17 +51,15 @@ describe('snowing', function() {
   });
 
   it('should show a success message if one input is filled by a number', function() {
-  
-    ptor.refresh();
+    clearText(element.all(by.model('snowing.height')).first());
     element.all(by.model('snowing.height')).first().sendKeys('1.2424');
-    var snowing_submit = by.css(".snowing_validate button");
     element(snowing_submit).click();
-
-    var popup_title = by.css(".popup-title");
+    browser.wait(function() {
+       return element(popup_button).isDisplayed();
+    }, 8000);
     expect(ptor.isElementPresent(popup_title)).toBe(true);
     expect(element(popup_title).getText()).toMatch('Succ');
     element(by.css(".popup button")).click();
-
   });
     //expect(browser.getTitle()).toEqual('Super Calculator');
     //expect(browser.getTitle()).toEqual('Super Calculator');

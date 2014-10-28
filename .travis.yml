@@ -9,6 +9,6 @@ before_script:
   - node_modules/ionic/bin/ionic serve &
   - node_modules/gulp/bin/gulp.js sass
 script:
-  - gulp e2e_sauce
+  - node_modules/gulp/bin/gulp.js e2e_sauce
 env:
   - BACKEND=mocked
