@@ -2,8 +2,6 @@ var path = require('canonical-path');
 var projectRoot = path.resolve(__dirname, '..');
 
 exports.config = {
-  //seleniumAddress: "http://localhost:4444/wd/hub",
-  baseUrl: 'http://localhost:8100',
 
   capabilities: {
     'browserName': 'chrome',
