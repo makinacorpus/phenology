@@ -13,7 +13,8 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
             defaults: {
-                zoomControl: false
+                zoomControl: false,
+                zoom: 9,
             },
             filter: {
                 showOnlyNeeded: "true"
@@ -50,12 +51,6 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     $scope.area = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
-    
-    $scope.center = {
-        lat: +$scope.area.lat,
-        lng: +$scope.area.lon,
-        zoom: 7
-    };
 
     $timeout(function() {
 
@@ -63,20 +58,17 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             filtered = {},
             all_individuals = {};
 
-        $scope.geojson = {
-            data: (Object.keys($scope.area.geojson).length > 0) ? $scope.area.geojson : undefined,
-            style: {
-                fillColor: "green",
+        /**
+        $scope.paths['area'] = {
                 weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.2,
-            }
-        };
+                color: 'blue',
+                latlngs: {lat: $scope.area.lat, lng: $scope.area.lon},
+                radius: 500,
+                type: 'circle'
+            };
+        **/
 
         angular.forEach(all_species, function(species, id){
-
             angular.forEach(species.individuals, function(individual, key){
                 if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
                     all_individuals[individual.id+""] = {
@@ -98,6 +90,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
            });
         });
 
+
         $scope.individuals = filtered;
 
         $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
@@ -115,7 +108,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             }
         });
 
-        mapService.centerMap($scope.geojson.data);
+        mapService.fitAreas([$scope.area]);
 
     }, 100);
 
@@ -142,7 +135,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     }
 })
 
-.controller('GlobalMapCtrl', function($scope, $location, authApiClient, leafletData, $timeout, mapService){
+.controller('GlobalMapCtrl', function($scope, $location, authApiClient, leafletData, storageTraverser, $timeout, mapService){
     var user = authApiClient.getUsername();
 
     angular.extend($scope,{
@@ -157,37 +150,27 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     );
 
     $timeout(function() {
-        var features = mapService.getAreaFeatures(user);
+        var areas = storageTraverser.traverse("/users/" + user + "/areas"),
+            markers = {};
 
-        $scope.geojson = {
-                data:  {
-                    type: "FeatureCollection",
-                    features: features
-                },
-                style: {
-                    fillColor: "green",
-                    weight: 2,
-                    opacity: 1,
-                    color: 'white',
-                    dashArray: '3',
-                    fillOpacity: 0.2,
-                }
-        };
+        var mapping = areas.map(function(area){ 
+            var center = mapService.getAreaCenter(area); 
+            return { lat: center[0], lng: center[1], area_id: area.id, message: area.name }
+        });
 
-        //$scope.markers = mapService.getCenterMarkers(features);
+        angular.forEach(mapping, function(marker){
+            markers[marker.area_id] = marker;
+        })
 
-        mapService.centerMap($scope.geojson.data);
+        $scope.markers = markers;
+
+        mapService.fitAreas(areas);
+
     }, 100);
 
     $scope.$on('leafletDirectiveMarker.dblclick', function(event, args){
         $location.path(
-            String.format('/app/map/{0}', args.leafletEvent.latlng.id)
-        );
-    });
-
-    $scope.$on('leafletDirectiveMap.geojsonClick', function(event, geojson) {
-        $location.path(
-            String.format('/app/map/{0}', geojson.properties.id)
+            String.format('/app/map/{0}', args["markerName"])
         );
     });
 
@@ -200,7 +183,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
 .service('mapService', function(storageTraverser, surveyService, leafletData, $geolocation, toolService){
     var self = this;
-    this.getAreaFeatures = function(user){
+    this.getAreaGeoJsonFeatures = function(user){
         var areas = storageTraverser.traverse("/users/" + user + "/areas");
 
         var features = areas.map(function(area){ 
@@ -212,11 +195,65 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
         return features;
     }
+
+    this.radius2bbox = function(lat, lng, radius){
+        return [[lat - radius, lng - radius], [lat + radius, lng + radius]];
+    }
+
+    this.checkCoords = function(lat, lon){
+        if(angular.isDefined(lat) && angular.isDefined(lon) && +lat !== -1 && +lon !== 1){
+            return true;
+        }
+        return false;
+    }
+
+    this.getAreaCenter = function(area){
+        if(self.checkCoords(area.lat, area.lon) === true){
+            return ([area.lat, area.lon]);
+        }
+        else{
+            var bbox = L.latLngBounds(self.getAreaPoints(area)).pad(0.1);
+            var center = bbox.getCenter();
+        }
+    }
+
+    this.getAreaPoints = function(area){
+        var points = [];
+        if(self.checkCoords(area.lat, area.lon) === true){
+            points.push([area.lat, area.lon]);
+        }
+        angular.forEach(area.species, function(species, id){
+            angular.forEach(species.individuals, function(individual, key){
+                if(self.checkCoords(individual.lat, individual.lon) === true){
+                    points.push([individual.lat, individual.lon]);
+                }
+            });
+        });
+        return points;
+    }
+
+    this.fitAreas = function(areas){
+        var points = [];
+        angular.forEach(areas, function(area, id){
+            points = points.concat(self.getAreaPoints(area));
+        });
+        self.fitPoints(points);
+    }
+
+    this.fitPoints = function(points){
+        leafletData.getMap().then(function(map) {
+            console.log(points);
+            var bbox = L.latLngBounds(points).pad(0.1);
+            map.fitBounds(bbox);
+        });
+    }
+
     this.centerMap = function(geojson){
         leafletData.getMap().then(function(map) {
             map.fitBounds(L.geoJson(geojson).getBounds());
         });
     }
+
     this.getCenterMarkers = function(features){
         return features.map(function(feature){
             var point = L.geoJson(feature).getBounds().getCenter();
@@ -225,6 +262,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             return point;
         });
     }
+
     this.getLatLng =function(){
         if(angular.isDefined($geolocation.position.coords)){
             return {
