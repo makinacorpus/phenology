@@ -36,7 +36,7 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
             password;
         // TODO : PUT/POST
 
-        var resource =  $resource(self.backend_url + '/api/ ');
+        var resource =  $resource(self.backend_url + '/user_settings/ ');
         
         if(!storageTraverser.traverse('/sessions')){
             storageTraverser.traverse('/')['sessions'] = {};
