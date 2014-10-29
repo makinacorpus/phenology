@@ -110,6 +110,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     $scope.current_stage = $scope.survey.stage;
 
+
     // watch changes and store
     $scope.$watch('survey', function(newvalue, oldvalue) {
         var oldData = [oldvalue.when, oldvalue.beforeDate, oldvalue.validated];
@@ -123,6 +124,16 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         }
     }, true);
 
+    // behaviour to manage event when user selects a new date in datepicker
+    $scope.$watch('datemodal.date', function(newvalue, oldvalue) {
+      var date = $scope.survey.beforeDate;
+      if (angular.isDefined(newvalue) && (angular.isUndefined(date) || date != $scope.datemodal.date)){
+        $scope.survey.beforeDate  = newvalue;
+        $scope.datemodal.hide();
+      }
+    }, true);
+
+    // date modal
     $ionicModal.fromTemplateUrl('templates/datemodal.html',
         function(modal) {
             $scope.datemodal = modal;
@@ -133,6 +144,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         }
     );
 
+    // slide modal
     $ionicModal.fromTemplateUrl('templates/slidemodal.html',
         function(modal) {
             $scope.slidemodal = modal;
@@ -143,13 +155,14 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         }
     );
 
+    // open date modal with datepicker
     $scope.opendateModal = function() {
       if($scope.locked) {
         return
       }
-      var date = $scope.survey.beforeDate;
-      $scope.datemodal.date = (angular.isDefined(date)) ? date : new Date();
+      $scope.datemodal.date = $scope.survey.beforeDate;
       $scope.datemodal.show();
+
     };
 
     // close datemodal
