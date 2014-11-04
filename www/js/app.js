@@ -71,6 +71,16 @@ angular.module('phenology', [
       });
     });
   };
+
+  $scope.go_to_surveys_section = function(){
+    var areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || [];
+    if(areas.length == 1) {
+      $state.go('app.species', { areaId: areas[0].id });
+    }
+    else{
+      $state.go('app.areas');
+    }
+  }
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log("doLogin");
