@@ -231,6 +231,14 @@ angular.module('phenology', [
           controller: 'SurveyCtrl'
         }
       }
+    })
+    .state('app.credits', {
+      url: "/credits",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/credits.html"
+        }
+      }
     });
 
   // if none of the above states are matched, use this as the fallback

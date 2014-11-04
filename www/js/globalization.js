@@ -115,7 +115,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'nav.upload': 'Synchronization',
         'nav.protocol': 'Le protocole',
         'nav.help': 'Aide',
-        'nav.credits': 'Crédits',
+        'nav.credits': 'Partenaires et crédits',
         'nav.change_user': 'Changer utilisateur',
         'nav.subheader.list': 'Liste',
         'nav.subheader.map': 'Carte',
