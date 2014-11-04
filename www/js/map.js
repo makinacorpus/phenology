@@ -242,7 +242,6 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
     this.fitPoints = function(points){
         leafletData.getMap().then(function(map) {
-            console.log(points);
             var bbox = L.latLngBounds(points).pad(0.1);
             map.fitBounds(bbox);
         });

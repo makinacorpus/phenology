@@ -122,7 +122,6 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
         $ionicLoading.show();
 
         return $q.all(promises).then(function(test){
-            console.log(test)
             console.log("loading user settings, promise")
             return self.loadUserSettings(userid);
         }).catch(function(event){
