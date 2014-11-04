@@ -14,7 +14,7 @@ describe('areaSpecies', function() {
 
   var individuals = element.all(by.css(".species-item .individual-item"));
 
-  var menu_item = by.css(".menu [ui-sref='app.areas']");
+  var menu_item = by.css(".item-menu-survey");
 
   beforeEach(function() {
     ptor = protractor.getInstance();
