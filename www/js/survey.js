@@ -49,7 +49,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     $scope.switchArea = function(area){
         $state.go('app.species', {areaId: area.id});
-    }
+    };
 
     $scope.goToFirstPending = function(species, individual) {
         var taskId;
@@ -63,7 +63,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         } else {
             $state.go('app.stages', {areaId: areaId, specId: species.id, indId: individual.id, stageId: taskId});
         }
-    }
+    };
 })
 
 .controller('LastSurveyCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location, $log) {
@@ -109,7 +109,6 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     $scope.status = {};
 
     $scope.current_stage = $scope.survey.stage;
-
 
     // watch changes and store
     $scope.$watch('survey', function(newvalue, oldvalue) {
@@ -242,7 +241,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             }
         }
         return individualTasks;
-    }
+    };
     this.getSpecies = function(user, area) {
         var areaSpecies = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species', user, area));
         var species = [];
@@ -256,7 +255,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             species[i].individuals = self.getIndivuals(user, area, species[i].id)
         }
         return species;
-    }
+    };
     this.getIndivuals = function(user, area, species){
         var storedInds = storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals', user, area, species));
         var individuals = [];
@@ -266,31 +265,25 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             individuals.push(ind_tmp);
         };
         return individuals;
-    }
+    };
     this.getSurveys = function(user, area, species, individual){
         var stages = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages', user, species));
         if(!stages) {
             return [];
         }
-
         var surveys = []
         for (var j = 0; j < stages.length; j++) {
             var stage = stages[j];
-            var local_observation = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}-{2}-{3}-{4}', user, area, species, individual, stage.id))
-           
-            if(angular.isUndefined(local_observation)){
-                local_observation = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}-{2}-{3}-{4}"]', user, area, species, individual, stage.id));
-            }
+            var local_observation = surveyService.getSurveyLocalInfo(user, String.format('{0}-{1}-{2}-{3}', area, species, individual, stage.id));
             var observation = angular.copy(local_observation);
-
-            if(angular.isDefined(observation)){
+            if(angular.isDefined(observation) && !angular.equals(observation, {})){
                 var stageInfo = storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]', user, species, stage.id));
                 observation.name = stageInfo.name;
                 surveys.push(observation);
             }
         }
         return surveys;
-    }
+    };
     this.getAreaSpecies = function(user){
         var areasLocal = storageTraverser.traverse(String.format('/users/{0}/areas', user))
         var areas = [];
@@ -337,13 +330,22 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         if (angular.isUndefined(data)) {
             // if nothing local, get synced data
             data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId));
-            if (!angular.isUndefined(data)) {
+            if (angular.isDefined(data)){
+                var surveyDate = new Date(data.surveyDate);
+                var minDate = new Date();
+                var maxDate = new Date();
+                minDate.setMonth(minDate.getMonth() - 9);
+                maxDate.setMonth(minDate.getMonth() + 9);
+            }
+
+            if (!angular.isUndefined(data) && minDate < surveyDate && maxDate > surveyDate){
                 data.when = data.answer;
                 if(data.when == 'isObserved') {
                     data.when = 'before';
                 }
             } else {
                 data = {};
+                return data;
             }
         }
         // set before or today according the current day
@@ -392,18 +394,18 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         stage.picture_after = toolService.getFullPictureUrl(stage.picture_after);
 
         return stage;
-    }
+    };
     this.getAreaName=function(user, areaId){
         return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/name', user, areaId));
-    }
+    };
     this.getSpeciesName=function(user, speciesId){
         return storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/name', user, speciesId));
-    }
+    };
     this.getStageName=function(user, speciesId, stageId){
         return storageTraverser.traverse(String.format('/users/{0}/species/[id="{1}"]/stages/[id="{2}"]/name', user, speciesId, stageId));
-    }
+    };
     this.getIndivualName=function(user, areaId, speciesId, indId){
         return storageTraverser.traverse(String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]/name', 
                                                         user, areaId, speciesId, indId));
-    }
+    };
 });
