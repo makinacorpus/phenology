@@ -6,7 +6,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
 })
 
-.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $state) {
+.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $state, $timeout) {
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
@@ -16,37 +16,42 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         $stateParams.areaId = areaId;
     }
 
-    $scope.area = storageTraverser.traverse(        
-        String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
-    );
 
-    var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
-    for(var i=0; i<all_species.length; i++) {
-        for(var j=0; j<all_species[i].individuals.length; j++) {
-            all_species[i].individuals[j].tasks = speciesService.getTaskForIndividual(user, $scope.area, all_species[i], all_species[i].individuals[j]);
-        }
-    }
+    $scope.$on('$viewContentLoaded', function(){
+        $timeout( function() {
+            $scope.area = storageTraverser.traverse(        
+                String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
+            );
 
-    var filtered = [];
+            var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id);
+            for(var i=0; i<all_species.length; i++) {
+                for(var j=0; j<all_species[i].individuals.length; j++) {
+                    all_species[i].individuals[j].tasks = speciesService.getTaskForIndividual(user, $scope.area, all_species[i], all_species[i].individuals[j]);
+                }
+            }
 
-    angular.forEach(all_species, function(item, id){
-        all_species[id].toggle = false;
-        if(angular.isDefined(item.tasks) && item.tasks.length > 0) {
-            this.push(angular.copy(item));
-        }
-    }, filtered);
+            var filtered = [];
 
-    if(filtered.length === 1){
-        filtered[0].toggle = true;
-    }
+            angular.forEach(all_species, function(item, id){
+                all_species[id].toggle = false;
+                if(angular.isDefined(item.tasks) && item.tasks.length > 0) {
+                    this.push(angular.copy(item));
+                }
+            }, filtered);
 
-    $scope.filter = { showOnlyNeeded : "true" };
+            if(filtered.length === 1){
+                filtered[0].toggle = true;
+            }
 
-    // watch changes and store
-    $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
-        $scope.species = (newvalue === "false") ? all_species : filtered;
-    }, true);
+            $scope.filter = { showOnlyNeeded : "true" };
 
+            // watch changes and store
+            $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
+                $scope.species = (newvalue === "false") ? all_species : filtered;
+            }, true);
+
+        }, 200);
+    });
     $scope.switchArea = function(area){
         $state.go('app.species', {areaId: area.id});
     };

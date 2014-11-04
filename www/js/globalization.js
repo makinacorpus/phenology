@@ -119,6 +119,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'nav.change_user': 'Changer utilisateur',
         'nav.subheader.list': 'Liste',
         'nav.subheader.map': 'Carte',
+        'nav.button.back': 'Retour',
         // button labels
         'action.submit': 'Valider',
         'action.validated': 'Validé',
@@ -137,12 +138,12 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'home.no_task': 'Il n\y a aucune tâche à traiter',
         'home.from': 'du',
         'home.to': 'au',
-        // survey section
+        // survey section,
         'survey.picture.before': 'AVANT',
         'survey.picture.current': 'PENDANT',
         'survey.picture.after': 'APRES',
         'survey.status.observed': 'Observé un autre jour',
-        'survey.status.today': 'Observé Aujourd\'hui',
+        'survey.status.today': 'Observé aujourd\'hui',
         'survey.status.lost': 'Individu mort ou disparu',
         'survey.status.never': 'Stade absent',
         'survey.status.alreadypassed': 'Stade déjà passé',
@@ -152,7 +153,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'area.choose': 'Choisir une zone',
         // species section
         'species': 'Espèce',
-        'species.choice.see_all': 'Voir tout les Individus',
+        'species.choice.see_all': 'Voir tous les individus',
         'species.choice.see_to_observed': 'Voir les individus à observer',
         'species.change_area': 'Changer de zone',
         // general
@@ -192,6 +193,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'nav.change_user': 'Change user',
         'nav.subheader.list': 'List',
         'nav.subheader.map': 'Map',
+        'nav.button.back': 'Back',
         // button labels
         'action.submit': 'Validate',
         'action.validated': 'Validated',

@@ -166,7 +166,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
         mapService.fitAreas(areas);
 
-    }, 100);
+    }, 200);
 
     $scope.$on('leafletDirectiveMarker.dblclick', function(event, args){
         $location.path(
