@@ -187,7 +187,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
 })
 
-.service('mapService', function(storageTraverser, surveyService, leafletData, $geolocation, toolService){
+.service('mapService', function(storageTraverser, surveyService, leafletData, $geolocation, toolService, $cordovaNetwork){
     var self = this;
     this.getAreaGeoJsonFeatures = function(user){
         var areas = storageTraverser.traverse("/users/" + user + "/areas");
@@ -278,7 +278,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     }
 
     this.getBackGroundUrl = function(){
-        return (window.cordova) ? toolService.mobile_background_url : toolService.remote_background_url;
+        return (window.cordova && $cordovaNetwork.isOnline() === false) ? toolService.mobile_background_url : toolService.remote_background_url;
     }
 
     this.watchPosition = function(){
