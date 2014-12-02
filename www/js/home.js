@@ -11,17 +11,6 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         $scope.user.upcomming_tasks = HomeService.getTasks(storageTraverser.traverse("/sessions/current/username"));
     });
 
-    /**
-    [
-        { title: 'Watch bud stage next month'},
-        { title: 'Watch tree growth before summertime'}
-    ];**/
-    /** TODO : 
-    make it pretty
-    add popup if all is ok
-    add popup if fail
-    **/
-
     $scope.synchronize = function(){
         var username = authApiClient.getUsername();
         if (angular.isUndefined(username)){
@@ -42,11 +31,9 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
 
     this.getTasks = function(username){
         if(username){
-            var species = storageTraverser.traverse("/users/" + username + "/species");
-            var tasks = [];
-
-            //Fake to see some tasks
-            var today = new Date();
+            var species = storageTraverser.traverse("/users/" + username + "/species"),
+                tasks = [],
+                today = new Date();
 
             angular.forEach(species, function(item, id){
                 angular.forEach(item.stages, function(item2, id2){
@@ -62,6 +49,7 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
             });
 
             tasks.sort(function(a, b){ var a1=new Date(a.date_start); var b2=new Date(b.date_start); return a1-b2});
+
             return tasks;
         }
     }
