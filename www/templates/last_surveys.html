@@ -3,7 +3,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-subheader last-surveys">
-    <div class="list card" ng-repeat="area in areas" ng-init="showArea=((areas.length > 1)? false : true);sp_tmp=area.species[0].id">
+    <div class="list card" bindonce ng-repeat="area in areas" ng-init="showArea=((areas.length > 1)? false : true);sp_tmp=area.species[0].id">
 
       <div class="item item-divider last-survey-item" ng-click="showArea=!showArea">
         {{area.name}}
