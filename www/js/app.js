@@ -29,14 +29,14 @@ angular.module('phenology', [
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $location, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
-  // Form data for the login modal
-  
   globalizationService.init();
 
-  $scope.$state = $state;
+  angular.extend($scope,{
+    $state: $state,
+    loginData: {}
+  }); 
 
   var deferred = $q.defer()
-  $scope.loginData = {};
   
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -59,7 +59,7 @@ angular.module('phenology', [
     $scope.modal.hide();
   },
 
-  // Open the login moif (!storageTraverser.traverse('/sessions/current'))dal
+  // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
     return deferred.promise;
@@ -82,26 +82,28 @@ angular.module('phenology', [
       $state.go('app.areas');
     }
   }
+
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log("doLogin");
-    //console.log('Doing login', $scope.loginData);
+
     authApiClient.setCredentials($scope.loginData.username, $scope.loginData.password);
-    authApiClient.login().then(function(){;
-      $scope.closeLogin();
-      delete $scope.loginData.error;
-      deferred.resolve();
-    },
-    function(data){
-      if(data.status == "0"){
-        $scope.loginData.error = "login.error.no_connexion";
-      }
-      else if(data.status == "401"){
-        $scope.loginData.error = "login.error.wrong";
-      }
-      else if(data.status == "403"){
-        $scope.loginData.error = "login.error.no_observer";
-      }
+    authApiClient.login()
+      .then(function(){
+        $scope.closeLogin();
+        delete $scope.loginData.error;
+        deferred.resolve();
+      },
+      function(data){
+        if(data.status == "0"){
+          $scope.loginData.error = "login.error.no_connexion";
+        }
+        else if(data.status == "401"){
+          $scope.loginData.error = "login.error.wrong";
+        }
+        else if(data.status == "403"){
+          $scope.loginData.error = "login.error.no_observer";
+        }
     });
   };
 })
@@ -279,6 +281,7 @@ if (!String.format) {
   };
 }
 
+// format date
 if (!Date.prototype.format) {
 //author: meizz
   Date.prototype.format = function(format) 

@@ -5,11 +5,7 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
 .factory('apiClient', ["$resource", "apiSettings", function ($resource, apiSettings) {
 
         // TODO : create a confValues
-        self.backend_url = apiSettings.backend_url;      
-         //var backend_url = "http://" + location.hostname + ":8000";
-        //"http://192.168.1.45:8000"//"http://192.168.100.38:8000";//http://192.168.1.45:8000"//"http://192.168.56.1:8000" //http://127.0.0.1:8000"
-
-        // TODO : PUT/POST
+        self.backend_url = apiSettings.backend_url;
 
         var resource =  $resource(self.backend_url + '/api/:action ',
           { action:'@action', id: '@id'},
