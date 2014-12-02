@@ -12,15 +12,14 @@
       </button>
     </div>
 
-    <div class="card tasks-section-title" style="opacity:0.8;text-align:center;">
+    <div class="card main-title">
       <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
     </div>
 
     <div class="card list">
-        <ion-item ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals.length!=0" ng-click="go_to_surveys_section()">
-          <span>{{task.species_name}}</span> 
-          <span class="task-name">{{task.name | translate}}</span> 
-          <span class="task-dates">{{'home.from' | translate}} {{task.date_start|date }} {{'home.to' | translate}} {{ task.date_end|date}}</span>
+        <ion-item bindonce ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals.length!=0" ng-click="go_to_surveys_section()">
+          <span bo-text="task.species_name"></span> 
+          <span class="task-name" bo-text="task.name | translate"></span> 
         </ion-item>
     </div>
     <div ng-if="task.individuals.length==0">{{'home.no_task' | translate}}</div>
