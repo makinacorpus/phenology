@@ -160,6 +160,20 @@
 .home__logo {
     float: right;
 }
+.blue{
+    color:blue;
+}
+.purple{
+    color:purple;
+    opacity: 0.8;
+}
+.orange{
+    color:orange;
+}
+.grey{
+    color:#3A01DF;
+    opacity:0.8;
+}
 .tasks-section{
     .synchronize-button-container{
         width:100%;
@@ -191,6 +205,10 @@
             font-size:0.9em;
             margin-left:4px;
         }
+    }
+    .main-title{
+        opacity:0.8;
+        text-align:center;
     }
 }
 
