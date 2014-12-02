@@ -254,7 +254,7 @@ angular.module('phenology', [
     link: function(scope, element, attrs) {
 
       scope.$watch(function() {
-          return attrs['ngSrc'];
+          return (angular.isDefined(attrs['ngSrc'])) ? attrs['ngSrc'] : attrs['boSrc'];
         }, function (value) {
           if (!value) {
             element.attr('src', attrs.errSrc);  
