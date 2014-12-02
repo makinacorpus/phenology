@@ -8,16 +8,14 @@
 
       <div class="list snowing">
 
-          <div class="snowing_title">
+          <div class="snowing_title" bindonce>
             <h3>{{ 'snowcover.title' | translate }}</h3>
             <p>{{ date | date }}</p>
           </div>
 
-          <div ng-repeat="snowing in snowings">
+          <div bindonce ng-repeat="snowing in snowings">
               <div class="row item-input snowing_item">
-                <div class="col item-label col-33 snowing_label">
-                    {{ snowing.areaName }}
-                </div>
+                <div class="col item-label col-33 snowing_label" bo-text="snowing.areaName"></div>
                 <label class="col col-50 item snowing_input">
                     <input type="number" placeholder="-" ng-model="snowing.height">
                 </label>
