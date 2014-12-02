@@ -50,7 +50,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
                 $scope.species = (newvalue === "false") ? all_species : filtered;
             }, true);
 
-        }, 200);
+        }, 100);
     });
     $scope.switchArea = function(area){
         $state.go('app.species', {areaId: area.id});
@@ -229,7 +229,8 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         }
         return tasks;
     };
-    this.getTaskForIndividual = function(user, area, species, individual) {
+    this.getTaskForIndividual = function(user, area, species, individual, all) {
+        var is_for_all = (angular.isDefined(all) && all === true)
         var tasks = this.getTaskForSpecies(species);
         var surveys = this.getSurveys(user, area.id, species.id, individual.id);
         var individualTasks = {};
@@ -259,6 +260,8 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             species[i].picture = toolService.getFullPictureUrl(speciesInfo.picture);
             species[i].individuals = self.getIndivuals(user, area, species[i].id)
         }
+        species.sort(function(a,b){ return a.name.localeCompare(b.name); });
+
         return species;
     };
     this.getIndivuals = function(user, area, species){
