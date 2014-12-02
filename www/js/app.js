@@ -7,16 +7,17 @@
 // the 2nd parameter is an array of 'requires'
 // 'phenology.controllers' is found in controllers.js
 angular.module('phenology', [
+  // external dependencies
   'ionic',
   'base64',
   'ngResource',
-  'ngCordova',
-  //
-  'leaflet-directive',
-  //angular-translate
-  'pascalprecht.translate',
+  'ngCordova', // ng-cordova 
+  'pasvaz.bindonce', // angular-bindonce 
+  'leaflet-directive', // angular-leaflet-directive
+  'pascalprecht.translate', // angular-translate
   'ngGeolocation',
   'pickadate',
+  // project modules
   'phenology.home',
   'phenology.snowings',
   'phenology.survey',
