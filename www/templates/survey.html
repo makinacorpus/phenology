@@ -12,17 +12,18 @@
 
     <div class="list">
 
-      <div class="pictures">
+      <!-- Pictures -->
+      <div class="pictures" bindonce>
         <div class="picture_left" ng-click="openSlideModal(0)">
-              <div class="picture" ng-style="{'background-image':'url({{survey.stage.picture_before}})'}"></div>
+              <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_before}})'}"></div>
               <p>{{ 'survey.picture.before' | translate }}</p>
         </div>
         <div class="picture_right" ng-click="openSlideModal(2)">
-              <div class="picture" ng-style="{'background-image':'url({{survey.stage.picture_after}})'}"></div>
+              <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_after}})'}"></div>
               <p>{{ 'survey.picture.after' | translate }}</p>
         </div>
-        <div class="picture_front">
-              <div class="picture" ng-click="openSlideModal(1)" ng-style="{'background-image':'url({{survey.stage.picture_current}})'}"></div>
+        <div class="picture_front" ng-click="openSlideModal(1)">
+              <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_current}})'}"></div>
         </div>
       </div>
 
