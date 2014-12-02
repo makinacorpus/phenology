@@ -6,7 +6,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
     var user = authApiClient.getUsername(),
         areaId = $stateParams.areaId,
-        class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark'];
+        class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark', 'blue', 'purple', 'orange', 'grey'];
     
     mapService.watchPosition();
 
@@ -67,7 +67,8 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                 type: 'circle'
             };
         **/
-
+        var all_coords = []
+        var i = 0;
         angular.forEach(all_species, function(species, id){
             angular.forEach(species.individuals, function(individual, key){
                 if((angular.isDefined(individual.lat) && individual.lat!=1) && angular.isDefined(individual.lon)){
@@ -88,14 +89,20 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                     }
                 }
            });
+           i = i+1;
         });
-
 
         $scope.individuals = filtered;
 
         $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
             $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
         }, true);
+
+        $scope.$on("leafletDirectiveMap.zoomend", function(event, args) {
+            leafletData.getMap().then(function(map) {
+                //console.log(map.getZoom());
+            });
+        });
 
         // check if coords are changed
         $scope.$watch(function() {
@@ -109,7 +116,6 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         });
 
         mapService.fitAreas([$scope.area]);
-
     }, 100);
 
     // center map on user if position exists
@@ -283,6 +289,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             enableHighAccuracy: true
         });
     }
+
     this.setPositionMarker = function(result) {
         // Pulsing marker inspired by
         // http://blog.thematicmapping.org/2014/06/real-time-tracking-with-spot-and-leafet.html
