@@ -332,28 +332,42 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         $log.debug("validate");
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId]['validated'] = true;
     };
+    this.getObservations = function(user, surveyId){
+        var all_observations = storageTraverser.traverse(String.format('/users/{0}/observations', user, surveyId));
+        return all_observations.filter(function(d){
+            return d.identifier === surveyId
+        })
+    }
     this.getSurveyLocalInfo = function(user, surveyId){
         // inject existing local data if any
         var data = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId));
-        if (angular.isUndefined(data)) {
-            // if nothing local, get synced data
-            data = storageTraverser.traverse(String.format('/users/{0}/observations/[identifier="{1}"]', user, surveyId));
-            if (angular.isDefined(data)){
-                var surveyDate = new Date(data.surveyDate);
-                var minDate = new Date();
-                var maxDate = new Date();
-                minDate.setMonth(minDate.getMonth() - 9);
-                maxDate.setMonth(minDate.getMonth() + 9);
-            }
 
-            if (!angular.isUndefined(data) && minDate < surveyDate && maxDate > surveyDate){
-                data.when = data.answer;
-                if(data.when == 'isObserved') {
-                    data.when = 'before';
-                }
-            } else {
-                data = {};
-                return data;
+        var minDate = new Date();
+        var maxDate = new Date();
+        // we look on data between [today - one year, today + 9months] 
+        minDate.setMonth(minDate.getMonth() - 12);
+        maxDate.setMonth(minDate.getMonth() + 9);
+
+        if (angular.isUndefined(data)) {
+            // if nothing local, get synced set of data
+            var datas = self.getObservations(user, surveyId);
+            // take the first survey that is 
+            if (angular.isDefined(datas)){
+                for (var i = 0; i < datas.length; i++) {
+                    var tmp_data = datas[i];
+                    var surveyDate = new Date(tmp_data.surveyDate);
+                    if(minDate < surveyDate && maxDate > surveyDate){
+                        data = angular.copy(tmp_data);
+                        data.when = data.answer;
+                        if(data.when == 'isObserved') {
+                            data.when = 'before';
+                        }
+                        break;
+                    }
+                };
+            }
+            if(angular.isUndefined(data)){
+                return {};
             }
         }
         // set before or today according the current day
