@@ -29,7 +29,6 @@ angular.module('phenology', [
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $location, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
-  globalizationService.init();
 
   angular.extend($scope,{
     $state: $state,
@@ -108,8 +107,9 @@ angular.module('phenology', [
   };
 })
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, globalizationService) {
   $ionicPlatform.ready(function() {
+    globalizationService.init();
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     //broken
