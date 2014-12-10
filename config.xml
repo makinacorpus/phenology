@@ -17,10 +17,8 @@
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="BackupWebStorage" value="none" />
-    
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="iosPersistentFileLocation" value="Library" />
-
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -32,6 +30,9 @@
     </feature>
     <feature name="Geolocation">
         <param name="id" value="org.apache.cordova.geolocation" />
+    </feature>
+    <feature name="Globalization">
+        <param name="id" value="org.apache.cordova.globalization" />
     </feature>
     <feature name="Network Information">
         <param name="id" value="org.apache.cordova.network-information" />
