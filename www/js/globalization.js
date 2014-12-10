@@ -74,7 +74,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 .service('globalizationDeviceService', ['$q', '$cordovaGlobalization', function ($q, $cordovaGlobalization) {
 
     this.getPreferredLanguage = function() {
-        return $cordovaGlobalization.getPreferredLanguage(options);
+        return $cordovaGlobalization.getPreferredLanguage();
     };
 
 }])
@@ -107,7 +107,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 .constant('locales', {
     // french
     'fr': {
-        // nav
+        // menu
         'nav.home': 'Accueil',
         'nav.survey': 'Observations',
         'nav.snowcover': 'Enneigement',
@@ -120,7 +120,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'nav.subheader.list': 'Liste',
         'nav.subheader.map': 'Carte',
         'nav.button.back': 'Retour',
-        // button labels
+        // actions
         'action.submit': 'Valider',
         'action.validated': 'Validé',
         'action.submitted': 'Déjà synchronisé',
@@ -133,12 +133,17 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.username': 'Identifiant',
         'login.password': 'Mot de passe',
         'login.action': 'S\'identifier',
-        // home section
+        'login.error.wrong': 'L\'identifiant ou le mot de passe est incorrect',
+        'login.error.no_observer': 'L\'utilisateur n\'est pas considéré comme observeur',
+        'login.error.no_connexion': 'Le serveur n\'est pas accéssible',
+        // Home
         'home.upcoming_tasks': 'Tâches en cours',
         'home.no_task': 'Il n\y a aucune tâche à traiter',
         'home.from': 'du',
         'home.to': 'au',
-        // survey section,
+        // Survey
+        'survey.change_stage': 'Choisir un autre stade',
+        'survey.date.title': 'Choisir une date',
         'survey.picture.before': 'AVANT',
         'survey.picture.current': 'PENDANT',
         'survey.picture.after': 'APRES',
@@ -149,20 +154,19 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.status.alreadypassed': 'Stade déjà passé',
         // snowcover section
         'snowcover.title': 'Il a neigé !',
+        'message.snowing_success': 'Les données sont enregistrées sur le mobile',
         // area select
         'area.choose': 'Choisir une zone',
-        // species section
+        // Species
         'species': 'Espèce',
         'species.choice.see_all': 'Voir tous les individus',
         'species.choice.see_to_observed': 'Voir les individus à observer',
         'species.change_area': 'Changer de zone',
         // general
-        'phenology': 'Phénologie',
+        'phenology': 'Phenoclim',
         'areas': 'Zones',
         'area': 'Zone',
         'survey': 'Observation',
-        'survey.change_stage': 'Choisir un autre stade',
-        'survey.date.title': 'Choisir une date',
         'snowcover': 'Enneigement',
         'to': 'au',
         'Flowering': 'Floraison',
@@ -173,11 +177,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.at_least_one': 'Au moins un champ est requis',
         'error.not_number': 'Doit être un chiffre',
         'error.title': 'Erreur',
-        'sucess.title': 'Succès',
-        'message.snowing_success': 'Les données sont enregistrées sur le mobile',
-        'login.error.wrong': 'L\'identifiant ou le mot de passe est incorrect',
-        'login.error.no_observer': 'L\'utilisateur n\'est pas considéré comme observeur',
-        'login.error.no_connexion': 'Le serveur n\'est pas accéssible'
+        'sucess.title': 'Succès'
     },
     // english
     'en': {
