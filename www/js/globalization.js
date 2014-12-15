@@ -181,6 +181,71 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
     },
     // english
     'en': {
+      // nav
+      'nav.home': 'Home',
+      'nav.survey': 'Surveys',
+      'nav.snowcover': 'Snow cover',
+      'nav.last_surveys': 'My last surveys',
+      'nav.upload': 'Synchronization',
+      'nav.protocol': 'Protocol',
+      'nav.help': 'Help',
+      'nav.credits': 'Credits',
+      'nav.change_user': 'Change user',
+      'nav.subheader.list': 'List',
+      'nav.subheader.map': 'Map',
+      'nav.button.back': 'Back',
+      // button labels
+      'action.submit': 'Validate',
+      'action.validated': 'Validated',
+      'action.submitted': 'Already synchronized',
+      'action.unlock': '(click to unlock)',
+      'action.synchronize': 'Synchronize my data',
+      'action.close': 'Close',
+      'action.cancel': 'Cancel',
+      // login section
+      'login.title': 'Login',
+      'login.username': 'Username',
+      'login.password': 'Password',
+      'login.action': 'Login',
+      // home section
+      'home.upcoming_tasks': 'Upcoming tasks',
+      'home.no_task': 'No task',
+      'home.from': 'to',
+      'home.to': 'to',
+      // survey section
+      'survey.picture.before': 'BEFORE',
+      'survey.picture.current': 'CURRENT',
+      'survey.picture.after': 'AFTER',
+      'survey.status.observed': 'Observed',
+      'survey.status.today': 'Today',
+      'survey.status.lost': 'Individual lost',
+      'survey.status.never': 'Stage never happened',
+      'survey.status.alreadypassed': 'Stage already passed',
+      // snowcover section
+      'snowcover.title': 'It snowed!',
+      // area select
+      'area.choose': 'Choose an area',
+      // species section
+      'species': 'Species',
+      'species.choice.see_all': 'See all individuals',
+      'species.choice.see_to_observed': 'See individuals to observe',
+      'species.change_area': 'Change area',
+      // general
+      'areas': 'Areas',
+      'area': 'Area',
+      'survey': 'Survey',
+      'survey.change_stage': 'Change stage',
+      'snowcover': 'Snow cover',
+      'to': 'to',
+      'Flowering': 'Flowering',
+      'error.at_least_one': 'At least one field has to be filled',
+      'error.not_number': 'Need a number',
+      'error.title': 'Error',
+      'sucess.title': 'Success',
+      'message.snowing_success': 'Done, need to synchronize to send it to the server'
+    },
+    // italiano
+    'it': {
         // nav
         'nav.home': 'Home',
         'nav.survey': 'Surveys',
@@ -257,7 +322,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         locale: 'en'
     },
     'it': {
-        label: 'Italian',
+        label: 'Italiano',
         locale: 'it'
     }
 });
