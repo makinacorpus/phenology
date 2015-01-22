@@ -242,6 +242,22 @@ angular.module('phenology', [
           templateUrl: "templates/credits.html"
         }
       }
+    })
+    .state('app.help', {
+      url: "/help",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/help.html"
+        }
+      }
+    })
+    .state('app.protocol', {
+      url: "/protocol",
+      views: {
+        'mainContent' :{
+          templateUrl: "templates/protocol.html"
+        }
+      }
     });
 
   // if none of the above states are matched, use this as the fallback
