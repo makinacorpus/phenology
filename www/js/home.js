@@ -25,8 +25,8 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         }
     };
 })
-.service('HomeService', function(storageTraverser, authApiClient, surveyService){
-    
+.service('HomeService', function(storageTraverser, authApiClient, surveyService, tasksService){
+
     var self = this;
 
     this.getTasks = function(username){
@@ -34,23 +34,22 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
             var species = storageTraverser.traverse("/users/" + username + "/species"),
                 tasks = [],
                 today = new Date();
-
             angular.forEach(species, function(item, id){
-                angular.forEach(item.stages, function(item2, id2){
-                    var date_start = new Date(item2.date_start);
-                    var date_end = new Date(item2.date_end);
-                    if(today >= date_start && today <= date_end){
-                        var task = item2;
-                        task.species_name = item.name;
-                        task.species_id = item.id;
-                        this.push(task);
-                    }
-                }, tasks);
+              var stages = tasksService.getTasksForSpecies(item);
+              angular.forEach(stages, function(item2, id2){
+                  var task = angular.copy(item2);
+                  task.species_name = item.name;
+                  task.species_id = item.id;
+                  this.push(task);
+              }, tasks);;
             });
 
-            tasks.sort(function(a, b){ var a1=new Date(a.date_start); var b2=new Date(b.date_start); return a1-b2});
-
+            tasks.sort(function(a, b){
+              var a1=new Date(today.getFullYear(), (+a.month_start)-1, a.day_start);
+              var b2=new Date(today.getFullYear(), (+b.month_start)-1, b.day_start);
+              return a1-b2});
             return tasks;
         }
     }
+
 })
