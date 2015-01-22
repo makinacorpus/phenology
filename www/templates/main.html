@@ -40,26 +40,26 @@
     </header>
     <ion-content class="has-header" has-bouncing="false">
       <ion-list>
-        <ion-item class="item-icon-left item-menu-home" nav-clear menu-close ui-sref="app.home">
+        <ion-item class="item-icon-left item-menu-home" nav-clear menu-close href="#/app/home">
           <i class="icon ion-ios7-home"></i>{{ 'nav.home' | translate }}
         </ion-item>
-        <ion-item class="item-icon-left item-menu-snowing" nav-clear menu-close ui-sref="app.snowing">
+        <ion-item class="item-icon-left item-menu-snowing" nav-clear menu-close href="#/app/snowing">
           <i class="icon ion-ios7-snowy"></i>{{ 'nav.snowcover' | translate }}
         </ion-item>
         <ion-item class="item-icon-left item-menu-survey" nav-clear menu-close ng-click="go_to_surveys_section()">
           <i class="icon icon ion-leaf"></i> {{ 'nav.survey' | translate }}
           <!--Survey-->
         </ion-item>
-        <ion-item class="item-icon-left item-menu-last-survey" nav-clear menu-close ui-sref="app.last_surveys">
+        <ion-item class="item-icon-left item-menu-last-survey" nav-clear menu-close href="#/app/last_surveys">
           <i class="icon ion-ios7-browsers"></i> {{ 'nav.last_surveys' | translate }}
         </ion-item>
-        <ion-item class="item-icon-left item-menu-protocol" nav-clear menu-close href="#/app/home">
+        <ion-item class="item-icon-left item-menu-protocol" nav-clear menu-close href="#/app/protocol">
           <i class="icon ion-ios7-ionic-outline"></i>{{ 'nav.protocol' | translate }}
         </ion-item>
-        <ion-item class="item-icon-left item-menu-help" nav-clear menu-close href="#/app/home">
+        <ion-item class="item-icon-left item-menu-help" nav-clear menu-close href="#/app/help">
           <i class="icon ion-help"></i>{{ 'nav.help' | translate }}
         </ion-item>
-        <ion-item class="item-icon-left item-menu-credits" nav-clear menu-close ui-sref="app.credits">
+        <ion-item class="item-icon-left item-menu-credits" nav-clear menu-close href="#/app/credits">
           <i class="icon ion-ios7-analytics-outline"></i>{{ 'nav.credits' | translate }}
         </ion-item>
         <ion-item class="item-icon-left item-menu-change-user" nav-clear menu-close ng-click="login_and_redirect()">
