@@ -219,7 +219,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     this.getTasksForSpecies = function(species, monthdiff){
       if(angular.isUndefined(monthdiff)){
-        monthdiff = 4;
+        monthdiff = 2;
       }
       var tasks = [];
       var today = new Date();
