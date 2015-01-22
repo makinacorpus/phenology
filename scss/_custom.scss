@@ -123,7 +123,7 @@
     }
     .bar-subheader.bar.bar-dark {
         padding:0;
-        height:auto; 
+        height:auto;
         border-width: 0;
         background-color: $subheader_dark_bg;
     }
@@ -212,9 +212,15 @@
     }
 }
 
+/** credits **/
+.credits__logo{
+  height: 40px;
+  margin-right:20px;
+}
+
 /** area map section **/
 .area-map-section{
-    .list{ 
+    .list{
         margin:0;
     }
     .item-first{
@@ -276,7 +282,7 @@ a.individual-item {
         -webkit-animation: pulse 2s ease-out;
         animation: pulse 2s ease-out;
         -webkit-animation-iteration-count: infinite;
-        animation-iteration-count: infinite; 
+        animation-iteration-count: infinite;
     }
     .leaflet-popup .individual-popup{
         text-align: center;
@@ -341,20 +347,20 @@ a.individual-item {
 @-webkit-keyframes pulse {
     from {
         stroke-width: 15;
-        stroke-opacity: 1; 
+        stroke-opacity: 1;
     }
     to {
         stroke-width: 50;
-        stroke-opacity: 0; 
-    } 
+        stroke-opacity: 0;
+    }
 }
 @keyframes pulse {
     from {
         stroke-width: 15;
-        stroke-opacity: 1; 
+        stroke-opacity: 1;
     }
     to {
         stroke-width: 50;
-        stroke-opacity: 0; 
-    } 
+        stroke-opacity: 0;
+    }
 }
