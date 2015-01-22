@@ -19,7 +19,7 @@ describe('snowing', function() {
 
   it('use side to load snowing section', function() {
     element(by.css('.menu-content .left-buttons')).click();
-    var menu_item = by.css("[ui-sref='app.snowing']");
+    var menu_item = by.css(".item-menu-snowing");
     expect(ptor.isElementPresent(menu_item)).toBe(true);
     element(menu_item).click();
   });
