@@ -30,7 +30,7 @@
       <!-- observed today -->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'today'">
-        <div class="item-content disable-pointer-events" ng-transclude>
+        <div class="item-content disable-pointer-events">
           <span>{{ 'survey.status.today' | translate }}</span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
@@ -39,7 +39,7 @@
       <!-- observed another day -->
       <label class="item item-radio" ng-click="opendateModal()">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'before'">
-        <div class="item-content disable-pointer-events" ng-transclude>
+        <div class="item-content disable-pointer-events">
           <span>{{ 'survey.status.observed' | translate }}</span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
@@ -56,7 +56,7 @@
       <!-- lost or dead -->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isLost'">
-        <div class="item-content disable-pointer-events" ng-transclude>
+        <div class="item-content disable-pointer-events">
           <span>{{ 'survey.status.lost' | translate }}</span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
@@ -65,7 +65,7 @@
       <!-- never-->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isNever'">
-        <div class="item-content disable-pointer-events" ng-transclude>
+        <div class="item-content disable-pointer-events">
           <span>{{ 'survey.status.never' | translate }}</span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
@@ -74,7 +74,7 @@
       <!-- missed -->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isPassed'">
-        <div class="item-content disable-pointer-events" ng-transclude>
+        <div class="item-content disable-pointer-events">
           <span>{{ 'survey.status.alreadypassed' | translate }}</span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
