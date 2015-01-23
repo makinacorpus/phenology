@@ -314,6 +314,9 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
                 surveys.push(observation);
             }
         }
+        surveys.sort(function(a, b){
+          return (a.surveyDate > b.surveyDate);
+        });
         return surveys;
     };
     this.getAreaSpecies = function(user){
