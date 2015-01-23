@@ -141,6 +141,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     $ionicModal.fromTemplateUrl('templates/datemodal.html',
         function(modal) {
             $scope.datemodal = modal;
+            $scope.maxDate = new Date();
         },
         {
             scope: $scope,
