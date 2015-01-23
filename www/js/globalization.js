@@ -153,7 +153,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'survey.status.never': 'Stade absent',
         'survey.status.alreadypassed': 'Stade déjà passé',
         // snowcover section
-        'snowcover.title': 'Il a neigé !',
+        'snowcover.title': 'Hauteur de neige aujourd\'hui',
         'message.snowing_success': 'Les données sont enregistrées sur le mobile',
         // area select
         'area.choose': 'Choisir une zone',
