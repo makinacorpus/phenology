@@ -73,8 +73,6 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
 .controller('LastSurveyCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $location, $log) {
     var user = authApiClient.getUsername();
-    var areaId = $stateParams.areaId;
-    var observations = storageTraverser.traverse("/users/" + user + "/observations");
     $scope.areas = speciesService.getAreaSpecies(user);
 })
 
