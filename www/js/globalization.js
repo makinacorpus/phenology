@@ -124,7 +124,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'action.submit': 'Valider',
         'action.validated': 'Validé',
         'action.submitted': 'Déjà synchronisé',
-        'action.unlock': '(cliquer pour déverouiller)',
+        'action.unlock': '(cliquer pour déverrouiller)',
         'action.synchronize': 'Synchroniser mes données',
         'action.close': 'Fermer',
         'action.cancel': 'Annuler',
@@ -135,7 +135,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.action': 'S\'identifier',
         'login.error.wrong': 'L\'identifiant ou le mot de passe est incorrect',
         'login.error.no_observer': 'L\'utilisateur n\'est pas considéré comme observeur',
-        'login.error.no_connexion': 'Le serveur n\'est pas accéssible',
+        'login.error.no_connexion': 'Le serveur n\'est pas accessible',
         // Home
         'home.upcoming_tasks': 'Tâches en cours',
         'home.no_task': 'Il n\y a aucune tâche à traiter',
