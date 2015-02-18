@@ -137,7 +137,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.error.no_observer': 'L\'utilisateur n\'est pas considéré comme observeur',
         'login.error.no_connexion': 'Le serveur n\'est pas accessible',
         // Home
-        'home.upcoming_tasks': 'Tâches en cours',
+        'home.upcoming_tasks': 'Observations en cours',
         'home.no_task': 'Il n\y a aucune tâche à traiter',
         'home.from': 'du',
         'home.to': 'au',
