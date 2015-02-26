@@ -6,7 +6,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     $scope.areas = storageTraverser.traverse('/users/' + authApiClient.getUsername() +'/areas') || {};
 })
 
-.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $state, $timeout) {
+.controller('SpeciesCtrl', function($scope, $stateParams, speciesService, authApiClient, storageTraverser, $state, $timeout, $ionicScrollDelegate) {
     var user = authApiClient.getUsername();
     var areaId = $stateParams.areaId;
     $scope.areas = storageTraverser.traverse("/users/" + user + "/areas");
@@ -15,7 +15,11 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         areaId = $scope.areas[0].id;
         $stateParams.areaId = areaId;
     }
-
+    $scope.scrollBottom = function(is_last){
+        if(is_last){
+            $ionicScrollDelegate.scrollBottom(true);
+        }
+    }
 
     $scope.$on('$viewContentLoaded', function(){
         $timeout( function() {
