@@ -8,7 +8,8 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
     $scope.$watch(function() {
         return angular.toJson(storageTraverser.traverse("/sessions/current"));
     }, function() {
-        $scope.user.upcomming_tasks = HomeService.getTasks(storageTraverser.traverse("/sessions/current/username"));
+        $scope.user.username = authApiClient.getUsername();
+        //$scope.user.upcomming_tasks = HomeService.getTasks(storageTraverser.traverse("/sessions/current/username"));
     });
 
     $scope.synchronize = function(){
@@ -20,7 +21,7 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         }
         else{
             synchronizeService.synchronize().then(function(event){
-                $scope.user.upcomming_tasks = HomeService.getTasks(username);
+                //$scope.user.upcomming_tasks = HomeService.getTasks(username);
             });
         }
     };

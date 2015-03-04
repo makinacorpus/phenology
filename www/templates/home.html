@@ -6,26 +6,16 @@
 
   <ion-content class="has-header tasks-section with-background">
 
-    <div class="synchronize-button-container">
+    <div class="card text-center" style="padding:30px;" >
+    <h3>{{ 'home.welcome' | translate }} {{ user.username }} !</h3> 
+    <h4>{{ 'home.text' | translate }}</h4>
+      <br/> 
       <button ng-click="synchronize()" class="button button-positive icon ion-ios7-cloud-upload">
         <span>{{ 'action.synchronize' | translate }}</span>
       </button>
     </div>
-
-    <div class="card main-title">
-      <h1>{{ 'home.upcoming_tasks' | translate }}</h1>
-    </div>
-
-    <div class="card list">
-        <ion-item bindonce ng-repeat="task in user.upcomming_tasks" class="task-item" ng-if="task.individuals.length!=0" ng-click="go_to_surveys_section()">
-          <span bo-text="task.species_name"></span> 
-          <span class="task-name" bo-text="task.name | translate"></span> 
-        </ion-item>
-    </div>
-    <div ng-if="task.individuals.length==0">{{'home.no_task' | translate}}</div>
-
-    <img src="img/logo.png" class="home__logo" />
-
+    <img src="img/CREA_blanc.jpg" class="home__logo" />
+    <img src="img/logo.png" class="home__logo epheno" />
   </ion-content>
 
 </ion-view>
