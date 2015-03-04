@@ -138,6 +138,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'login.error.no_connexion': 'Le serveur n\'est pas accessible',
         // Home
         'home.upcoming_tasks': 'Observations en cours',
+        'home.text': 'Avant et après chaque saisie sur le terrain, mettez vos données à jour.',
+        'home.welcome': 'Bienvenu',
         'home.no_task': 'Il n\y a aucune tâche à traiter',
         'home.from': 'du',
         'home.to': 'au',
@@ -210,6 +212,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
       // home section
       'home.upcoming_tasks': 'Upcoming tasks',
       'home.no_task': 'No task',
+      'home.text': 'Before and after each entry in the field, update your data.',
+      'home.welcome': 'Welcome',
       'home.from': 'to',
       'home.to': 'to',
       // survey section
@@ -275,6 +279,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         // home section
         'home.upcoming_tasks': 'Upcoming tasks',
         'home.no_task': 'No task',
+        'home.text': 'Prima e dopo ogni entrata in campo, aggiornare i dati.',
+        'home.welcome': 'Benvenuto',
         'home.from': 'to',
         'home.to': 'to',
         // survey section
