@@ -2,9 +2,9 @@
   <ion-nav-buttons side="left">
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <div style="text-align:center;pointer-events:none;">
-      <h2 style="margin:3px;">{{survey.stage.name | translate}}</h2>
-      <h4 style="margin:0;">{{individual.name}}</h4>
+    <div class="survey__title text-center" >
+      <h2 class="stage__name" ng-bind="survey.stage.name"></h2>
+      <h4 class="individual__name" ng-bind="individual.name"></h4>
     </div>
 
     <div class="list">
@@ -12,24 +12,24 @@
       <div class="pictures" bindonce>
         <div class="picture_left" ng-click="openSlideModal(0)">
               <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_before}})'}"></div>
-              <p>{{ 'survey.picture.before' | translate }}</p>
+              <p translate="survey.picture.before"></p>
         </div>
         <div class="picture_right" ng-click="openSlideModal(2)">
               <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_after}})'}"></div>
-              <p>{{ 'survey.picture.after' | translate }}</p>
+              <p translate="survey.picture.after"></p>
         </div>
         <div class="picture_front" ng-click="openSlideModal(1)">
               <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_current}})'}"></div>
         </div>
       </div>
-      <div style="text-align:center;padding-bottom:2px;">
-          {{ 'survey.last_survey' | translate }} : {{ (lastSurvey.surveyDate | date) || ( 'survey.no_survey' | translate) }}
+      <div class="last__survey text-center">
+          <span translate="survey.last_survey"></span> : {{ (lastSurvey.surveyDate | date) || ( 'survey.no_survey' | translate) }}
       </div>
       <!-- observed today -->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'today'">
         <div class="item-content disable-pointer-events">
-          <span>{{ 'survey.status.today' | translate }}</span>
+          <span translate="survey.status.today"></span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
       </label>
@@ -38,7 +38,7 @@
       <label class="item item-radio" ng-click="opendateModal()">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'before'">
         <div class="item-content disable-pointer-events">
-          <span>{{ 'survey.status.observed' | translate }}</span>
+          <span translate="survey.status.observed"></span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
       </label>
@@ -46,7 +46,7 @@
       <label class="item item-input item-date" ng-if="survey.when=='before'">
         <span class="input-label">Date</span>
         <div  ng-click="opendateModal()" class="item-content">
-          <span class="title"> {{ survey.beforeDate | date:"mediumDate" }} </span> 
+          <span class="title" ng-bind="survey.beforeDate | date:'mediumDate'"></span> 
           <button class="button button-small" ><i class="icon ion-compose"></i></button>
         </div>
       </label>
@@ -55,7 +55,7 @@
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isLost'">
         <div class="item-content disable-pointer-events">
-          <span>{{ 'survey.status.lost' | translate }}</span>
+          <span translate="survey.status.lost"></span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
       </label>
@@ -64,7 +64,7 @@
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isNever'">
         <div class="item-content disable-pointer-events">
-          <span>{{ 'survey.status.never' | translate }}</span>
+          <span translate="survey.status.never"></span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
       </label>
@@ -73,35 +73,32 @@
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'isPassed'">
         <div class="item-content disable-pointer-events">
-          <span>{{ 'survey.status.alreadypassed' | translate }}</span>
+          <span translate="survey.status.alreadypassed"></span>
         </div>
         <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
       </label>
 
-      <button class="button button-block button-positive" ng-click="validate()" ng-hide="survey.validated">
-        {{ 'action.submit' | translate}}
+      <button class="button button-block button-positive" 
+              ng-click="validate()" ng-if="!survey.validated"
+              translate="action.submit">
       </button>
 
-      <button class="button button-block" ng-hide="!(survey.validated && survey.identifier)"
+      <button class="button button-block" ng-if="(survey.validated && survey.identifier)"
         ng-click="unlock()">
         {{ 'action.submitted' | translate }} 
         <i class="icon ion-cloud icon_ok"></i>
-        <span ng-if="locked">{{ 'action.unlock' | translate }}</span>
+        <span ng-if="locked" translate="action.unlock"></span>
       </button>
 
-      <button class="button button-block" ng-hide="!(survey.validated && !survey.identifier)">
+      <button class="button button-block" ng-if="(survey.validated && !survey.identifier)">
         {{ 'action.validated' | translate }} 
         <i class="icon ion-upload icon_warning"></i>
       </button>
 
-      <button class="button button-clear" ng-click="cancel()">
-        {{ 'action.cancel' | translate}}
-      </button>
+      <button class="button button-clear" ng-click="cancel()" translate="action.cancel"></button>
       
       <label class="item item-input item-select">
-        <div class="input-label">
-          {{ 'survey.change_stage' | translate}}
-        </div>
+        <div class="input-label" translate="survey.change_stage"></div>
         <select ng-options="sta.id as sta.name | translate for sta in stages" 
                 ng-model="current_stage.id" 
                 ng-change="switchStage(current_stage)"></select>

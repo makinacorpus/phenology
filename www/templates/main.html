@@ -1,31 +1,34 @@
 <ion-side-menus>
 
-  <ion-pane ion-side-menu-content no-tap-scroll="true">
+  <ion-pane ion-side-menu-content no-tap-scroll="true" animation="none">
 
     <ion-nav-bar class="no-animation bar bar-header bar-stable" animation="none">
       <!-- back button -->
-      <ion-nav-back-button class="button-clear no-animation"><i class="icon ion-ios7-arrow-back"></i> {{ 'nav.button.back' | translate }}</ion-nav-back-button>
+      <ion-nav-back-button class="button-clear no-animation">
+        <i class="icon ion-ios7-arrow-back"></i>
+        <span translate="nav.button.back">
+      </ion-nav-back-button>
     </ion-nav-bar>
 
     <!-- area subheader -->
     <ion-header-bar class="bar-subheader bar bar-dark" ng-if="$state.includes('app.species') || $state.includes('app.map')">
         <div class="button-bar">
-            <a class="button species-list" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}">
-              {{ 'nav.subheader.list' | translate }}
+            <a class="button species-list" ui-sref="app.species($state.params)" ng-class="{ active: $state.includes('app.species')}"
+              translate="nav.subheader.list">
             </a>
-            <a class="button species-map" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }">
-              {{ 'nav.subheader.map' | translate }}
+            <a class="button species-map" ui-sref="app.map($state.params)" ng-class="{ active: $state.includes('app.map') }"
+              translate="nav.subheader.map">
             </a>
         </div>
     </ion-header-bar>
     <!-- areas subheader --> 
     <ion-header-bar class="bar-subheader bar bar-dark" ng-if="$state.includes('app.areas') || $state.includes('app.globalmap')">
         <div class="button-bar">
-            <a class="button areas-list" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}">
-              {{ 'nav.subheader.list' | translate }}
+            <a class="button areas-list" ui-sref="app.areas" ng-class="{ active: $state.includes('app.areas')}"
+              translate="nav.subheader.list">
             </a>
-            <a class="button areas-map" ui-sref="app.globalmap" ng-class="{ active: $state.includes('app.globalmap') }">
-              {{ 'nav.subheader.map' | translate }}
+            <a class="button areas-map" ui-sref="app.globalmap" ng-class="{ active: $state.includes('app.globalmap') }"
+              translate="nav.subheader.map">
             </a>
         </div>
     </ion-header-bar>
@@ -41,29 +44,37 @@
     <ion-content class="has-header" has-bouncing="false">
       <ion-list>
         <ion-item class="item-icon-left item-menu-home" nav-clear menu-close href="#/app/home">
-          <i class="icon ion-ios7-home"></i>{{ 'nav.home' | translate }}
+          <i class="icon ion-ios7-home"></i>
+          <span translate="nav.home"></span>
         </ion-item>
         <ion-item class="item-icon-left item-menu-snowing" nav-clear menu-close href="#/app/snowing">
-          <i class="icon ion-ios7-snowy"></i>{{ 'nav.snowcover' | translate }}
+          <i class="icon ion-ios7-snowy"></i>
+          <span translate="nav.snowcover"></span>
         </ion-item>
         <ion-item class="item-icon-left item-menu-survey" nav-clear menu-close ng-click="go_to_surveys_section()">
-          <i class="icon icon ion-leaf"></i> {{ 'nav.survey' | translate }}
+          <i class="icon icon ion-leaf"></i>
+          <span translate="nav.survey"></span>
           <!--Survey-->
         </ion-item>
         <ion-item class="item-icon-left item-menu-last-survey" nav-clear menu-close href="#/app/last_surveys">
-          <i class="icon ion-ios7-browsers"></i> {{ 'nav.last_surveys' | translate }}
+          <i class="icon ion-ios7-browsers"></i>
+          <span translate="nav.last_surveys"></span>
         </ion-item>
-        <ion-item class="item-icon-left item-menu-protocol" nav-clear menu-close href="#/app/protocol">
-          <i class="icon ion-ios7-ionic-outline"></i>{{ 'nav.protocol' | translate }}
+        <ion-item class="item-icon-left item-menu-protocol" ng-click="browseTo('mobile/le-protocole')">
+          <i class="icon ion-ios7-ionic-outline"></i>
+          <span translate="nav.protocol"></span>
         </ion-item>
-        <ion-item class="item-icon-left item-menu-help" nav-clear menu-close href="#/app/help">
-          <i class="icon ion-help"></i>{{ 'nav.help' | translate }}
+        <ion-item class="item-icon-left item-menu-help"  ng-click="browseTo('mobile/aide')">
+          <i class="icon ion-help"></i>
+          <span translate="nav.help"></span>
         </ion-item>
-        <ion-item class="item-icon-left item-menu-credits" nav-clear menu-close href="#/app/credits">
-          <i class="icon ion-ios7-analytics-outline"></i>{{ 'nav.credits' | translate }}
+        <ion-item class="item-icon-left item-menu-credits"  ng-click="browseTo('mobile/partenaires-et-credits')">
+          <i class="icon ion-ios7-analytics-outline"></i>
+          <span translate="nav.credits"></span>
         </ion-item>
         <ion-item class="item-icon-left item-menu-change-user" nav-clear menu-close ng-click="login_and_redirect()">
-          <i class="icon ion-person-stalker"></i>{{ 'nav.change_user' | translate }}
+          <i class="icon ion-person-stalker"></i>
+          <span translate="nav.change_user"></span>
         </ion-item>
       </ion-list>
     </ion-content>
