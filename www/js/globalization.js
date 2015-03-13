@@ -81,12 +81,14 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
 
 .service('globalizationService', ['$q', '$translate', 'globalizationFactory', '$localStorage', 'tmhDynamicLocale', function($q, $translate, globalizationFactory, $localStorage, tmhDynamicLocale) {
     var self = this;
+
     this.init = function() {
         var deferred = $q.defer();
 
         globalizationFactory.detectLanguage()
         .then(function(language) {
         $translate.use(language);
+            self.language = language;
             self.translateTo(language);
             deferred.resolve(language);
         }, function(error){
@@ -101,6 +103,9 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         tmhDynamicLocale.set(language);
     };
 
+    this.getLanguage = function(){
+        return self.language;
+    }
 }])
 
 // App translatable strings (.po/.mo equivalent)
