@@ -4,7 +4,7 @@ describe('areaSpecies', function() {
   var sub_header_area_map = by.css(".areas-map");
   var sub_header_area_list= by.css(".areas-list");
   
-  var map = by.css(".angular-leaflet-map");
+  var map = by.css(".map");
   
   var option_observed = by.css(".option-observed")
   var option_all = by.css(".option-all");
@@ -59,7 +59,6 @@ describe('areaSpecies', function() {
     expect(ptor.isElementPresent(map)).toBe(true);
     expect(ptor.isElementPresent(sub_header_species_map)).toBe(true);
     expect(ptor.isElementPresent(sub_header_species_list)).toBe(true);
-
     element(sub_header_species_list).click();
     expect(ptor.isElementPresent(map)).toBe(false);
     expect(ptor.isElementPresent(sub_header_species_map)).toBe(true);
