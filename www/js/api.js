@@ -96,5 +96,5 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
 }])
 .constant('apiSettings', {
   //backend_url: "http://0.0.0.0:8000"
-  backend_url: "http://pre-staging-phenology.makina-corpus.net"
+  backend_url: "http://backend.phenoclim.org"
 });
