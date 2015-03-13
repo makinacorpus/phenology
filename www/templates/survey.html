@@ -2,16 +2,12 @@
   <ion-nav-buttons side="left">
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <div style="text-align:center;padding:5px;">
-        Dernière saisie : {{ lastSurvey.name | translate }} {{ lastSurvey.surveyDate | date }}
-    </div>
-    <div style="text-align:center;">
-      <h2>{{survey.stage.name | translate}}</h2>
-      <h4>{{individual.name}}</h4>
+    <div style="text-align:center;pointer-events:none;">
+      <h2 style="margin:3px;">{{survey.stage.name | translate}}</h2>
+      <h4 style="margin:0;">{{individual.name}}</h4>
     </div>
 
     <div class="list">
-
       <!-- Pictures -->
       <div class="pictures" bindonce>
         <div class="picture_left" ng-click="openSlideModal(0)">
@@ -26,7 +22,9 @@
               <div class="picture" bo-style="{'background-image':'url({{survey.stage.picture_current}})'}"></div>
         </div>
       </div>
-
+      <div style="text-align:center;padding-bottom:2px;">
+          {{ 'survey.last_survey' | translate }} : {{ (lastSurvey.surveyDate | date) || ( 'survey.no_survey' | translate) }}
+      </div>
       <!-- observed today -->
       <label class="item item-radio">
         <input type="radio" name="radio-group" ng-disabled="locked" ng-model="survey.when" ng-value="'today'">
