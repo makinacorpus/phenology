@@ -1,27 +1,50 @@
 'use strict';
 
+var map;
+
 angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
-.controller('MapCtrl', function($scope, $geolocation, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
+.controller('MapCtrl', function($scope, $geolocation, $ionicBackdrop, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
 
     var user = authApiClient.getUsername(),
         areaId = $stateParams.areaId,
-        class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark', 'blue', 'purple', 'orange', 'grey'];
-    
-    mapService.watchPosition();
+        class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark', 'blue', 'purple', 'orange', 'grey'],
+        layers = L.featureGroup() ;
+    $ionicBackdrop.release();
+    map = L.map('map', {
+        zoomControl: false,
+        zoom: 9,
+    });
+    var phenoMarker = L.AwesomeMarkers.icon({
+      icon: 'pagelines',
+      markerColor: 'green',
+      prefix: 'fa'
+    });
+    var myIcon = L.divIcon({
+        className: 'phenology-marker',
+        iconSize: [50, 65],
+        iconAnchor:   [26, 60],
+        popupAnchor: [-3, -50],
+        shadowAnchor: [10, 12],
+        shadowSize: [0, 0],
+        prefix: 'glyphicon',
+        spinClass: 'fa-spin',
+        extraClasses: '',
+        icon: 'home',
+        html: '<i class="ion-leaf"></i>',
+        markerColor: 'blue',
+        iconColor: 'white'
+    });
+
+    // add an OpenStreetMap tile layer
+    L.tileLayer(mapService.getBackGroundUrl(), {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
-            defaults: {
-                zoomControl: false,
-                zoom: 9,
-            },
             filter: {
                 showOnlyNeeded: "true"
-            },
-            tiles: {
-                url: mapService.getBackGroundUrl(),
-                options: {}
             },
             geojson: undefined,
             individuals: {},
@@ -40,14 +63,15 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                             }
                     })
                 ]
-            } **/
+            }
+            **/
         }
     );
-
+    //mapService.watchPosition();
     if(!(angular.isDefined(areaId) && areaId !== "")){
         areaId = $stateParams.areaId = $scope.areas[0].id;
     }
-
+    console.log(areaId);
     $scope.area = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
@@ -57,16 +81,6 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         var all_species = speciesService.getSpecies(authApiClient.getUsername(), $scope.area.id),
             filtered = {},
             all_individuals = {};
-
-        /**
-        $scope.paths['area'] = {
-                weight: 2,
-                color: 'blue',
-                latlngs: {lat: $scope.area.lat, lng: $scope.area.lon},
-                radius: 500,
-                type: 'circle'
-            };
-        **/
         var all_coords = []
         var i = 0;
         angular.forEach(all_species, function(species, id){
@@ -91,11 +105,11 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
            });
            i = i+1;
         });
-
         $scope.individuals = filtered;
 
         $scope.$watch('filter.showOnlyNeeded', function(newvalue, oldvalue) {
             $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
+            $scope.refresh();
         }, true);
 
         $scope.$on("leafletDirectiveMap.zoomend", function(event, args) {
@@ -114,9 +128,21 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                 $scope.paths["userposition"] = mapService.setPositionMarker($scope.position);
             }
         });
+        //mapService.fitAreas([$scope.area]);
 
-        mapService.fitAreas([$scope.area]);
     }, 100);
+
+    $scope.refresh = function(){
+        console.log("refresh");
+        layers.clearLayers();
+        angular.forEach($scope.individuals, function(d, i){
+            var marker = L.marker([d.lat, d.lng], {icon: myIcon});
+            marker.addTo(layers);
+            marker.bindPopup(d.message);
+        })
+        layers.addTo(map);
+        map.fitBounds(layers.getBounds());
+    }
 
     // center map on user if position exists
     $scope.centerMapOnUser = function() {

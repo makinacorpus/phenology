@@ -4,9 +4,8 @@
   </ion-nav-buttons>
 
   <ion-content class="has-subheader area-map-section" has-bouncing="false" ng-cloak>
-    <ul class="list">
-
-      <li class="item item-checkbox item-first">
+    <ul class="filter-list list">
+      <li class="item item-checkbox option-all">
          <label class="checkbox">
            <input type="radio" ng-model="filter.showOnlyNeeded" value="false">
          </label>
@@ -19,20 +18,12 @@
          <span translate="species.choice.see_to_observed"></span>
       </li>
 
-      <li class="map">
+      <li id="map" class="map" data-tap-disabled="true">
         <div class="leaflet-bar leaflet-control">
           <button class="button button-medium" ng-click="centerMapOnUser()">
             <i class="icon ion-android-locate"></i>
           </button>
         </div>
-        <!-- Leaflet directive -->
-        <leaflet defaults="defaults" 
-                 markers="individuals" 
-                 tiles="tiles"
-                 height="350px" 
-                 width="100%"
-                 paths="paths"
-                 data-tap-disabled="true"></leaflet>
       </li>
 
       <li class="item item-input item-select" ng-if="areas.length>1">
