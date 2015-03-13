@@ -352,6 +352,20 @@ a.individual-item {
     }
 }
 
+/** survey title **/
+.survey__title{
+    .stage__name{
+        margin: 3px;
+    }
+    .indivual__name{
+        margin: 0px;
+    }
+}
+
+.last__survey{
+    padding-bottom:2px;
+}
+
 /** pulse animation **/
 @-webkit-keyframes pulse {
     from {
