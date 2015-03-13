@@ -105,6 +105,14 @@ angular.module('phenology', [
         }
     });
   };
+
+  $scope.browseTo = function(uri){
+      var baseUrl = "http://phenoclim.org",
+          lang = globalizationService.getLanguage();
+      var url = [ baseUrl, lang, uri ].join("/");
+      window.open(url, '_system', 'location=yes');
+      return false;
+  }
 })
 
 .run(function($ionicPlatform, globalizationService) {
