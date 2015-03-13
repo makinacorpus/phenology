@@ -2,7 +2,7 @@
 
 angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngStorage', 'phenology.survey', 'ngStorageTraverser'])
 
-.controller('HomeCtrl', function($scope, synchronizeService, $localStorage, storageTraverser, authApiClient, HomeService, $ionicLoading, $ionicPopup, $cordovaNetwork) {
+.controller('HomeCtrl', function($scope, synchronizeService, $localStorage, storageTraverser, $translate, authApiClient, HomeService, $ionicLoading, $ionicPopup, $cordovaNetwork) {
     $scope.user = {};
 
     $scope.$watch(function() {
@@ -22,9 +22,12 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
         else{
             synchronizeService.synchronize().then(function(event){
                 $scope.nbToSync = synchronizeService.getNbItemsToSync();
-            },function(event, message){
-              console.log(event);
+            },function(message){
+            $ionicPopup.alert({
+                title: 'Error',
+                template: $translate(message)
             });
+          });
         }
     };
 })

@@ -130,13 +130,9 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                 message = "Network is unreachable, turn on the network to be able to synchronize."
             }
             else if(event.status == "0"){
-                message = "Server is unreachable";
+                message = "login.error.no_connexion";
             }
-            $ionicPopup.alert({
-                title: 'Error',
-                template: message
-            });
-            return $q.reject(event);
+            return $q.reject(message);
 
         }).finally(function(){
             $ionicLoading.hide();
