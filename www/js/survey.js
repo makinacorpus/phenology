@@ -88,8 +88,9 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         String.format('/users/{0}/species/[id="{1}"]', user, $stateParams.specId)
     );
 
-    $scope.stages = species.stages;
-
+    $scope.stages = species.stages.filter(function(d){
+        return d.is_active === true;
+    });
     // get individual
     $scope.individual = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]/species/[id="{2}"]/individuals/[id="{3}"]', user, $stateParams.areaId, $stateParams.specId, $stateParams.indId)
@@ -223,28 +224,15 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
       if(angular.isUndefined(monthdiff)){
         monthdiff = 2;
       }
+      species.stages = species.stages.filter(function(d){
+        return d.is_active === true;
+      }) 
       var tasks = [];
       var today = new Date();
       for(var i=0; i<species.stages.length; i++){
         var stage = species.stages[i];
-        var day_start = +stage.day_start;
-        var month_start = +stage.month_start;
-        var year_start = +today.getFullYear();
-        var day_end = +stage.day_end;
-        var month_end = +stage.month_end;
-        var year_end = +year_start;
-        if(month_start > month_end){
-          year_end = year_start + 1;
-        }
-
-        var date_start1 = new Date(year_start, month_start -1 , day_start);
-        date_start1.setMonth(date_start1.getMonth() - monthdiff);
-
-        var date_end1 = new Date(year_end, month_end - 1, day_end);
-        date_end1.setMonth(date_end1.getMonth() + monthdiff);
-
-
-        if(today >= date_start1 && today <= date_end1){
+        var dates = toolService.getLimitDates(stage);
+        if(today >= dates.start && today <= dates.end){
           tasks.push(stage);
         }
       }
@@ -256,18 +244,22 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
     var self = this;
     this.getTaskForIndividual = function(user, area, species, individual, all) {
         var is_for_all = (angular.isDefined(all) && all === true)
-        var tasks = tasksService.getTasksForSpecies(species);
-        var surveys = this.getSurveys(user, area.id, species.id, individual.id);
-        var individualTasks = {};
+        var tasks = tasksService.getTasksForSpecies(species),
+            surveys = this.getSurveys(user, area.id, species.id, individual.id),
+            individualTasks = {};
         for(var i=0, len=tasks.length; i<len; i++) {
             individualTasks[tasks[i].id] = {
                 label: tasks[i].name,
-                validated: false
+                validated: false,
+                dates: toolService.getLimitDates(tasks[i])
             };
         }
         for(var j=0, len=surveys.length; j<len; j++) {
-            var stage = surveys[j].stageId;
-            if(individualTasks[stage] && surveys[j].validated) {
+            var stage = surveys[j].stageId,
+                date = new Date(surveys[j].surveyDate);
+            if(individualTasks[stage] && surveys[j].validated 
+                                      && individualTasks[stage].dates.start <= date
+                                      && individualTasks[stage].dates.end >= date) {
                individualTasks[stage].validated = true;
             }
         }
@@ -360,7 +352,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         $log.debug("validate");
         storageTraverser.traverse(String.format('/users/{0}/current_observations', user))[surveyId]['validated'] = true;
     };
-    this.getObservations = function(user, surveyId){
+    this.getSyncedObservations = function(user, surveyId){
         var all_observations = storageTraverser.traverse(String.format('/users/{0}/observations', user, surveyId));
         return all_observations.filter(function(d){
             return d.identifier === surveyId
@@ -373,12 +365,12 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         var minDate = new Date();
         var maxDate = new Date();
         // we look on data between [today - one year, today + 9months]
-        minDate.setMonth(minDate.getMonth() - 12);
-        maxDate.setMonth(minDate.getMonth() + 9);
+        minDate.setMonth(minDate.getMonth() - 4);
+        maxDate.setMonth(minDate.getMonth() + 4);
 
         if (angular.isUndefined(data)) {
             // if nothing local, get synced set of data
-            var datas = self.getObservations(user, surveyId);
+            var datas = self.getSyncedObservations(user, surveyId);
             // take the first survey that is
             if (angular.isDefined(datas)){
                 for (var i = 0; i < datas.length; i++) {
@@ -414,7 +406,6 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         var surveyId = self.getSurveyId(survey);
 
         var data = self.getSurveyLocalInfo(user, surveyId);
-
         angular.extend(survey, {
             beforeDate: data.beforeDate,
             surveyDate: data.surveyDate,
