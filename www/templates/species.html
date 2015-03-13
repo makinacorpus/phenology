@@ -1,23 +1,23 @@
-<ion-view title="{{area.name}}">
+<ion-view title="{{area.name}}" animation="none">
 
-  <ion-nav-buttons side="left">
+  <ion-nav-buttons side="left" animation="none">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content class="has-subheader">
   
-    <ul class="list">
+    <ul class="filter-list list">
       <li class="item item-checkbox option-all">
          <label class="checkbox">
            <input type="radio" ng-model="filter.showOnlyNeeded" value="false">
          </label>
-         {{ 'species.choice.see_all' | translate}}
+         <span translate='species.choice.see_all'></span>
       </li>
       <li class="item item-checkbox option-observed">
          <label class="checkbox">
            <input type="radio" ng-model="filter.showOnlyNeeded" value="true">
          </label>
-         {{ 'species.choice.see_to_observed' | translate}}
+         <span translate="species.choice.see_to_observed"></span>
       </li>
     </ul>
 
@@ -27,19 +27,26 @@
            ng-click="spec.toggle=!spec.toggle;scrollBottom($last);">
 
         <img height="80" ng-src="{{spec.picture}}" err-src="img/icon.png">
-        <span style="display:block;padding:30px;font-size:1.2em;">{{spec.name}}<span>
+        <span class="species-name">{{ spec.name }}<span>
         <i ng-class="{ 'icon ion-arrow-down-b': !spec.toggle, 'icon ion-arrow-up-b': spec.toggle }" ng-if="many"></i>
 
       </div>
-      <a class="item item-icon-right individual-item" ng-if="spec.toggle==true || !many" ng-repeat="ind in spec.individuals"
-        ng-click="goToFirstPending(spec, ind)">
-        <span>{{ind.name}}</span>
+      <a class="item item-icon-right individual-item" 
+          ng-if="spec.toggle==true || !many"
+          ng-repeat="ind in spec.individuals"
+          ng-click="goToFirstPending(spec, ind)">
+        
+        {{ ind.name }}
+        
         <span ng-repeat="task in ind.tasks">
           <span ng-if="$first">:</span>
-          <span class="individual-item-task" ng-class="{'todo': !task.validated, 'done': task.validated}">
-            {{ task.label }}
-          </span>
+          
+          <span class="individual-item-task"
+              ng-class="{'todo': !task.validated, 'done': task.validated}" 
+              ng-bind="task.label"></span>
+        
         </span>
+        
         <i class="icon ion-ios7-arrow-right"></i>
       </a>
     </div>
@@ -47,9 +54,11 @@
     <div class="list" ng-if="areas.length > 1">
       <label class="item item-input item-select">
           <div class="input-label">
-            {{ 'species.change_area' | translate}}
+            <span translate="species.change_area"></span>
           </div>
-          <select ng-options="area as area.name for area in areas" ng-model="area" ng-change="switchArea(area)"></select>
+          <select ng-options="area as area.name for area in areas"
+                  ng-model="area"
+                  ng-change="switchArea(area)"></select>
       </label>
     </div>
 
