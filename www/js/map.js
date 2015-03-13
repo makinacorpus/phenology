@@ -15,11 +15,13 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         zoomControl: false,
         zoom: 9,
     });
+    /**
     var phenoMarker = L.AwesomeMarkers.icon({
       icon: 'pagelines',
       markerColor: 'green',
       prefix: 'fa'
     });
+**/
     var myIcon = L.divIcon({
         className: 'phenology-marker',
         iconSize: [50, 65],

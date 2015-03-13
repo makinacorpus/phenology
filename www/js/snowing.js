@@ -2,21 +2,35 @@
 
 angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
 
-.controller('SnowingCtrl', function($scope, authApiClient, snowingService) {
+.controller('SnowingCtrl', function($scope, authApiClient, snowingService, storageTraverser) {
     var userid = authApiClient.getUsername();
     
     var areas = snowingService.getAreas(userid);
     var snowings_tmp = {};
 
     //initial data
-    angular.forEach(areas, function(area){
-        snowings_tmp[area.id] = {
-            areaId: area.id,
-            areaName: area.name,
-            height: undefined
-        }
-    });
+    var snow_covers = storageTraverser.traverse('/users/' + userid + '/snowcovers');
 
+    angular.forEach(areas, function(area){
+        var today = new Date();
+        snow_covers.filter(function(d){
+            return d.areaId === area.id;
+        }).filter(function(d){
+            var date = new Date(d.date);
+            return (date.getDate() === today.getDate() && date.getMonth() === today.getMonth());
+        })
+        if(snow_covers.length > 0){
+            snowings_tmp[area.id] = angular.copy(snow_covers[0]);
+        }
+        else{
+            snowings_tmp[area.id] = {
+                areaId: area.id,
+                areaName: area.name,
+                height: undefined
+            } 
+        }
+        console.log(snow_covers);
+    });
     $scope.snowings = snowings_tmp;
     
     $scope.validate = function(){
@@ -40,8 +54,21 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
             storageTraverser.traverse('/users/' + userId)["snowcovers"] = [];
         }
         var snow_covers = storageTraverser.traverse('/users/' + userId + '/snowcovers');
+        console.log(snow_covers);
         angular.forEach(snowings, function(snowing){
-            snow_covers.push(snowing);
+            var snowing_date = new Date(snowing.date);
+            var found = snow_covers.filter(function(d){
+                return d.areaId === snowing.areaId;
+            }).filter(function(d){
+                var date = new Date(d.date);
+                return (date.getDate() === snowing_date.getDate() && date.getMonth() === snowing_date.getMonth());
+            })
+            if(found.length>0){
+                snow_covers[snow_covers.indexOf(found[0])] = snowing;
+            }
+            else{
+                snow_covers.push(snowing);
+            }
         });
     }
 
