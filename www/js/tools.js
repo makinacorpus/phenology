@@ -27,6 +27,29 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
         return today.toISOString().slice(0, 10);
     }
 
+    this.getLimitDates = function(stage, monthdiff, year){
+        monthdiff = monthdiff || 2;
+        var year_start = +year || +(new Date().getFullYear());
+        var day_start = +stage.day_start;
+        var month_start = +stage.month_start;
+        var day_end = +stage.day_end;
+        var month_end = +stage.month_end;
+        var year_end = +year_start;
+        if(month_start > month_end){
+          year_end = year_start + 1;
+        }
+        //console.log(stage, year_start, month_start, day_start)
+        var date_start1 = new Date(year_start, month_start -1 , day_start);
+        date_start1.setMonth(date_start1.getMonth() - monthdiff);
+
+        var date_end1 = new Date(year_end, month_end - 1, day_end);
+        date_end1.setMonth(date_end1.getMonth() + monthdiff);
+        return {
+            start: date_start1,
+            end: date_end1
+        }
+    }
+
     this.getRootCordovaUrl = function(){
         return self.mobile_path + '/';
     }
