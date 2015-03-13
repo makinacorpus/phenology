@@ -1,18 +1,17 @@
-<ion-view title="{{ 'nav.home' | translate }}">
-
+<ion-view title="{{ 'nav.home' | translate }}" hide-back-button="true">
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-
   <ion-content class="has-header tasks-section with-background">
 
     <div class="card text-center" style="padding:30px;" >
     <h3>{{ 'home.welcome' | translate }} {{ user.username }} !</h3> 
-    <h4>{{ 'home.text' | translate }}</h4>
-      <br/> 
-      <button ng-click="synchronize()" class="button button-positive icon ion-ios7-cloud-upload">
-        <span>{{ 'action.synchronize' | translate }}</span>
-      </button>
+    <h4 translate="home.text"></h4>
+    <br/> 
+    <button ng-click="synchronize()" class="button button-positive">
+      <i class="icon ion-ios7-cloud-upload"></i><span class="btn-sync-title" translate="action.synchronize"></span>
+      <span class="nav-counter" ng-if="nbToSync > 0" ng-bind="nbToSync"></span>
+    </button>
     </div>
     <img src="img/CREA_blanc.jpg" class="home__logo" />
     <img src="img/logo.png" class="home__logo epheno" />
