@@ -4,79 +4,66 @@ var map;
 
 angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
-.controller('MapCtrl', function($scope, $geolocation, $ionicBackdrop, $rootScope, $log, $location, authApiClient, $stateParams, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
+.controller('MapCtrl', function($scope, $geolocation, $ionicBackdrop, $rootScope, $log, $location, authApiClient, $stateParams, geolocationFactory, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
 
     var user = authApiClient.getUsername(),
         areaId = $stateParams.areaId,
         class_tmp = ['positive', 'energized', 'assertive', 'royal', 'dark', 'blue', 'purple', 'orange', 'grey'],
-        layers = L.featureGroup() ;
+        layers = L.featureGroup(),
+        userPosition;
+
     $ionicBackdrop.release();
+
     map = L.map('map', {
         zoomControl: false,
         zoom: 9,
-    });
-    /**
-    var phenoMarker = L.AwesomeMarkers.icon({
-      icon: 'pagelines',
-      markerColor: 'green',
-      prefix: 'fa'
-    });
-**/
-    var myIcon = L.divIcon({
-        className: 'phenology-marker',
-        iconSize: [50, 65],
-        iconAnchor:   [26, 60],
-        popupAnchor: [-3, -50],
-        shadowAnchor: [10, 12],
-        shadowSize: [0, 0],
-        prefix: 'glyphicon',
-        spinClass: 'fa-spin',
-        extraClasses: '',
-        icon: 'home',
-        html: '<i class="ion-leaf"></i>',
-        markerColor: 'blue',
-        iconColor: 'white'
+        attributionControl: false
     });
 
     // add an OpenStreetMap tile layer
-    L.tileLayer(mapService.getBackGroundUrl(), {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    L.tileLayer(mapService.getBackGroundUrl()).addTo(map);
 
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
             filter: {
                 showOnlyNeeded: "true"
             },
-            geojson: undefined,
             individuals: {},
-            paths: {},
-            /** leaflet.locate 
-            controls: {
-                custom: [
-                    L.control.locate({
-                            keepCurrentZoomLevel: true, 
-                            locateOptions: {
-                                enableHighAccuracy: true,
-                                timeout: 40000,
-                                maximumAge: 0,
-                                maxZoom: Infinity,
-                                watch: true  // if you overwrite this, visualization cannot be updated
-                            }
-                    })
-                ]
-            }
-            **/
         }
     );
     //mapService.watchPosition();
     if(!(angular.isDefined(areaId) && areaId !== "")){
         areaId = $stateParams.areaId = $scope.areas[0].id;
     }
-    console.log(areaId);
     $scope.area = storageTraverser.traverse(
         String.format('/users/{0}/areas/[id="{1}"]', user, areaId)
     );
+
+    // check if coords are changed
+    // README: watchPosition has a weird issue : if we get user CurrentPosition while watch is activated
+    // we get no callback for geolocation browser service
+    // This callback is used to reactivate watching after getLatLngPosition call, as this call desactivate
+    // watch to avoid that issue
+    var watchCallback = function() {
+
+        var watchOptions = {
+            timeout: 30000,
+            maximumAge: 1000,
+            enableHighAccuracy: true
+        }
+        $rootScope.watchID = geolocationFactory.watchPosition($scope, watchOptions);
+    }
+
+    // Beginning geolocation watching
+     // Adding user current position
+
+    geolocationFactory.getLatLngPosition().then(function(result) {
+        userPosition = L.circleMarker(result, mapService.getUserMarkerOptions()).addTo(map);
+    }, function(error) {
+        $log.warn(error);
+    });
+
+    watchCallback()
 
     $timeout(function() {
 
@@ -91,7 +78,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                     all_individuals[individual.id+""] = {
                         lat: +individual.lat,
                         lng: +individual.lon,
-                        icon: toolService.create_div_icon(class_tmp[id]),
+                        icon: mapService.getMarkerIcon(),
                         tasks: species.tasks,
                         enable: ['click'],
                         message: '<div class="individual-popup">' +
@@ -113,22 +100,8 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
             $scope.individuals = (newvalue === "false") ? all_individuals : filtered;
             $scope.refresh();
         }, true);
-
-        $scope.$on("leafletDirectiveMap.zoomend", function(event, args) {
-            leafletData.getMap().then(function(map) {
-                //console.log(map.getZoom());
-            });
-        });
-
-        // check if coords are changed
-        $scope.$watch(function() {
-            return $geolocation.position.coords;
-        }, function() {
-            $scope.position = mapService.getLatLng();
-            if(angular.isDefined($scope.position)){
-                // set position marker
-                $scope.paths["userposition"] = mapService.setPositionMarker($scope.position);
-            }
+        $scope.$on('watchPosition', function($scope, position) {
+            userPosition.setLatLng(position);
         });
         //mapService.fitAreas([$scope.area]);
 
@@ -138,7 +111,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         console.log("refresh");
         layers.clearLayers();
         angular.forEach($scope.individuals, function(d, i){
-            var marker = L.marker([d.lat, d.lng], {icon: myIcon});
+            var marker = L.marker([d.lat, d.lng], {icon: d.icon});
             marker.addTo(layers);
             marker.bindPopup(d.message);
         })
@@ -146,18 +119,9 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         map.fitBounds(layers.getBounds());
     }
 
-    // center map on user if position exists
     $scope.centerMapOnUser = function() {
-        if(!angular.isDefined($geolocation.position.error)){
-            leafletData.getMap().then(function(map) {
-                map.setView($scope.position);
-            });
-        }
-        else{
-            $ionicPopup.alert({
-                    title: 'Error',
-                    template: $geolocation.position.error.message
-            });
+        if(angular.isDefined(userPosition)){
+            map.setView(userPosition.getLatLng())
         }
     };
 
@@ -318,18 +282,29 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         });
     }
 
-    this.setPositionMarker = function(result) {
+    this.getUserMarkerOptions = function() {
         // Pulsing marker inspired by
         // http://blog.thematicmapping.org/2014/06/real-time-tracking-with-spot-and-leafet.html
         return {
-            radius: 5,
+            radius: 7,
             color: 'orange',
             fillColor: '#22568f',
             fillOpacity: 0.9,
-            latlngs: result,
-            type: 'circleMarker',
             className: 'leaflet-live-user',
-            strokeWidth: 9
         };
+    }
+
+    this.getMarkerIcon = function(color){
+        color = color || "green";
+        return L.divIcon({
+            className: 'phenology-marker',
+            iconSize: [50, 65],
+            iconAnchor:   [26, 60],
+            popupAnchor: [-3, -50],
+            shadowAnchor: [10, 12],
+            shadowSize: [0, 0],
+            extraClasses: '',
+            html: '<i class="ion-leaf"></i>',
+        });
     }
 })
