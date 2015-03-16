@@ -25,7 +25,8 @@ angular.module('phenology', [
   'phenology.synchronize',
   'phenology.tools',
   'phenology.globalization',
-  'phenology.map'
+  'phenology.map',
+  'phenology.geolocation'
   ])
 
 .controller('MainCtrl', function($scope, $ionicModal, $location, $timeout, storageTraverser, synchronizeService, globalizationService, $translate, authApiClient, $q, $state) {
