@@ -2,7 +2,7 @@
 <widget id="com.makinacorpus.phenology" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Phenoclim</name>
     <description>
-        Mobile application.
+        Phenology mobile application
     </description>
     <author email="contact@makina-corpus.com" href="http://www.makina-corpus.com/">
       Makina Corpus
@@ -42,5 +42,8 @@
     </feature>
     <feature name="Zip">
         <param name="id" value="org.chromium.zip" />
+    </feature>
+    <feature name="InAppBrowser">
+      <param name="id" value="org.apache.cordova.inappbrowser"/>
     </feature>
 </widget>
