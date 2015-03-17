@@ -22,7 +22,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
     // add an OpenStreetMap tile layer
     L.tileLayer(mapService.getBackGroundUrl()).addTo(map);
-
+    L.control.scale({imperial: false}).addTo(map);
     angular.extend($scope,{
             areas: storageTraverser.traverse("/users/" + user + "/areas"),
             filter: {
