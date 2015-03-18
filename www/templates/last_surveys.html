@@ -16,13 +16,16 @@
 			<select ng-options="sp.id as sp.name for sp in area.species" ng-model="sp_tmp"></select>
       	</label>
       	<label class="item" ng-repeat="areaSpecies in area.species" ng-if="sp_tmp == areaSpecies.id">
-			<ion-list ng-repeat="indiv in areaSpecies.individuals" ng-if="indiv.surveys">
+			<ion-list ng-repeat="indiv in areaSpecies.individuals">
 				{{indiv.name}}
 				<ion-item ng-repeat="survey in indiv.surveys" ui-sref="app.stages(survey)" class="item item-icon-right">
 					{{survey.surveyDate | date:"shortDate"}}
 					{{survey.name | translate}}
                     <i ng-if="survey.identifier" class="icon ion-cloud icon_ok"></i>
 					<i ng-if="!survey.identifier" class="icon ion-upload icon_warning"></i>
+				</ion-item>
+				<ion-item class="item" ng-if="indiv.surveys.length === 0">
+					<i translate="survey.no_survey"></i>
 				</ion-item>
 			</ion-list>
 		</label>
