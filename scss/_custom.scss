@@ -470,6 +470,18 @@ a.individual-item {
     text-align: center;
 }
 
+.item-change-stage{
+    select{
+        max-width: 50%;
+        white-space: initial;
+        padding-left: 0.2em;
+        padding-right: 3em;
+    }
+    .input-label{
+      white-space: initial;
+    }
+}
+
 /** pulse animation **/
 @-webkit-keyframes pulse {
     from {

@@ -95,9 +95,12 @@
         <i class="icon ion-upload icon_warning"></i>
       </button>
 
-      <button class="button button-clear" ng-click="cancel()" translate="action.cancel"></button>
-      
-      <label class="item item-input item-select">
+      <button class="button button-clear"  ng-if="(survey.when && !survey.validated)" 
+                                           ng-click="cancel()"
+                                           translate="action.cancel">
+      </button>
+
+      <label class="item item-input item-select item-change-stage">
         <div class="input-label" translate="survey.change_stage"></div>
         <select ng-options="sta.id as sta.name | translate for sta in stages" 
                 ng-model="current_stage.id" 
