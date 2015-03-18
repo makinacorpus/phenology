@@ -132,7 +132,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'action.unlock': '(cliquer pour déverrouiller)',
         'action.synchronize': 'Synchroniser mes données',
         'action.close': 'Fermer',
-        'action.cancel': 'Annuler',
+        'action.cancel': 'Réinitialiser',
         // login section
         'login.title': 'Login',
         'login.username': 'Identifiant',
