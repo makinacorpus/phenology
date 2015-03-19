@@ -23,9 +23,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         .then(function(language) {
             // We need only 2 chars for language, but globalization can return fr-FR for example
             try {
-                if (!!language) {
-                    language = language.substring(0, 2);
-                }
+                language = (!!language.value) ? language.value : language.substring(0, 2);
             }
             catch(e) {
                 $log.error(e);
