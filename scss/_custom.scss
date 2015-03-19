@@ -446,6 +446,7 @@ a.individual-item {
 .platform-ios.platform-cordova:not(.fullscreen) .has-subheader{
     top: 99px;
 }
+
 .species-name{
     display: inline-block;
     padding: 30px;
@@ -473,16 +474,19 @@ a.individual-item {
 .individual-item-task{
     font-size: 0.9em;
 }
+
 .list .item-radio{
-    height: 43px;
+    height: 45px;
 }
+
 .individual__name{
     margin: 0;
 }
 
 .btn-sync-title{
-    padding: 1em;
+    padding: 0.5em;
 }
+
 .filter-list{
     margin-bottom: 5px;
 }

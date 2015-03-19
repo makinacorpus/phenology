@@ -27,7 +27,7 @@
            ng-click="spec.toggle=!spec.toggle;scrollBottom($last);">
 
         <img height="100" ng-src="{{spec.picture}}" err-src="img/icon.png">
-        <span class="species-name">{{ spec.name }}<span>
+        <span class="species-name" ng-bind="spec.name"></span>
         <i ng-class="{ 'icon ion-arrow-down-b': !spec.toggle, 'icon ion-arrow-up-b': spec.toggle }" ng-if="many"></i>
 
       </div>
