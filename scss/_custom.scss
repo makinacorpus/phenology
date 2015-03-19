@@ -446,9 +446,12 @@ a.individual-item {
 .species-name{
     display: inline-block;
     padding: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     font-size: 1.2em;
     line-height: 30px;
     white-space: initial;
+    vertical-align: middle;
 }
 
 .item-thumbnail-left > img:first-child{
