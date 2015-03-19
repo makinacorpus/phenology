@@ -113,7 +113,7 @@
 /** General **/
 .view{
     .has-subheader{
-        top:78px !important;
+        top: 78px;
     }
     .with-background{
         background-image: url("../img/background-main.jpg");
@@ -247,7 +247,11 @@
 .species-item{
     margin-bottom: 10px;
     .item.item-divider{
-        max-height:100px;
+        max-height: 100px;
+        min-height: 100px;
+        line-height: 100px;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 a.individual-item {
@@ -440,9 +444,20 @@ a.individual-item {
 }
 
 .species-name{
-    display:block;
-    padding:30px;
-    font-size:1.2em;
+    display: inline-block;
+    padding: 30px;
+    font-size: 1.2em;
+    line-height: 30px;
+    white-space: initial;
+}
+
+.item-thumbnail-left > img:first-child{
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    max-width: 90px;
+    max-height: 90px;
+    width: 100%;
 }
 
 .species-item{
@@ -450,7 +465,7 @@ a.individual-item {
 }
 
 .individual-item-task{
-    font-size:0.9em;
+    font-size: 0.9em;
 }
 .list .item-radio{
     height: 43px;

@@ -26,7 +26,7 @@
            ng-init="many=(species.length>1)" 
            ng-click="spec.toggle=!spec.toggle;scrollBottom($last);">
 
-        <img height="80" ng-src="{{spec.picture}}" err-src="img/icon.png">
+        <img height="100" ng-src="{{spec.picture}}" err-src="img/icon.png">
         <span class="species-name">{{ spec.name }}<span>
         <i ng-class="{ 'icon ion-arrow-down-b': !spec.toggle, 'icon ion-arrow-up-b': spec.toggle }" ng-if="many"></i>
 
