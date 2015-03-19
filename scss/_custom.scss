@@ -443,6 +443,9 @@ a.individual-item {
     padding-bottom:2px;
 }
 
+.platform-ios.platform-cordova:not(.fullscreen) .has-subheader{
+    top: 99px;
+}
 .species-name{
     display: inline-block;
     padding: 30px;
