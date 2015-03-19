@@ -204,9 +204,11 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     // cancel button
     $scope.cancel = function() {
-        $scope.survey.validated = false;
-        delete $scope.survey.when;
-        delete $scope.survey.beforeDate;
+        surveyService.deleteTmpSurvey(user, params);
+        $scope.survey = surveyService.getSurvey(user, params);
+        if($scope.survey.validated && $scope.survey.identifier) {
+            $scope.locked = true;
+        }
     };
 
     // locking
@@ -399,6 +401,14 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             data.when = 'today';
         }
         return data;
+    };
+    this.deleteTmpSurvey = function(user, params){
+        var survey = params;
+
+        var surveyId = self.getSurveyId(survey);
+        var obs = storageTraverser.traverse(String.format('/users/{0}/current_observations/{1}', user, surveyId),{
+                            delete: true,
+            });
     };
     this.getSurvey = function(user, params){
         var survey = params;
