@@ -8,16 +8,27 @@
     <h3>{{ 'home.welcome' | translate }} {{ user.username }} !</h3> 
     <h4 translate="home.text"></h4>
     <br/> 
-    <button ng-click="synchronize()" class="button button-positive">
+
+    <button ng-if="nbToSync > 0" ng-click="synchronize()" class="button button-positive">
       <div class="btn-sync-title">
         <i class="icon ion-ios7-cloud-upload"></i>
         <span translate="action.synchronize"></span>
       </div>
-      <span class="nav-counter" ng-if="nbToSync > 0" ng-bind="nbToSync"></span>
+      <span class="nav-counter" ng-bind="nbToSync"></span>
     </button>
+
+    <button ng-if="nbToSync == 0" ng-click="synchronize()" class="button button-positive">
+      <div class="btn-sync-title">
+        <i class="icon ion-cloud icon_ok"></i>
+        <span translate="action.synchronized"></span>
+      </div>
+    </button>
+
     </div>
+    <!--
     <img src="img/CREA_blanc.jpg" class="home__logo" />
     <img src="img/logo.png" class="home__logo epheno" />
+    -->
   </ion-content>
 
 </ion-view>

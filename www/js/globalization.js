@@ -134,6 +134,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'action.synchronize': 'Synchroniser mes données',
         'action.close': 'Fermer',
         'action.cancel': 'Réinitialiser',
+        'action.synchronized': 'Données synchronisées',
         // login section
         'login.title': 'Login',
         'login.username': 'Identifiant',
@@ -212,6 +213,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
       'action.synchronize': 'Synchronize my data',
       'action.close': 'Close',
       'action.cancel': 'Cancel',
+      'action.synchronized': 'Synchronized',
       // login section
       'login.title': 'Login',
       'login.username': 'Username',
@@ -282,6 +284,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'action.synchronize': 'Synchronize my data',
         'action.close': 'Close',
         'action.cancel': 'Cancel',
+        'action.synchronized': 'Synchronized',
         // login section
         'login.title': 'Login',
         'login.username': 'Username',
