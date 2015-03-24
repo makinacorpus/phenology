@@ -1,1 +1,8 @@
 /* Empty. Add your own CSS if you like */
+
+.view .with-background{
+        background-image: url("../img/background.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 100% 10%;
+}
