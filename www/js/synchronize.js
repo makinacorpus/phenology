@@ -56,8 +56,13 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                             create: true,
                             data: data
             });
+            var species = storageTraverser.traverse('/users/' + userid + '/species');
+            angular.forEach(species, function(spec){
+                spec.stages.sort(function(a, b){
+                    return +a.order - +b.order;
+                })
+            });
             if(angular.isDefined(window.cordova)){
-                var species = storageTraverser.traverse('/users/' + userid + '/species');
                 angular.forEach(species, function(spec){
                     toolService.downloadPicture(spec.picture);
                     angular.forEach(spec.stages, function(stage){
