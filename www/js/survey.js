@@ -61,15 +61,20 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     $scope.goToFirstPending = function(species, individual) {
         var taskId;
+        var tasks = [];
         angular.forEach(individual.tasks, function(value, key){
             if(!value.validated) {
-                taskId = key;
+                tasks.push(value);
             }
         });
-        if(!taskId) {
+        if (tasks.length > 0){
+            tasks.sort(function(a, b){
+                return +a.order - +b.order;
+            });
+            $state.go('app.stages', {areaId: areaId, specId: species.id, indId: individual.id, stageId: tasks[0].id});
+        }
+        else{
             $state.go('app.survey', {areaId: areaId, specId: species.id, indId: individual.id});
-        } else {
-            $state.go('app.stages', {areaId: areaId, specId: species.id, indId: individual.id, stageId: taskId});
         }
     };
 })
@@ -253,6 +258,8 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
             individualTasks[tasks[i].id] = {
                 label: tasks[i].name,
                 validated: false,
+                order: tasks[i].order,
+                id: tasks[i].id,
                 dates: toolService.getLimitDates(tasks[i])
             };
         }
