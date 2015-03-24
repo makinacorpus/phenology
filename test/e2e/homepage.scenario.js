@@ -6,7 +6,8 @@ describe('homepage', function() {
 
   it('should load homepage', function() {
     browser.get('#/dsfsdfsdfsdf');
-    var button_synchro = by.css('.button .btn-sync-title');
+    expect(browser.getLocationAbsUrl()).toMatch("#/app/home");
+    var button_synchro = by.css('.tasks-section');
     expect(ptor.isElementPresent(button_synchro)).toBe(true);
   });
 
