@@ -207,8 +207,7 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
         });
 
         return $q.all(promises).then(function(){
-            var snowcovers = storageTraverser.traverse('/users/' + userid + '/snowcovers')
-            snowcovers = [];
+            storageTraverser.traverse('/users/' + userid + '/snowcovers', { delete: true });
         });
     };
 
