@@ -13,14 +13,14 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
 
     angular.forEach(areas, function(area){
         var today = new Date();
-        snow_covers.filter(function(d){
+        var filtered = snow_covers.filter(function(d){
             return d.areaId === area.id;
         }).filter(function(d){
             var date = new Date(d.date);
-            return (date.getDate() === today.getDate() && date.getMonth() === today.getMonth());
+            return ((d.areaId === area.id) && (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()));
         })
-        if(snow_covers.length > 0){
-            snowings_tmp[area.id] = angular.copy(snow_covers[0]);
+        if(filtered.length > 0){
+            snowings_tmp[area.id] = angular.copy(filtered[0]);
         }
         else{
             snowings_tmp[area.id] = {
@@ -29,10 +29,8 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
                 height: undefined
             } 
         }
-        console.log(snow_covers);
     });
     $scope.snowings = snowings_tmp;
-    
     $scope.validate = function(){
         snowingService.validate(userid, $scope.snowings);
     };
