@@ -212,16 +212,16 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
     };
 
     this.getNbItemsToSync = function(){
-        var userid = authApiClient.getUsername();
         var nb = 0;
+        var userid = authApiClient.getUsername();
         var current_observations = storageTraverser.traverse('/users/'+userid+'/current_observations')||[];
-        var snowcovers = storageTraverser.traverse('/users/' + userid + '/snowcovers')
+        var snowcovers = storageTraverser.traverse('/users/' + userid + '/snowcovers') || [];
 
         angular.forEach(current_observations, function(element, i ){
-            if(element.validated === true){
+            if(element.validated === true)
                 nb += 1;
-            }
         })
+
         nb += snowcovers.length;
         return nb;
     }

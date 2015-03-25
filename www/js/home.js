@@ -23,10 +23,10 @@ angular.module('phenology.home', ['phenology.synchronize','phenology.api', 'ngSt
             synchronizeService.synchronize().then(function(event){
                 $scope.nbToSync = synchronizeService.getNbItemsToSync();
             },function(message){
-            $ionicPopup.alert({
-                title: 'Error',
-                template: $translate(message)
-            });
+              $ionicPopup.alert({
+                  title: 'Error',
+                  template: $translate(message)
+              });
           });
         }
     };
