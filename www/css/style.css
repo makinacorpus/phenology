@@ -1,21 +1,21 @@
 /* Empty. Add your own CSS if you like */
 
 .view .with-background{
-        background-image: url("../img/background-main.jpg");
-        background-color: #f8f8f8;
-        background-size: cover;
-        background-position: 100% 0%;
-        background-repeat: no-repeat;
+    background-image: url("../img/background-main.jpg");
+    background-color: #f8f8f8;
+    background-size: cover;
+    background-position: 100% 0%;
+    background-repeat: no-repeat;
 }
 
 .view .bandeau{
-  background-image: url("../img/bandeau.png");
-  background-color: white;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 10%;
-  bottom: 0;
-  position: absolute;
-  width: 100%;
+    background-image: url("../img/bandeau.png");
+    background-color: white;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 10%;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
 }
