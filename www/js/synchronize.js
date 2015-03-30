@@ -201,8 +201,11 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
                     'area': value.areaId + "",
                     'height': parseFloat(value.height),
                 };
+                if (value.id){
+                    snow.id = value.id;
+                }
                 // update or create depending to id
-                promise = apiClient.create_snowcover(snow);
+                promise = (angular.isDefined(snow.id)) ? apiClient.save_snowcover(snow).$promise : apiClient.create_snowcover(snow).$promise;
                 promises.push(promise);
         });
 
