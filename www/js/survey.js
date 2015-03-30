@@ -113,7 +113,8 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
 
     $scope.speciesName = species.name;
     $scope.surveys = speciesService.getSurveys(user, params.areaId, params.specId, $scope.individual.id);
-    $scope.lastSurvey = ($scope.surveys.length>0) ? $scope.surveys.reduce(function (a, b) { return a.surveyDate > b.surveyDate ? a : b; }) : undefined;
+    var same_stage = $scope.surveys.filter(function(d){ return d.stageId === stageId });
+    $scope.lastSurvey = (same_stage.length>0) ? same_stage.reduce(function (a, b) { return a.surveyDate > b.surveyDate ? a : b; }) : undefined;
 
     $scope.survey = surveyService.getSurvey(user, params);
     $scope.survey.stage = stage;
