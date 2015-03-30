@@ -14,7 +14,8 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
             get_user_surveys: { url: backend_url + '/user_surveys/  ', isArray: true, method:'GET'},
             create_survey: { url: backend_url + '/user_surveys/ ', method:'POST'},
             save_survey: { url: backend_url + '/user_surveys/:id', method:'PUT'},
-            create_snowcover: { url: backend_url + '/user_snowcover', method:'POST'}
+            create_snowcover: { url: backend_url + '/user_snowcover', method:'POST'},
+            save_snowcover: { url: backend_url + '/user_snowcover/:id', method:'PUT'}
           }
         );
 
