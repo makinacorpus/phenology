@@ -13,16 +13,30 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
 
     angular.forEach(areas, function(area){
         var today = new Date();
-        var filtered = snow_covers.filter(function(d){
+        if(!!area.last_snowing){
+           var last_snowing = new Date(area.last_snowing.date);
+           if (last_snowing.getDate() === today.getDate() && last_snowing.getMonth() === today.getMonth()){
+               snowings_tmp[area.id] = {
+                    areaId: area.id,
+                    areaName: area.name,
+                    height: area.last_snowing.height,
+                    date: last_snowing,
+                    id: area.last_snowing.id
+                }
+            } 
+        }
+
+        var filtered = snow_covers .filter(function(d){
             return d.areaId === area.id;
         }).filter(function(d){
             var date = new Date(d.date);
             return ((d.areaId === area.id) && (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()));
         })
+
         if(filtered.length > 0){
             snowings_tmp[area.id] = angular.copy(filtered[0]);
         }
-        else{
+        else if(!snowings_tmp[area.id]){
             snowings_tmp[area.id] = {
                 areaId: area.id,
                 areaName: area.name,
