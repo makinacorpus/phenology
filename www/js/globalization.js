@@ -146,7 +146,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         // Home
         'home.upcoming_tasks': 'Observations en cours',
         'home.text': 'Avant et après chaque saisie sur le terrain, mettez vos données à jour.',
-        'home.welcome': 'Bienvenu',
+        'home.welcome': 'Bienvenue',
         'home.no_task': 'Il n\y a aucune tâche à traiter',
         'home.from': 'du',
         'home.to': 'au',
