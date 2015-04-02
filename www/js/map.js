@@ -166,7 +166,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
     }, 200);
 
-    $scope.$on('leafletDirectiveMarker.dblclick', function(event, args){
+    $scope.$on('leafletDirectiveMarker.click', function(event, args){
         $location.path(
             String.format('/app/map/{0}', args["markerName"])
         );
