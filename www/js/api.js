@@ -9,7 +9,7 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
 
         var resource =  $resource(self.backend_url + '/api/:action ',
           { action:'@action', id: '@id'},
-          { 
+          {
             get_user_settings: { url: backend_url + '/user_settings/  ', method:'GET'},
             get_user_surveys: { url: backend_url + '/user_surveys/  ', isArray: true, method:'GET'},
             create_survey: { url: backend_url + '/user_surveys/ ', method:'POST'},
@@ -34,7 +34,7 @@ angular.module('phenology.api', ['ngResource', 'ngStorage', 'ngStorageTraverser'
         // TODO : PUT/POST
 
         var resource =  $resource(self.backend_url + '/user_settings/ ');
-        
+
         if(!storageTraverser.traverse('/sessions')){
             storageTraverser.traverse('/')['sessions'] = {};
         }

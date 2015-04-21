@@ -11,8 +11,8 @@ angular.module('phenology', [
   'ionic',
   'base64',
   'ngResource',
-  'ngCordova', // ng-cordova 
-  'pasvaz.bindonce', // angular-bindonce 
+  'ngCordova', // ng-cordova
+  'pasvaz.bindonce', // angular-bindonce
   'leaflet-directive', // angular-leaflet-directive
   'pascalprecht.translate', // angular-translate
   'ngGeolocation',
@@ -34,10 +34,10 @@ angular.module('phenology', [
   angular.extend($scope,{
     $state: $state,
     loginData: {}
-  }); 
+  });
 
   var deferred = $q.defer()
-  
+
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -282,7 +282,7 @@ angular.module('phenology', [
           return (angular.isDefined(attrs['ngSrc'])) ? attrs['ngSrc'] : attrs['boSrc'];
         }, function (value) {
           if (!value) {
-            element.attr('src', attrs.errSrc);  
+            element.attr('src', attrs.errSrc);
           }
       });
 
@@ -297,9 +297,9 @@ angular.module('phenology', [
 if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function(match, number) { 
+    return format.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
-        ? args[number] 
+        ? args[number]
         : match
       ;
     });
@@ -309,7 +309,7 @@ if (!String.format) {
 // format date
 if (!Date.prototype.format) {
 //author: meizz
-  Date.prototype.format = function(format) 
+  Date.prototype.format = function(format)
   {
       var o = {
         "M+" : this.getMonth()+1, //month

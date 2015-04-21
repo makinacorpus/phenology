@@ -151,8 +151,8 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         var areas = storageTraverser.traverse("/users/" + user + "/areas"),
             markers = {};
 
-        var mapping = areas.map(function(area){ 
-            var center = mapService.getAreaCenter(area); 
+        var mapping = areas.map(function(area){
+            var center = mapService.getAreaCenter(area);
             return { lat: center[0], lng: center[1], area_id: area.id, message: area.name }
         });
 
@@ -184,7 +184,7 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
     this.getAreaGeoJsonFeatures = function(user){
         var areas = storageTraverser.traverse("/users/" + user + "/areas");
 
-        var features = areas.map(function(area){ 
+        var features = areas.map(function(area){
             var feature = angular.copy(area.geojson.features[0]);
             feature.properties.name = area.name;
             feature.properties.id = area.id;

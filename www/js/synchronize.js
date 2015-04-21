@@ -6,9 +6,9 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
     var user = authApiClient.getUsername(),
         stored_observations = storageTraverser.traverse("/users/" + user + "/current_observations") || {},
         observations = angular.copy(stored_observations);
-    
+
     $scope.observations  = [];
-    
+
     angular.forEach(observations, function(obs){
          if(obs.validated === true){
              obs.area_name = surveyService.getAreaName(user, obs.areaId)
@@ -18,7 +18,7 @@ angular.module('phenology.synchronize', ['ngStorageTraverser', 'phenology.survey
              this.push(obs);
         }
     }, $scope.observations);
-    
+
     $scope.test = { obs_checked: []};
 
     $scope.uploadSurveys = function(){

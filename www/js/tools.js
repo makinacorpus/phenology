@@ -56,7 +56,7 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
 
     this.getMediaUrl = function(){
         return authApiClient.backend_url + '/media/';
-    } 
+    }
 
     this.getFullPictureUrl = function(picture_url){
         var root_url = (angular.isDefined(window.cordova)) ? self.getRootCordovaUrl() : self.getMediaUrl();

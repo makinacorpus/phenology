@@ -9,7 +9,7 @@ angular.module('ngStorageTraverser', ['ngStorage'])
         if(!options) {
             options = {};
         }
-        
+
         // get the parent recursively
         if(path == "/") {
             return $localStorage;

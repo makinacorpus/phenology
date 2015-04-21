@@ -234,7 +234,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
       }
       species.stages = species.stages.filter(function(d){
         return d.is_active === true;
-      }) 
+      })
       var tasks = [];
       var today = new Date();
       for(var i=0; i<species.stages.length; i++){
@@ -267,7 +267,7 @@ angular.module('phenology.survey', ['ngStorageTraverser', 'phenology.api', 'ngCo
         for(var j=0, len=surveys.length; j<len; j++) {
             var stage = surveys[j].stageId,
                 date = new Date(surveys[j].surveyDate);
-            if(individualTasks[stage] && surveys[j].validated 
+            if(individualTasks[stage] && surveys[j].validated
                                       && individualTasks[stage].dates.start <= date
                                       && individualTasks[stage].dates.end >= date) {
                individualTasks[stage].validated = true;

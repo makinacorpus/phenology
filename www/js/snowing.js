@@ -4,7 +4,7 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
 
 .controller('SnowingCtrl', function($scope, authApiClient, snowingService, storageTraverser) {
     var userid = authApiClient.getUsername();
-    
+
     var areas = snowingService.getAreas(userid);
     var snowings_tmp = {};
 
@@ -23,7 +23,7 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
                     date: last_snowing,
                     id: area.last_snowing.id
                 }
-            } 
+            }
         }
 
         var filtered = snow_covers .filter(function(d){
@@ -41,7 +41,7 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
                 areaId: area.id,
                 areaName: area.name,
                 height: undefined
-            } 
+            }
         }
     });
     $scope.snowings = snowings_tmp;
@@ -84,7 +84,7 @@ angular.module('phenology.snowings', ['ngStorageTraverser', 'phenology.api'])
         });
     }
 
-    //validate and save 
+    //validate and save
     this.validate = function(userId, snowings){
         var date = new Date();
         //array
