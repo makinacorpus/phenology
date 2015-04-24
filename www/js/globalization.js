@@ -324,7 +324,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'snowcover.title': 'Altezza della neve oggi',
         'message.snowing_success': 'I dati sono registrati sul cellulare',
         // area select
-        'area.choose': 'Scegli un'area',
+        'area.choose': 'Scegli un area',
         // species section
         'species': 'Specie',
         'species.choice.see_all': 'Guarda tutti i miei esemplari',
