@@ -4,7 +4,7 @@ var map;
 
 angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
 
-.controller('MapCtrl', function($scope, $geolocation, $ionicBackdrop, $rootScope, $log, $location, authApiClient, $stateParams, geolocationFactory, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
+.controller('MapCtrl', function($scope, $geolocation, $translate, $ionicBackdrop, $rootScope, $log, $location, authApiClient, $stateParams, geolocationFactory, leafletData, $ionicPopup, storageTraverser, speciesService, mapService, $timeout, toolService){
 
     var user = authApiClient.getUsername(),
         areaId = $stateParams.areaId,
@@ -13,6 +13,8 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
         userPosition;
 
     $ionicBackdrop.release();
+
+    var translated_popup_message = $translate.instant("map.popup.action");
 
     map = L.map('map', {
         zoomControl: false,
@@ -84,7 +86,9 @@ angular.module('phenology.map', ['phenology.survey', 'ngStorageTraverser'])
                         message: '<div class="individual-popup">' +
                                     '<h5>' + individual.name + '</h5>' +
                                     '<div><img src="' + species.picture + '" /></div>' +
-                                    '<a class="button button-small button-positive" href="#/app/survey/' + areaId  + '/' + species.id + '/' + individual.id + '">saisir l\'observation</a>' +
+                                    '<a class="button button-small button-positive" href="#/app/survey/' + areaId  + '/' + species.id + '/' + individual.id + '">' +
+                                    translated_popup_message +
+                                    '</a>' +
                                  '</div>'
                     };
                     if(angular.isDefined(species.tasks) && species.tasks.length > 0) {

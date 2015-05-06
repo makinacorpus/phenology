@@ -188,7 +188,8 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.at_least_one': 'Au moins un champ est requis',
         'error.not_number': 'Doit être un chiffre',
         'error.title': 'Erreur',
-        'sucess.title': 'Succès'
+        'sucess.title': 'Succès',
+        'map.popup.action': 'Saisir l\'obersvation'
     },
     // english
     'en': {
@@ -268,6 +269,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
       'error.not_number': 'Must be a number',
       'error.title': 'Error',
       'sucess.title': 'Success',
+      'map.popup.action': 'Make a new survey',
     },
     // italiano
     'it': {
@@ -346,6 +348,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.not_number': 'Deve essere espresso in cifre',
         'error.title': 'Errore',
         'sucess.title': 'Operazione eseguita con successo',
+        'map.popup.action': 'Inserire un osservazione',
     }
 })
 
