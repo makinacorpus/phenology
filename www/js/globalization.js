@@ -189,7 +189,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.not_number': 'Doit être un chiffre',
         'error.title': 'Erreur',
         'sucess.title': 'Succès',
-        'map.popup.action': 'Saisir l\'obersvation'
+        'map.popup.action': 'Saisir l\'observation'
     },
     // english
     'en': {
