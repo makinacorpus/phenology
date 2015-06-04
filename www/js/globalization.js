@@ -350,7 +350,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'sucess.title': 'Operazione eseguita con successo',
         'map.popup.action': 'Inserire un osservazione',
     }
-    // catala
+    // Català
     'ca': {
         // menu
         'nav.home': 'Inici',
