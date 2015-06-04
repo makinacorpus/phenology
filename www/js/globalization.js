@@ -350,6 +350,86 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'sucess.title': 'Operazione eseguita con successo',
         'map.popup.action': 'Inserire un osservazione',
     }
+    // catala
+    'ca': {
+        // menu
+        'nav.home': 'Inici',
+        'nav.survey': 'Observacions',
+        'nav.snowcover': 'Estat de la neu',
+        'nav.last_surveys': 'Ultimes dades',
+        'nav.upload': 'Sincronització',
+        'nav.protocol': 'El protocol',
+        'nav.help': 'Ajuda',
+        'nav.credits': 'Col·laboradors i crèdits',
+        'nav.change_user': 'Canvi d\'usuari',
+        'nav.subheader.list': 'Llista',
+        'nav.subheader.map': 'Mapa',
+        'nav.button.back': 'Torna',
+        // actions
+        'action.submit': 'Valida',
+        'action.validated': 'Validat',
+        'action.submitted': 'Ja sincronitzat',
+        'action.unlock': '(clica per fer canvis)',
+        'action.synchronize': 'Sincronitza les meves dades',
+        'action.close': 'Tanca',
+        'action.cancel': 'Cancel·la',
+        'action.synchronized': 'dades sincronitzades',
+        // login section
+        'login.title': 'Inici de sessió',
+        'login.username': 'Identificador',
+        'login.password': 'Contrasenya',
+        'login.action': 'Identificació',
+        'login.error.wrong': 'L\'identificador o la contrasenya és incorrecte',
+        'login.error.no_observer': 'L\'usuari no és un observador reconegu',
+        'login.error.no_connexion': 'No es pot accedir al servidor',
+        // Home
+        'home.upcoming_tasks': 'Observacions en curs',
+        'home.text': 'Abans i després de cada camp d\'entrada, posar les seves dades actualitzades',
+        'home.welcome': 'benvinguda',
+        'home.no_task': 'No hi ha cap tasca pendent',
+        'home.from': 'del',
+        'home.to': 'al',
+        // Survey
+        'survey.change_stage': 'Selecciona un altre estat',
+        'survey.date.title': 'Selecciona una data',
+        'survey.no_survey': 'No hi ha entrada',
+        'survey.last_survey': 'Darrera entrada',
+        'survey.picture.before': 'ABANS',
+        'survey.picture.current': 'DURANT',
+        'survey.picture.after': 'DESPRÉS',
+        'survey.status.observed': 'Observat un altre dia',
+        'survey.status.today': 'Observat avui',
+        'survey.status.lost': 'Individu mort o desaparegut',
+        'survey.status.never': 'Estat absent',
+        'survey.status.alreadypassed': 'Estat ja passat',
+        // snowcover section
+        'snowcover.title': 'Gruix de neu d\'avui',
+        'message.snowing_success': 'S\'han desat les dades al mòbil',
+        // area select
+        'area.choose': 'Selecciona una zona',
+        // Species
+        'species': 'Espècie',
+        'species.choice.see_all': 'Mostra tot el meu individus',
+        'species.choice.see_to_observed': 'Mostra el meu individus a observar',
+        'species.change_area': 'Canvia de zona',
+        // general
+        'phenology': 'Phénoclim',
+        'areas': 'Zones',
+        'area': 'Zona',
+        'survey': 'Observació',
+        'snowcover': 'Estat de la neu',
+        'to': 'al',
+        'Flowering': 'Floració',
+        'Blooming': 'Brot',
+        'Leafing': 'Foliació',
+        'status.in_mobile': 'al mòbil',
+        'status.in_server': 'al servidor',
+        'error.at_least_one': 'Falta com a mínim un camp',
+        'error.not_number': 'Ha de ser una xifra',
+        'error.title': 'Error',
+        'sucess.title': 'Fet',
+        'map.popup.action': 'Introduïu l\'observació'
+    },
 })
 
 // Locale settings to allow user to change app locale
