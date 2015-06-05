@@ -349,7 +349,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.title': 'Errore',
         'sucess.title': 'Operazione eseguita con successo',
         'map.popup.action': 'Inserire un osservazione',
-    }
+    },
     // Català
     'ca': {
         // menu
@@ -429,7 +429,7 @@ angular.module('phenology.globalization', ['ngCordova', 'tmh.dynamicLocale'])
         'error.title': 'Error',
         'sucess.title': 'Fet',
         'map.popup.action': 'Introduïu l\'observació'
-    },
+    }
 })
 
 // Locale settings to allow user to change app locale
