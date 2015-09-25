@@ -1,5 +1,4 @@
 node_modules/
-.bowerrc
 platforms/
 plugins/
 www/css/ionic.app.*
