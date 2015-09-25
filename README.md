@@ -73,6 +73,11 @@ $ cordova plugin add org.apache.cordova.file-transfer@0.4.4
 $ cordova plugin add https://github.com/MobileChromeApps/zip.git
 ```
 
+## Add white list plugin
+```bash
+$ cordova plugin add cordova-plugin-whitelist
+```
+
 ## Build and run on a platform
 ```bash
 $ ionic build android
