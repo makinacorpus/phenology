@@ -15,6 +15,7 @@
     "angular-dynamic-locale": "~0.1.17",
     "angular-i18n": "~1.2.22",
     "leaflet.locatecontrol": "~0.30.0",
-    "ngGeolocation": "~0.0.4"
+    "ngGeolocation": "~0.0.4",
+    "angular-bindonce": "~0.3.3"
   }
 }

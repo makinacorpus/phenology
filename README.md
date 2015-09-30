@@ -64,11 +64,23 @@ $ ionic platform add android
 
 ## Add plugins
 ```bash
-$ ionic plugin add org.apache.cordova.file
-$ ionic plugin add org.apache.cordova.file-transfer
-$ ionic plugin add org.apache.cordova.network-information
-$ cordova plugin add cordova-plugin-whitelist
-$ ionic plugin add https://github.com/MobileChromeApps/zip.git
+$ ionic state restore
+```
+
+## Generate icons & splash
+```bash
+$ ionic resources
+```
+
+## Get dependencies
+```bash
+$ npm install
+$ bower install
+```
+
+## Generate style
+```bash
+$ gulp sass
 ```
 
 ## Build and run on a platform
