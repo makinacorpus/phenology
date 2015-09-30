@@ -3,3 +3,4 @@ platforms/
 plugins/
 www/css/ionic.app.*
 www/lib
+resources/android
