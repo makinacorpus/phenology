@@ -62,20 +62,13 @@ See http://doc.ubuntu-fr.org/android#installation_du_sdk_android
 $ ionic platform add android
 ```
 
-## Add plugin to manipulate/transfert files
+## Add plugins
 ```bash
-$ cordova plugin add org.apache.cordova.file@1.2.0
-$ cordova plugin add org.apache.cordova.file-transfer@0.4.4
-```
-
-## Add zip plugin
-```bash
-$ cordova plugin add https://github.com/MobileChromeApps/zip.git
-```
-
-## Add white list plugin
-```bash
+$ ionic plugin add org.apache.cordova.file
+$ ionic plugin add org.apache.cordova.file-transfer
+$ ionic plugin add org.apache.cordova.network-information
 $ cordova plugin add cordova-plugin-whitelist
+$ ionic plugin add https://github.com/MobileChromeApps/zip.git
 ```
 
 ## Build and run on a platform

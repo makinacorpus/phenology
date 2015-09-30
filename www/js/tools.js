@@ -2,7 +2,7 @@
 
 angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCordova'])
 
-.service('toolService', function(storageTraverser, authApiClient, $cordovaFile, $http, $log, $q){
+.service('toolService', function(storageTraverser, authApiClient, $cordovaFile, $cordovaFileTransfer, $http, $log, $q){
     var self = this;
 
     this.mobile_root_path = 'cdvfile://localhost/persistent';
@@ -79,8 +79,9 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
     this.downloadFile = function(url, filepath, forceDownload) {
 
         if (angular.isDefined(forceDownload) && forceDownload === false) {
-            var relativePath = filepath.replace(self.mobile_root_path + '/', '');
-            return $cordovaFile.readFileMetadata(relativePath)
+            var filename = filepath.split('/').pop();
+            var path = filepath.substring(0, filepath.lastIndexOf('/'));
+            return $cordovaFile.checkFile(path, filename)
             .then(function(file) {
                 // If there is a file, we check on server if file was modified
                 // by using HTTP header 'If-Modified-Since'
@@ -92,7 +93,7 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
                     };
                 // NOTICE
                 // We have used $http service because we needed 'If-Modified-Since' HTTP header,
-                // and cordova plugin file transfer (used by $cordovaFile.downloadFile) doesn't manage it properly.
+                // and cordova plugin file transfer doesn't manage it properly.
                 // In case on 304, response body is empty, and cordova plugin overwrites previous data with empty file...
                 // https://issues.apache.org/jira/browse/CB-7006
                 return $http.get(url, config)
@@ -101,8 +102,8 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
                     // It means that server file is more recent than device one
                     // We download it so !
                     // We could have used $cordovaFile 'writeFile' function, as response contains our data,
-                    // but we prefer 'downloadFile' call to be consistent with other cases.
-                    return $cordovaFile.downloadFile(url, filepath);
+                    // but we prefer 'download' call to be consistent with other cases.
+                    return $cordovaFileTransfer.download(url, filepath);
                 }, function(response) {
                     var status = response.status,
                     deferred = $q.defer();
@@ -129,13 +130,13 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
                 });
                 }, function() {
                     // If there is no file with that path, we download it !
-                    $log.info('cannot read ' + filepath + ' so downloading it !' + relativePath);
-                    return $cordovaFile.downloadFile(url, filepath);
+                    $log.info('cannot read ' + filepath + ' so downloading it !' + url);
+                    return $cordovaFileTransfer.download(url, filepath);
                 });
         }
         else {
                 $log.info('forcing download of ' + url);
-                return $cordovaFile.downloadFile(url, filepath)
+                return $cordovaFileTransfer.download(url, filepath)
             }
         };
 

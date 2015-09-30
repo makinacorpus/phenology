@@ -28,5 +28,18 @@
     "webdriver-start": "node_modules/protractor/bin/webdriver-manager start",
     "webdriver-update": "node_modules/protractor/bin/webdriver-manager update",
     "test": "echo 'all is done'"
-  }
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    "org.apache.cordova.network-information",
+    "org.apache.cordova.file",
+    "org.apache.cordova.file-transfer",
+    {
+      "locator": "https://github.com/MobileChromeApps/zip.git",
+      "id": "cordova-plugin-zip"
+    }
+  ],
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
