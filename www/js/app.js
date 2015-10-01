@@ -116,7 +116,7 @@ angular.module('phenology', [
   }
 })
 
-.run(function($ionicPlatform, globalizationService) {
+.run(function($ionicPlatform, globalizationService, toolService) {
   $ionicPlatform.ready(function() {
     globalizationService.init();
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -133,6 +133,10 @@ angular.module('phenology', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    toolService.mobile_path = cordova.file.dataDirectory + 'phenology';
+    toolService.mobile_path_tiles = toolService.mobile_path + '/tiles';
+    toolService.remote_background_url = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
+    toolService.mobile_background_url = toolService.mobile_path_tiles + "/{z}/{x}/{y}.png";
   });
 })
 .config(function($stateProvider, $urlRouterProvider, $compileProvider, pickadateI18nProvider) {
