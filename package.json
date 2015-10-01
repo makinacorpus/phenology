@@ -32,19 +32,13 @@
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
     "org.apache.cordova.network-information",
-    "org.apache.cordova.file",
-    {
-      "locator": "https://github.com/MobileChromeApps/zip.git",
-      "id": "cordova-plugin-zip"
-    },
     "cordova-plugin-geolocation",
     "cordova-plugin-network-information",
     "cordova-plugin-globalization",
     "cordova-plugin-inappbrowser",
-    {
-      "locator": "https://github.com/apache/cordova-plugin-file-transfer.git#r1.2.1",
-      "id": "cordova-plugin-file-transfer"
-    }
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-file",
+    "cordova-plugin-zip"
   ],
   "cordovaPlatforms": [
     "android"

@@ -5,9 +5,8 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
 .service('toolService', function(storageTraverser, authApiClient, $cordovaFile, $cordovaFileTransfer, $http, $log, $q){
     var self = this;
 
-    this.mobile_root_path = 'cdvfile://localhost/persistent';
-    this.mobile_path = 'cdvfile://localhost/persistent/phenology';
-    this.mobile_path_tiles = 'cdvfile://localhost/persistent/phenology/tiles';
+    this.mobile_path = cordova.file.applicationStorageDirectory + '/phenology';
+    this.mobile_path_tiles = this.mobile_path + '/tiles';
     this.remote_background_url = 'http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png';
     this.mobile_background_url = this.mobile_path_tiles + "/{z}/{x}/{y}.png";
 
@@ -77,7 +76,6 @@ angular.module('phenology.tools', ['ngStorageTraverser', 'phenology.api', 'ngCor
 
     //thanks to Natsu
     this.downloadFile = function(url, filepath, forceDownload) {
-
         if (angular.isDefined(forceDownload) && forceDownload === false) {
             var filename = filepath.split('/').pop();
             var path = filepath.substring(0, filepath.lastIndexOf('/'));
